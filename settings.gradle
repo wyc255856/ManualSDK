@@ -1,0 +1,2 @@
+include ':app', ':third_library', ':res_phone', ':hongqi'
+rootProject.name='C229SDK'
