@@ -85,7 +85,7 @@ public class GridItemView extends LinearLayout implements View.OnClickListener {
 //            Bitmap bitmap = FileUtil.getLoacalBitmap(url);
 //            LogUtil.logError("bitmap = " + bitmap);
 //            imageView.setImageBitmap(bitmap);
-            File file = new File(FileUtil.getResPath() + model.getImage1());
+            File file = new File(FileUtil.getResPath() + model.getImage1().replace("../",""));
 //            LogUtil.logError("file url = " + file.exists());
             Glide.with(mContext)
                     .load(Uri.fromFile(file)).transform(new CenterCrop(), new GlideRoundTransform(mContext, 4))

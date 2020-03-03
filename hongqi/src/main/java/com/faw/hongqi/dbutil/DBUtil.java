@@ -13,6 +13,7 @@ import com.faw.hongqi.util.LogUtil;
 import com.faw.hongqi.util.SharedpreferencesUtil;
 import com.faw.hongqi.util.TestUtil;
 import com.google.gson.Gson;
+import com.liulishuo.filedownloader.util.FileDownloadUtils;
 import com.raizlabs.android.dbflow.runtime.TransactionManager;
 import com.raizlabs.android.dbflow.runtime.transaction.TransactionListener;
 import com.raizlabs.android.dbflow.runtime.transaction.process.ProcessModelInfo;
@@ -23,6 +24,7 @@ import com.raizlabs.android.dbflow.sql.language.NameAlias;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.sql.language.Select;
 
+import java.io.File;
 import java.util.List;
 
 public class DBUtil {
@@ -52,7 +54,9 @@ public class DBUtil {
      * @return
      */
     private static NewsListModel getList(Context context) {
-        String json = TestUtil.readTextFileFromRawResourceId(context, R.raw.zy_news);
+//        String json = TestUtil.readTextFileFromRawResourceId(context, R.raw.zy_news);
+        String json = TestUtil.readTextFile(context, FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
+                + File.separator + "MyFolder"+File.separator +"zy_news");
         NewsListModel menuListModel = new Gson().fromJson(json, NewsListModel.class);
         if (menuListModel != null) {
             LogUtil.logError("数据长度" + menuListModel.getRECORDS().size());
@@ -63,7 +67,9 @@ public class DBUtil {
 
 
     private static CategoryListModel getCategoryList(Context context) {
-        String json = TestUtil.readTextFileFromRawResourceId(context, R.raw.zy_category);
+//        String json = TestUtil.readTextFileFromRawResourceId(context, R.raw.zy_category);
+        String json = TestUtil.readTextFile(context, FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
+                + File.separator + "MyFolder"+File.separatorChar +"zy_category");
         CategoryListModel menuListModel = new Gson().fromJson(json, CategoryListModel.class);
         if (menuListModel != null) {
             LogUtil.logError("数据长度" + menuListModel.getRECORDS().size());
