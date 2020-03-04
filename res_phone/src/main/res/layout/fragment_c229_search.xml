@@ -50,7 +50,7 @@
         </RelativeLayout>
         <!--        android:scrollbarThumbVertical="#bfbfbf"-->
         <!--        android:scrollbarTrackVertical="#393c41"-->
-        <RecyclerView
+        <com.lhh.ptrrv.library.PullToRefreshRecyclerView
             android:id="@+id/ptrrv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

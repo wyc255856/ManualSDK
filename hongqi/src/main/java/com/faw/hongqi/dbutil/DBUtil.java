@@ -54,9 +54,9 @@ public class DBUtil {
      * @return
      */
     private static NewsListModel getList(Context context) {
-//        String json = TestUtil.readTextFileFromRawResourceId(context, R.raw.zy_news);
-        String json = TestUtil.readTextFile(context,FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
-                + File.separator + "MyFolder"+"/news.json");
+        String json = TestUtil.readTextFileFromRawResourceId(context, R.raw.zy_news);
+//        String json = TestUtil.readTextFile(context,FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
+//                + File.separator + "MyFolder"+"/news.json");
         NewsListModel menuListModel = new Gson().fromJson(json, NewsListModel.class);
         if (menuListModel != null) {
             LogUtil.logError("数据长度" + menuListModel.getRECORDS().size());
@@ -67,10 +67,10 @@ public class DBUtil {
 
 
     private static CategoryListModel getCategoryList(Context context) {
-//        String json = TestUtil.readTextFileFromRawResourceId(context, R.raw.zy_category);
+        String json = TestUtil.readTextFileFromRawResourceId(context, R.raw.zy_category);
 
-        String json = TestUtil.readTextFile(context,FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
-                + File.separator + "MyFolder"+"/category.json");
+//        String json = TestUtil.readTextFile(context,FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
+//                + File.separator + "MyFolder"+"/category.json");
         CategoryListModel menuListModel = new Gson().fromJson(json, CategoryListModel.class);
         if (menuListModel != null) {
             LogUtil.logError("数据长度" + menuListModel.getRECORDS().size());

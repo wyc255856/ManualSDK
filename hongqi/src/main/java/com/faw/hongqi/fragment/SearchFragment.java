@@ -20,6 +20,7 @@ import com.faw.hongqi.holder.SearchHolder;
 import com.faw.hongqi.model.CategoryModel;
 import com.faw.hongqi.model.NewsModel;
 import com.faw.hongqi.util.LogUtil;
+import com.lhh.ptrrv.library.PullToRefreshRecyclerView;
 import com.raizlabs.android.dbflow.runtime.transaction.BaseTransaction;
 import com.raizlabs.android.dbflow.runtime.transaction.TransactionListener;
 
@@ -34,7 +35,7 @@ import java.util.List;
 public class SearchFragment extends BaseFragment {
     EditText search_edit;
     View delete_btn;
-    RecyclerView recyclerView;
+    PullToRefreshRecyclerView recyclerView;
     public PtrrvAdapter mAdapter;
     List<NewsModel> newsList = new ArrayList<>();
     public static String WORD = "";
@@ -57,8 +58,8 @@ public class SearchFragment extends BaseFragment {
         mAdapter = new PtrrvAdapter(mContext, R.layout.item_search, SearchHolder.class);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         recyclerView.setAdapter(mAdapter);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL);
-        recyclerView.addItemDecoration(dividerItemDecoration);
+//        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL);
+//        recyclerView.addItemDecoration(dividerItemDecoration);
     }
 
     @Override
