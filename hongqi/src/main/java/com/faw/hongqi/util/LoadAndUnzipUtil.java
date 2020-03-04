@@ -3,6 +3,7 @@ package com.faw.hongqi.util;
 import android.app.Activity;
 import android.util.Log;
 
+import com.faw.hongqi.dbutil.DBUtil;
 import com.faw.hongqi.ui.C229LoadAndUnzipFileActivity;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadSampleListener;
@@ -29,7 +30,7 @@ public class LoadAndUnzipUtil {
             + File.separator + "MyFolder";
     private static String TAG = LoadAndUnzipUtil.class.getSimpleName();
     private static String fileName;
-    public static void startDownload(final Activity content,String downloadUrl) {
+    public static void startDownload(final Activity context,String downloadUrl) {
         singleTask = FileDownloader.getImpl().create(downloadUrl)
                 .setPath(saveZipFilePath, true)
                 .setCallbackProgressTimes(300)
@@ -50,9 +51,14 @@ public class LoadAndUnzipUtil {
                         Log.e(TAG, "----------->blockComplete taskId:" + task.getId() + ",filePath:" + task.getPath() +
                                 ",fileName:" + task.getFilename() + ",speed:" + task.getSpeed() + ",isReuse:" + task.reuse());
                         fileName = task.getFilename();
-                        content.runOnUiThread(new Runnable() {
+                        context.runOnUiThread(new Runnable() {
                             public void run() {
                                 //下载完成
+//                                if (fileIsExists(FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
+//                                        + File.separator + "MyFolder"+File.separator +"zy_news.json")){
+                                if (true){
+                                    DBUtil.initData(context);
+                                }
                                 unZipFile(new File(saveZipFilePath + File.separator + "images.zip"), saveZipFilePath);
                             }
                         });
@@ -206,4 +212,5 @@ public class LoadAndUnzipUtil {
             e.printStackTrace();
         }
     }
+
 }

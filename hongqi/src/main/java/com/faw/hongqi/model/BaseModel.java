@@ -3,7 +3,6 @@ package com.faw.hongqi.model;
 
 import com.raizlabs.android.dbflow.structure.Model;
 
-import androidx.annotation.Nullable;
 
 public   class BaseModel  implements Model{
     @Override

@@ -18,7 +18,7 @@
 package com.faw.hongqi.widget;
 
 
-import androidx.viewpager.widget.ViewPager;
+import android.support.v4.view.ViewPager;
 
 /**
  * A PageIndicator is responsible to show an visual indicator on the total views

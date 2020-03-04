@@ -24,7 +24,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="45dp" />
 
-            <androidx.recyclerview.widget.RecyclerView
+            <com.lhh.ptrrv.library.PullToRefreshRecyclerView
                 android:id="@+id/ptrrv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

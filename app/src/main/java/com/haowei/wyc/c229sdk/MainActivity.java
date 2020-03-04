@@ -1,8 +1,8 @@
 package com.haowei.wyc.c229sdk;
 
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.faw.hongqi.C229API;

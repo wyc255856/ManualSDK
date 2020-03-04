@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.faw.hongqi.R;
 import com.faw.hongqi.model.ContentItemModel;
 
-import androidx.annotation.Nullable;
 
 public class ImageTextContentView extends BaseContentView {
     TextView text_content;

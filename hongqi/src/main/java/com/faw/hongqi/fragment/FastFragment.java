@@ -1,9 +1,11 @@
 package com.faw.hongqi.fragment;
 
 import android.app.Activity;
-import android.view.View;
-import android.widget.Toast;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
 
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import com.faw.hongqi.R;
 import com.faw.hongqi.adaptar.PtrrvAdapter;
 import com.faw.hongqi.dbutil.DBUtil;
@@ -11,7 +13,6 @@ import com.faw.hongqi.event.BaseEvent;
 import com.faw.hongqi.event.SecondaryOnclickEvent;
 import com.faw.hongqi.event.SecondaryOnscollerEvent;
 import com.faw.hongqi.holder.ContentHolder;
-import com.faw.hongqi.model.CategoryListModel;
 import com.faw.hongqi.model.CategoryModel;
 import com.faw.hongqi.model.NewsListModel;
 import com.faw.hongqi.model.NewsModel;
@@ -19,6 +20,7 @@ import com.faw.hongqi.util.Constant;
 import com.faw.hongqi.util.LogUtil;
 import com.faw.hongqi.util.PhoneUtil;
 import com.faw.hongqi.widget.SecondaryListView;
+import com.lhh.ptrrv.library.PullToRefreshRecyclerView;
 import com.raizlabs.android.dbflow.runtime.transaction.BaseTransaction;
 import com.raizlabs.android.dbflow.runtime.transaction.TransactionListener;
 
@@ -28,14 +30,11 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class FastFragment extends BaseFragment {
     List<CategoryModel> list = new ArrayList<>();
     SecondaryListView secondaryListView;
-    RecyclerView recyclerView;
+    PullToRefreshRecyclerView recyclerView;
     public PtrrvAdapter mAdapter;
     List<NewsListModel> newsList = new ArrayList<>();
 
@@ -95,40 +94,44 @@ public class FastFragment extends BaseFragment {
         recyclerView.setAdapter(mAdapter);
 
 
-        recyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
+//        recyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
+//            @Override
+//            public void onChildViewAttachedToWindow(@NonNull View view) {
+//                int index = Integer.valueOf((String) view.getTag());
+//                LogUtil.logError("onChildViewAttachedToWindow index = " + index);
+//            }
+//
+//            @Override
+//            public void onChildViewDetachedFromWindow(@NonNull View view) {
+//                int index = Integer.valueOf((String) view.getTag());
+//                LogUtil.logError("onChildViewDetachedFromWindow index = " + index);
+//            }
+//        });
+//        recyclerView.setOnFlingListener(new RecyclerView.OnFlingListener() {
+//            @Override
+//            public boolean onFling(int velocityX, int velocityY) {
+//                return false;
+//            }
+//        });
+        recyclerView.addOnScrollListener(new PullToRefreshRecyclerView.OnScrollListener() {
+
+
             @Override
-            public void onChildViewAttachedToWindow(@NonNull View view) {
-                int index = Integer.valueOf((String) view.getTag());
-                LogUtil.logError("onChildViewAttachedToWindow index = " + index);
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+
             }
 
             @Override
-            public void onChildViewDetachedFromWindow(@NonNull View view) {
-                int index = Integer.valueOf((String) view.getTag());
-                LogUtil.logError("onChildViewDetachedFromWindow index = " + index);
-            }
-        });
-        recyclerView.setOnFlingListener(new RecyclerView.OnFlingListener() {
-            @Override
-            public boolean onFling(int velocityX, int velocityY) {
-                return false;
-            }
-        });
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                LogUtil.logError("onScrollStateChanged newState = " + newState);
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+
             }
 
             @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-
-//                if (isBanScorller) {
+            public void onScroll(RecyclerView recyclerView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                //                if (isBanScorller) {
 //
 //                } else {
-                dyCount += dy;
+                dyCount += totalItemCount;
                 LogUtil.logError("onScrolled dyCount = " + dyCount);
                 refreshMenueState();
                 if (recyclerView.canScrollVertically(1)) {

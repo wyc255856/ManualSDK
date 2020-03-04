@@ -16,7 +16,6 @@ import com.faw.hongqi.R;
 
 import org.greenrobot.eventbus.EventBus;
 
-import androidx.annotation.Nullable;
 
 public class PointView extends LinearLayout {
     private Activity mContext;

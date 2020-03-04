@@ -5,18 +5,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.text.TextUtils;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.faw.hongqi.R;
+import com.faw.hongqi.dbutil.DBUtil;
 import com.faw.hongqi.fragment.BaseFragment;
 import com.faw.hongqi.model.VersionModel;
 import com.faw.hongqi.model.VersionUpdateModel;
-import com.faw.hongqi.util.FileUtil;
 import com.faw.hongqi.util.FragmentUtil;
-import com.faw.hongqi.util.LogUtil;
+import com.faw.hongqi.util.LoadAndUnzipUtil;
 import com.faw.hongqi.util.NetWorkCallBack;
 import com.faw.hongqi.util.PhoneUtil;
 import com.faw.hongqi.util.SharedpreferencesUtil;
@@ -24,15 +25,10 @@ import com.faw.hongqi.widget.TabView;
 import com.google.gson.Gson;
 import com.liulishuo.filedownloader.util.FileDownloadUtils;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import android.support.v4.app.FragmentManager;
 
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+
+import java.io.File;
 
 import static com.faw.hongqi.ui.C229LoadAndUnzipFileActivity.goC229LoadAndUnzipFileActivity;
 
@@ -45,40 +41,40 @@ public class C229MainActivity extends BaseActivity {
     @Override
     protected void initData() {
         requestWritePermission();
+        VersionUpdateModel model = (VersionUpdateModel) getIntent().getSerializableExtra("model");
         SharedpreferencesUtil.setVersionCode(C229MainActivity.this, PhoneUtil.getVersionName(C229MainActivity.this));
-        if ("update".equals(getIntent().getStringExtra("tag"))) {
-            if (fileIsExists(FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon")) {
-                //增量更新
-                new Thread() {
-                    @Override
-                    public void run() {
-                        PhoneUtil.requestGet("https://www.haoweisys.com/hs5_admin/index.php?m=home&c=index&a=get_new_info", new NetWorkCallBack() {
-                            @Override
-                            public void onSuccess(Object data) {
-                                final VersionModel model = new Gson().fromJson((String) data, VersionModel.class);
-                                runOnUiThread(new Runnable() {
-                                    public void run() {
-                                        for (int i = 0; i < model.getZip_address().size(); i++) {
-
-                                        }
-                                    }
-                                });
-                            }
-
-                            @Override
-                            public void onFail(Object error) {
-
-                            }
-                        });
-                    }
-                }.start();
-            } else {
-                goC229LoadAndUnzipFileActivity(C229MainActivity.this);
-                SharedpreferencesUtil.setVersionCode(C229MainActivity.this, "version");
-            }
-        } else {
-            //不需要更新
-        }
+//        if ("update".equals(getIntent().getStringExtra("tag"))) {
+//            goC229LoadAndUnzipFileActivity(C229MainActivity.this,model);
+//            SharedpreferencesUtil.setVersionCode(C229MainActivity.this, "version");
+//        } else {
+//                //增量更新
+//                new Thread() {
+//                    @Override
+//                    public void run() {
+//                        PhoneUtil.requestGet("http://www.haoweisys.com/hongqih9_admin/index.php?m=home&c=index&a=get_new_info&version_no=4", new NetWorkCallBack() {
+//                            @Override
+//                            public void onSuccess(Object data) {
+//                                final VersionModel model = new Gson().fromJson((String) data, VersionModel.class);
+//                                runOnUiThread(new Runnable() {
+//                                    public void run() {
+//                                        for (int i = 0; i < model.getZip_address().size(); i++) {
+//                                            LoadAndUnzipUtil.startDownload(C229MainActivity.this,model.getZip_address().get(i));
+//                                        }
+//                                    }
+//                                });
+//                            }
+//
+//                            @Override
+//                            public void onFail(Object error) {
+//
+//                            }
+//                        });
+//                    }
+//                }.start();
+////            DBUtil.initData(this);
+////            LoadAndUnzipUtil.startDownload(C229MainActivity.this,"http:\\/\\/www.haoweisys.com\\/hongqih9_admin\\/category.json");
+////            LoadAndUnzipUtil.startDownload(C229MainActivity.this,"http:\\/\\/www.haoweisys.com\\/hongqih9_admin\\/news.json");
+//        }
 
     }
 
@@ -183,22 +179,11 @@ public class C229MainActivity extends BaseActivity {
         }
     }
 
-    public static void goC229MainActivity(Context context, String tag) {
+    public static void goC229MainActivity(Context context, String tag,VersionUpdateModel model) {
         Intent intent = new Intent(context, C229MainActivity.class);
         intent.putExtra("tag", tag);
+        intent.putExtra("model", model);
         context.startActivity(intent);
     }
 
-    //判断文件夹下是否存在该文件
-    public boolean fileIsExists(String strFile) {
-        try {
-            File f = new File(strFile);
-            if (!f.exists()) {
-                return false;
-            }
-        } catch (Exception e) {
-            return false;
-        }
-        return true;
-    }
 }

@@ -12,6 +12,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.faw.hongqi.R;
 import com.faw.hongqi.model.VersionModel;
+import com.faw.hongqi.model.VersionUpdateModel;
+import com.faw.hongqi.util.LoadAndUnzipUtil;
 import com.faw.hongqi.util.PhoneUtil;
 import com.faw.hongqi.util.SharedpreferencesUtil;
 import com.google.gson.Gson;
@@ -50,12 +52,15 @@ public class C229LoadAndUnzipFileActivity extends BaseActivity {
     private boolean isNextDownload = true;
     private VersionModel data;
     private String tag;
+    private VersionUpdateModel model = null;
+
     @Override
     protected void initData() {
         data = (VersionModel) getIntent().getSerializableExtra("data");
         tag = getIntent().getStringExtra("tag");
+        model = (VersionUpdateModel) getIntent().getSerializableExtra("model");
     }
-
+    // private static final String PATH = Environment.getExternalStorageDirectory() + "/123.json";
     @Override
     protected void initViews() {
         setContentView(R.layout.activity_load_and_unzip_file);
@@ -97,6 +102,8 @@ public class C229LoadAndUnzipFileActivity extends BaseActivity {
             ll_is_no_wifi.setVisibility(View.GONE);
             ll_is_download.setVisibility(View.GONE);
         }
+        LoadAndUnzipUtil.startDownload(C229LoadAndUnzipFileActivity.this,model.getCategory());
+        LoadAndUnzipUtil.startDownload(C229LoadAndUnzipFileActivity.this,model.getNews());
     }
     @Override
     protected void initWidgetActions() {}
@@ -105,13 +112,14 @@ public class C229LoadAndUnzipFileActivity extends BaseActivity {
 
     BaseDownloadTask singleTask;
     public int singleTaskId = 0;
-    private String downloadUrl = "https://www.haoweisys.com/A6/11.zip";
+    private String downloadUrl = "http:\\/\\/www.haoweisys.com\\/HONGQIH9\\/standard\\/images.zip";
     private String saveZipFilePath = FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
             + File.separator + "MyFolder";
 
     //下载下来的文件名称
     private String fileName;
     private void startDownload() {
+//        singleTask = FileDownloader.getImpl().create(model.getZip_address())
         singleTask = FileDownloader.getImpl().create(downloadUrl)
                 .setPath(saveZipFilePath, true)
                 .setCallbackProgressTimes(300)
@@ -188,19 +196,14 @@ public class C229LoadAndUnzipFileActivity extends BaseActivity {
                     @Override
                     protected void warn(BaseDownloadTask task) {
                         super.warn(task);
-                        continueDownLoad(task);//如果存在了相同的任务，那么就继续下载
                     }
                 });
         singleTaskId = singleTask.start();
     }
-    private void continueDownLoad(BaseDownloadTask task) {
-        while (task.getSmallFileSoFarBytes() != task.getSmallFileTotalBytes()) {
-            int percent = (int) ((double) task.getSmallFileSoFarBytes() / (double) task.getSmallFileTotalBytes() * 100);
-        }
-    }
-    public static void goC229LoadAndUnzipFileActivity(Context context) {
+
+    public static void goC229LoadAndUnzipFileActivity(Context context, VersionUpdateModel model) {
             Intent intent = new Intent(context, C229LoadAndUnzipFileActivity.class);
-//            intent.putExtra("data", model);
+            intent.putExtra("model", model);
             context.startActivity(intent);
     }
     /**
@@ -240,7 +243,7 @@ public class C229LoadAndUnzipFileActivity extends BaseActivity {
         }
         //判断是否有未解压的zip包
         SharedpreferencesUtil.setIsUnzip(C229LoadAndUnzipFileActivity.this, "true");
-        SharedpreferencesUtil.setVersionCode(C229LoadAndUnzipFileActivity.this, "code");
+        SharedpreferencesUtil.setVersionCode(C229LoadAndUnzipFileActivity.this, getIntent().getStringExtra("version"));
         //解压完成之后删除压缩包
         deleteDir(zipFile);
         //将下载下来的文件统一复制到另一个文件夹
