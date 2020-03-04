@@ -5,19 +5,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.text.TextUtils;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.faw.hongqi.R;
+import com.faw.hongqi.dbutil.DBUtil;
 import com.faw.hongqi.fragment.BaseFragment;
 import com.faw.hongqi.model.VersionModel;
 import com.faw.hongqi.model.VersionUpdateModel;
-import com.faw.hongqi.util.FileUtil;
 import com.faw.hongqi.util.FragmentUtil;
 import com.faw.hongqi.util.LoadAndUnzipUtil;
-import com.faw.hongqi.util.LogUtil;
 import com.faw.hongqi.util.NetWorkCallBack;
 import com.faw.hongqi.util.PhoneUtil;
 import com.faw.hongqi.util.SharedpreferencesUtil;
@@ -25,15 +25,10 @@ import com.faw.hongqi.widget.TabView;
 import com.google.gson.Gson;
 import com.liulishuo.filedownloader.util.FileDownloadUtils;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import android.support.v4.app.FragmentManager;
 
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+
+import java.io.File;
 
 import static com.faw.hongqi.ui.C229LoadAndUnzipFileActivity.goC229LoadAndUnzipFileActivity;
 
@@ -76,8 +71,9 @@ public class C229MainActivity extends BaseActivity {
                         });
                     }
                 }.start();
-            LoadAndUnzipUtil.startDownload(C229MainActivity.this,"http:\\/\\/www.haoweisys.com\\/hongqih9_admin\\/category.json");
-            LoadAndUnzipUtil.startDownload(C229MainActivity.this,"http:\\/\\/www.haoweisys.com\\/hongqih9_admin\\/news.json");
+            DBUtil.initData(this);
+//            LoadAndUnzipUtil.startDownload(C229MainActivity.this,"http:\\/\\/www.haoweisys.com\\/hongqih9_admin\\/category.json");
+//            LoadAndUnzipUtil.startDownload(C229MainActivity.this,"http:\\/\\/www.haoweisys.com\\/hongqih9_admin\\/news.json");
         }
 
     }

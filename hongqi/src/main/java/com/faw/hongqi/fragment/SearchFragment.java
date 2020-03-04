@@ -2,6 +2,9 @@ package com.faw.hongqi.fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -13,10 +16,8 @@ import com.faw.hongqi.adaptar.PtrrvAdapter;
 import com.faw.hongqi.dbutil.DBUtil;
 import com.faw.hongqi.event.BaseEvent;
 import com.faw.hongqi.event.HideKeyboardEvent;
-import com.faw.hongqi.holder.ContentHolder;
 import com.faw.hongqi.holder.SearchHolder;
 import com.faw.hongqi.model.CategoryModel;
-import com.faw.hongqi.model.NewsListModel;
 import com.faw.hongqi.model.NewsModel;
 import com.faw.hongqi.util.LogUtil;
 import com.raizlabs.android.dbflow.runtime.transaction.BaseTransaction;
@@ -28,9 +29,7 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+
 
 public class SearchFragment extends BaseFragment {
     EditText search_edit;

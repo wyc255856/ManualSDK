@@ -25,6 +25,9 @@ import android.graphics.Paint.Style;
 import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.v4.view.MotionEventCompat;
+import android.support.v4.view.ViewConfigurationCompat;
+import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -32,9 +35,6 @@ import android.view.ViewConfiguration;
 
 import com.faw.hongqi.R;
 
-import androidx.core.view.MotionEventCompat;
-import androidx.core.view.ViewConfigurationCompat;
-import androidx.viewpager.widget.ViewPager;
 
 import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 import static android.widget.LinearLayout.HORIZONTAL;
@@ -376,7 +376,7 @@ public class CirclePageIndicator extends View implements PageIndicator {
             throw new IllegalStateException("ViewPager does not have adapter instance.");
         }
         mViewPager = view;
-        mViewPager.setOnPageChangeListener(this);
+        mViewPager.setOnPageChangeListener((ViewPager.OnPageChangeListener) this);
         invalidate();
     }
 
@@ -394,6 +394,11 @@ public class CirclePageIndicator extends View implements PageIndicator {
         mViewPager.setCurrentItem(item);
         mCurrentPage = item;
         invalidate();
+    }
+
+    @Override
+    public void setOnPageChangeListener(ViewPager.OnPageChangeListener listener) {
+        mListener = (ViewPager.OnPageChangeListener) listener;
     }
 
     @Override
@@ -434,10 +439,7 @@ public class CirclePageIndicator extends View implements PageIndicator {
         }
     }
 
-    @Override
-    public void setOnPageChangeListener(ViewPager.OnPageChangeListener listener) {
-        mListener = listener;
-    }
+
 
     /*
      * (non-Javadoc)

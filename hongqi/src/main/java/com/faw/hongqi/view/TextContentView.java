@@ -4,13 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.faw.hongqi.R;
 import com.faw.hongqi.model.ContentItemModel;
 
-import androidx.annotation.Nullable;
 
 public class TextContentView extends BaseContentView {
     TextView text_content;

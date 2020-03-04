@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.sax.RootElement;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -18,21 +19,15 @@ import android.widget.TextView;
 
 import com.faw.hongqi.R;
 import com.faw.hongqi.dbutil.DBUtil;
-import com.faw.hongqi.model.CategoryModel;
-import com.faw.hongqi.model.NewsListModel;
 import com.faw.hongqi.model.NewsModel;
 import com.faw.hongqi.ui.C229ContentActivity;
 import com.faw.hongqi.util.Constant;
-import com.faw.hongqi.util.LogUtil;
-import com.faw.hongqi.util.PhoneUtil;
 import com.raizlabs.android.dbflow.runtime.transaction.BaseTransaction;
 import com.raizlabs.android.dbflow.runtime.transaction.TransactionListener;
-import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.Nullable;
 
 public class BaseModelItem extends LinearLayout {
     protected Activity mContext;

@@ -60,7 +60,7 @@ public class C229LoadAndUnzipFileActivity extends BaseActivity {
         tag = getIntent().getStringExtra("tag");
         model = (VersionUpdateModel) getIntent().getSerializableExtra("model");
     }
-
+    // private static final String PATH = Environment.getExternalStorageDirectory() + "/123.json";
     @Override
     protected void initViews() {
         setContentView(R.layout.activity_load_and_unzip_file);

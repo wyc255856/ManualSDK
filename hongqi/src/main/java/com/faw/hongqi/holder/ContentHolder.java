@@ -1,15 +1,10 @@
 package com.faw.hongqi.holder;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.faw.hongqi.R;
-import com.faw.hongqi.model.CategoryListModel;
 import com.faw.hongqi.model.NewsListModel;
 import com.faw.hongqi.model.NewsModel;
 import com.faw.hongqi.util.Constant;
@@ -30,6 +25,8 @@ public class ContentHolder extends BaseHolder {
         this.itemView = itemView;
         layout = itemView.findViewById(R.id.layout);
     }
+
+
 
     @Override
     public void upDate(final Context context, BaseModel mode1l, final int position) {

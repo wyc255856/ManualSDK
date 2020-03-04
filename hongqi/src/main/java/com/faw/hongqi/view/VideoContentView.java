@@ -1,11 +1,11 @@
 package com.faw.hongqi.view;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 
 import com.faw.hongqi.model.ContentItemModel;
 
-import androidx.annotation.Nullable;
 
 public class VideoContentView extends BaseContentView {
     public VideoContentView(Context context) {

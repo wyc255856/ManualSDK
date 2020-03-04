@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -14,7 +15,6 @@ import com.faw.hongqi.util.Constant;
 
 import org.xutils.x;
 
-import androidx.fragment.app.FragmentActivity;
 
 
 public abstract class BaseActivity extends FragmentActivity {

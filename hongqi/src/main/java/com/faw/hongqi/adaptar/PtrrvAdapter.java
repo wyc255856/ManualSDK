@@ -1,10 +1,9 @@
 package com.faw.hongqi.adaptar;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
-
-
 import com.faw.hongqi.holder.BaseHolder;
 import com.faw.hongqi.util.LogUtil;
 import com.raizlabs.android.dbflow.structure.BaseModel;
@@ -12,8 +11,6 @@ import com.raizlabs.android.dbflow.structure.BaseModel;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.recyclerview.widget.RecyclerView;
 
 
 public class PtrrvAdapter<T extends BaseHolder, K extends BaseModel> extends PtrrvBaseAdapter {
@@ -78,6 +75,7 @@ public class PtrrvAdapter<T extends BaseHolder, K extends BaseModel> extends Ptr
 
     @Override
     public int getItemCount() {
+        LogUtil.logError("list.size() = " + list.size());
         return list.size();
     }
 }

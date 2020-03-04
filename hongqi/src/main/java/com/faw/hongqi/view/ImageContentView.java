@@ -4,16 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.faw.hongqi.R;
 import com.faw.hongqi.model.ContentItemModel;
 
-import androidx.annotation.Nullable;
 
 public class ImageContentView extends BaseContentView {
 

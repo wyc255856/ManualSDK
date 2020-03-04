@@ -6,6 +6,7 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.faw.hongqi.R;
@@ -22,7 +23,6 @@ import com.faw.hongqi.widget.CirclePageIndicator;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.viewpager.widget.ViewPager;
 
 
 public class C229ContentActivity extends BaseActivity {
