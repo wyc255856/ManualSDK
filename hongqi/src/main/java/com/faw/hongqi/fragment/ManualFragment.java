@@ -246,7 +246,7 @@ public class ManualFragment extends BaseFragment {
     private void getFastNewsList() {
 
         CategoryModel categoryModel = list.get(newIndex);
-        DBUtil.getNewsListByCatId(categoryModel.getCaid(), new TransactionListener() {
+        DBUtil.getNewsListByCatId(mContext,categoryModel.getCaid(), new TransactionListener() {
             @Override
             public void onResultReceived(Object result) {
 
