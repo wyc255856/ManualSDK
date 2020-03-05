@@ -112,15 +112,15 @@ public class C229LoadAndUnzipFileActivity extends BaseActivity {
 
     BaseDownloadTask singleTask;
     public int singleTaskId = 0;
-    private String downloadUrl = "http:\\/\\/www.haoweisys.com\\/HONGQIH9\\/standard\\/images.zip";
+//    private String downloadUrl = "http:\\/\\/www.haoweisys.com\\/HONGQIH9\\/standard\\/images.zip";
     private String saveZipFilePath = FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
             + File.separator + "MyFolder";
 
     //下载下来的文件名称
     private String fileName;
     private void startDownload() {
-//        singleTask = FileDownloader.getImpl().create(model.getZip_address())
-        singleTask = FileDownloader.getImpl().create(downloadUrl)
+        singleTask = FileDownloader.getImpl().create(model.getZip_address())
+//        singleTask = FileDownloader.getImpl().create(downloadUrl)
                 .setPath(saveZipFilePath, true)
                 .setCallbackProgressTimes(300)
                 .setMinIntervalUpdateSpeed(400)
@@ -243,7 +243,7 @@ public class C229LoadAndUnzipFileActivity extends BaseActivity {
         }
         //判断是否有未解压的zip包
         SharedpreferencesUtil.setIsUnzip(C229LoadAndUnzipFileActivity.this, "true");
-        SharedpreferencesUtil.setVersionCode(C229LoadAndUnzipFileActivity.this, getIntent().getStringExtra("version"));
+        SharedpreferencesUtil.setVersionCode(C229LoadAndUnzipFileActivity.this, "1");
         //解压完成之后删除压缩包
         deleteDir(zipFile);
         //将下载下来的文件统一复制到另一个文件夹

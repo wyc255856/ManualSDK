@@ -19,8 +19,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.bumptech.glide.request.RequestOptions;
 import com.faw.hongqi.R;
 import com.faw.hongqi.event.BaseEvent;
 import com.faw.hongqi.event.SecondaryOnclickEvent;
@@ -75,10 +73,10 @@ public class GridItemView extends LinearLayout implements View.OnClickListener {
     }
 
     public NewsModel data;
-    //设置图片圆角角度
-    RoundedCorners roundedCorners= new RoundedCorners(4);
-    //通过RequestOptions扩展功能,override:采样率,因为ImageView就这么大,可以压缩图片,降低内存消耗
-    RequestOptions options=RequestOptions.bitmapTransform(roundedCorners).override(300, 300);
+//    //设置图片圆角角度
+//    RoundedCorners roundedCorners= new RoundedCorners(4);
+//    //通过RequestOptions扩展功能,override:采样率,因为ImageView就这么大,可以压缩图片,降低内存消耗
+//    RequestOptions options=RequestOptions.bitmapTransform(roundedCorners).override(300, 300);
     public void setData(NewsModel model, int index) {
         data = model;
         data.setStatus(index);
@@ -92,13 +90,28 @@ public class GridItemView extends LinearLayout implements View.OnClickListener {
 //            imageView.setImageBitmap(bitmap);
             File file = new File(FileUtil.getResPath() + model.getImage1().replace("../",""));
 //            LogUtil.logError("file url = " + file.exists());
-
             Glide.with(mContext)
-                    .load(Uri.fromFile(file)).apply(options).into(imageView);
+                    .load(Uri.fromFile(file))
+                    .transform(new CenterCrop(mContext),new GlideRoundTransform(mContext))
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .placeholder(R.mipmap.theme1_main2_bg)
+                    .dontAnimate()
+                    .crossFade()
+                    .into(imageView);
+//            Glide.with(mContext)
+//                    .load(Uri.fromFile(file)).apply(options).into(imageView);
         } else {
             String url = "images/2019-04-26/5cc2b440a0ab1.png";
             Glide.with(mContext)
-                    .load(Uri.fromFile(new File(FileUtil.getResPath() + url))).apply(options).into(imageView);
+                    .load(url)
+                    .transform(new CenterCrop(mContext),new GlideRoundTransform(mContext))
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .placeholder(R.mipmap.theme1_main2_bg)
+                    .dontAnimate()
+                    .crossFade()
+                    .into(imageView);
+//            Glide.with(mContext)
+//                    .load(Uri.fromFile(new File(FileUtil.getResPath() + url))).apply(options).into(imageView);
 //            imageView.setImageBitmap(getBitmap(url));
 //            imageView.setImageBitmap(FileUtil.getLoacalBitmap(FileUtil.getResPath() + url));
         }

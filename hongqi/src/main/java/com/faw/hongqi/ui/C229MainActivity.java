@@ -43,38 +43,38 @@ public class C229MainActivity extends BaseActivity {
         requestWritePermission();
         VersionUpdateModel model = (VersionUpdateModel) getIntent().getSerializableExtra("model");
         SharedpreferencesUtil.setVersionCode(C229MainActivity.this, PhoneUtil.getVersionName(C229MainActivity.this));
-//        if ("update".equals(getIntent().getStringExtra("tag"))) {
-//            goC229LoadAndUnzipFileActivity(C229MainActivity.this,model);
-//            SharedpreferencesUtil.setVersionCode(C229MainActivity.this, "version");
-//        } else {
-//                //增量更新
-//                new Thread() {
-//                    @Override
-//                    public void run() {
-//                        PhoneUtil.requestGet("http://www.haoweisys.com/hongqih9_admin/index.php?m=home&c=index&a=get_new_info&version_no=4", new NetWorkCallBack() {
-//                            @Override
-//                            public void onSuccess(Object data) {
-//                                final VersionModel model = new Gson().fromJson((String) data, VersionModel.class);
-//                                runOnUiThread(new Runnable() {
-//                                    public void run() {
-//                                        for (int i = 0; i < model.getZip_address().size(); i++) {
-//                                            LoadAndUnzipUtil.startDownload(C229MainActivity.this,model.getZip_address().get(i));
-//                                        }
-//                                    }
-//                                });
-//                            }
-//
-//                            @Override
-//                            public void onFail(Object error) {
-//
-//                            }
-//                        });
-//                    }
-//                }.start();
-////            DBUtil.initData(this);
-////            LoadAndUnzipUtil.startDownload(C229MainActivity.this,"http:\\/\\/www.haoweisys.com\\/hongqih9_admin\\/category.json");
-////            LoadAndUnzipUtil.startDownload(C229MainActivity.this,"http:\\/\\/www.haoweisys.com\\/hongqih9_admin\\/news.json");
-//        }
+        if ("update".equals(getIntent().getStringExtra("tag"))) {
+            goC229LoadAndUnzipFileActivity(C229MainActivity.this,model);
+            SharedpreferencesUtil.setVersionCode(C229MainActivity.this, "version");
+        } else {
+                //增量更新
+                new Thread() {
+                    @Override
+                    public void run() {
+                        PhoneUtil.requestGet("http://www.haoweisys.com/hongqih9_admin/index.php?m=home&c=index&a=get_new_info&version_no=1", new NetWorkCallBack() {
+                            @Override
+                            public void onSuccess(Object data) {
+                                final VersionModel model = new Gson().fromJson((String) data, VersionModel.class);
+                                runOnUiThread(new Runnable() {
+                                    public void run() {
+                                        for (int i = 0; i < model.getZip_address().size(); i++) {
+                                            LoadAndUnzipUtil.startDownload(C229MainActivity.this,model.getZip_address().get(i));
+                                        }
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onFail(Object error) {
+
+                            }
+                        });
+                    }
+                }.start();
+//            DBUtil.initData(this);
+//            LoadAndUnzipUtil.startDownload(C229MainActivity.this,"http:\\/\\/www.haoweisys.com\\/hongqih9_admin\\/category.json");
+//            LoadAndUnzipUtil.startDownload(C229MainActivity.this,"http:\\/\\/www.haoweisys.com\\/hongqih9_admin\\/news.json");
+        }
 
     }
 

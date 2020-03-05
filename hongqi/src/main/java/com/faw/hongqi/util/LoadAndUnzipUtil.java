@@ -27,7 +27,7 @@ public class LoadAndUnzipUtil {
     static BaseDownloadTask singleTask;
     public static int singleTaskId = 0;
     private static String saveZipFilePath = FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
-            + File.separator + "MyFolder";
+            + File.separator + "MyFolder";//cache
     private static String TAG = LoadAndUnzipUtil.class.getSimpleName();
     private static String fileName;
     public static void startDownload(final Activity context,String downloadUrl) {
@@ -59,7 +59,7 @@ public class LoadAndUnzipUtil {
                                 if (true){
                                     DBUtil.initData(context);
                                 }
-                                unZipFile(new File(saveZipFilePath + File.separator + "images.zip"), saveZipFilePath);
+                                unZipFile(new File(saveZipFilePath + File.separator + fileName), saveZipFilePath);
                             }
                         });
                         super.blockComplete(task);
@@ -86,7 +86,7 @@ public class LoadAndUnzipUtil {
         singleTaskId = singleTask.start();
     }
     /**
-     * zipFile 压缩文件
+     * zipFile 解压文件
      * folderPath 解压后的文件路径
      */
     private static void unZipFile(File zipFile, String folderPath) {
@@ -123,14 +123,12 @@ public class LoadAndUnzipUtil {
         //判断是否有未解压的zip包
 //        SharedpreferencesUtil.setIsUnzip(C229LoadAndUnzipFileActivity.this, "true");
 //        SharedpreferencesUtil.setVersionCode(C229LoadAndUnzipFileActivity.this, "code");
-        //解压完成之后删除压缩包
         deleteDir(zipFile);
-        //将下载下来的文件统一复制到另一个文件夹
         copyFolder(saveZipFilePathOld, saveZipFilePathNew);
     }
 
     private static String saveZipFilePathOld = FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
-            + File.separator + "MyFolder" + File.separator + "images";
+            + File.separator + "MyFolder" + File.separator + "HONGQIH9"+File.separator + "standard"+File.separator + "images";
     private static String saveZipFilePathNew = FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
             + File.separator + "MyFolder" + File.separator + "NewFile"+ File.separator + "images";
 
