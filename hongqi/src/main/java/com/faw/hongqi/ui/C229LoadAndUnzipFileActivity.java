@@ -102,8 +102,9 @@ public class C229LoadAndUnzipFileActivity extends BaseActivity {
             ll_is_no_wifi.setVisibility(View.GONE);
             ll_is_download.setVisibility(View.GONE);
         }
-        LoadAndUnzipUtil.startDownload(C229LoadAndUnzipFileActivity.this,model.getCategory());
-        LoadAndUnzipUtil.startDownload(C229LoadAndUnzipFileActivity.this,model.getNews());
+        //下载json文件
+        LoadAndUnzipUtil.startDownloadUnzip(C229LoadAndUnzipFileActivity.this,model.getCategory());
+        LoadAndUnzipUtil.startDownloadUnzip(C229LoadAndUnzipFileActivity.this,model.getNews());
     }
     @Override
     protected void initWidgetActions() {}
@@ -241,14 +242,16 @@ public class C229LoadAndUnzipFileActivity extends BaseActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+//        Toast.makeText(C229LoadAndUnzipFileActivity.this,model.getVersion()+"-s",Toast.LENGTH_LONG).show();
         //判断是否有未解压的zip包
         SharedpreferencesUtil.setIsUnzip(C229LoadAndUnzipFileActivity.this, "true");
-        SharedpreferencesUtil.setVersionCode(C229LoadAndUnzipFileActivity.this, "1");
+        SharedpreferencesUtil.setVersionCode(C229LoadAndUnzipFileActivity.this, model.getVersion());
         //解压完成之后删除压缩包
         deleteDir(zipFile);
         //将下载下来的文件统一复制到另一个文件夹
-        copyFolder(saveZipFilePathOld, saveZipFilePathNew);
+//        copyFolder(saveZipFilePathOld, saveZipFilePathNew);
         progress_bar.setProgress(110);
+        finish();
     }
     private String saveZipFilePathNew = FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
             + File.separator + "MyFolder" + File.separator + "NewFile"+ File.separator + "images";

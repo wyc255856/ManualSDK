@@ -81,14 +81,14 @@ public class GridItemView extends LinearLayout implements View.OnClickListener {
         data = model;
         data.setStatus(index);
         this.index = index;
-        if (!TextUtils.isEmpty(model.getImage1())) {
-            String url = FileUtil.getResPath() + model.getImage1();
+        if (!TextUtils.isEmpty(model.getHead_image())) {
+            String url = FileUtil.getResPath() + model.getHead_image().replace("HONGQIH9/standard/","");
             LogUtil.logError("image url = " + url);
 //            Glide.with(mContext).load(url).diskCacheStrategy(DiskCacheStrategy.RESOURCE).into(imageView);
 //            Bitmap bitmap = FileUtil.getLoacalBitmap(url);
 //            LogUtil.logError("bitmap = " + bitmap);
 //            imageView.setImageBitmap(bitmap);
-            File file = new File(FileUtil.getResPath() + model.getImage1().replace("../",""));
+            File file = new File(FileUtil.getResPath() + model.getHead_image().replace("HONGQIH9/standard/",""));
 //            LogUtil.logError("file url = " + file.exists());
             Glide.with(mContext)
                     .load(Uri.fromFile(file))
