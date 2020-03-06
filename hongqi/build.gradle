@@ -36,7 +36,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
     annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
-    api project(path: ':res_phone')
+    implementation project(path: ':res_phone')
 
     implementation 'com.github.bumptech.glide:glide:3.7.0'
     implementation 'com.android.support:recyclerview-v7:28.0.0'
