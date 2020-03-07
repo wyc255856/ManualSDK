@@ -102,8 +102,9 @@ public class C229LoadAndUnzipFileActivity extends BaseActivity {
             ll_is_no_wifi.setVisibility(View.GONE);
             ll_is_download.setVisibility(View.GONE);
         }
-        LoadAndUnzipUtil.startDownload(C229LoadAndUnzipFileActivity.this,model.getCategory());
-        LoadAndUnzipUtil.startDownload(C229LoadAndUnzipFileActivity.this,model.getNews());
+        //下载json文件
+        LoadAndUnzipUtil.startDownloadUnzip(C229LoadAndUnzipFileActivity.this,model.getCategory());
+        LoadAndUnzipUtil.startDownloadUnzip(C229LoadAndUnzipFileActivity.this,model.getNews());
     }
     @Override
     protected void initWidgetActions() {}
@@ -112,15 +113,15 @@ public class C229LoadAndUnzipFileActivity extends BaseActivity {
 
     BaseDownloadTask singleTask;
     public int singleTaskId = 0;
-    private String downloadUrl = "http:\\/\\/www.haoweisys.com\\/HONGQIH9\\/standard\\/images.zip";
+//    private String downloadUrl = "http:\\/\\/www.haoweisys.com\\/HONGQIH9\\/standard\\/images.zip";
     private String saveZipFilePath = FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
             + File.separator + "MyFolder";
 
     //下载下来的文件名称
     private String fileName;
     private void startDownload() {
-//        singleTask = FileDownloader.getImpl().create(model.getZip_address())
-        singleTask = FileDownloader.getImpl().create(downloadUrl)
+        singleTask = FileDownloader.getImpl().create(model.getZip_address())
+//        singleTask = FileDownloader.getImpl().create(downloadUrl)
                 .setPath(saveZipFilePath, true)
                 .setCallbackProgressTimes(300)
                 .setMinIntervalUpdateSpeed(400)
@@ -241,14 +242,16 @@ public class C229LoadAndUnzipFileActivity extends BaseActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+//        Toast.makeText(C229LoadAndUnzipFileActivity.this,model.getVersion()+"-s",Toast.LENGTH_LONG).show();
         //判断是否有未解压的zip包
         SharedpreferencesUtil.setIsUnzip(C229LoadAndUnzipFileActivity.this, "true");
-        SharedpreferencesUtil.setVersionCode(C229LoadAndUnzipFileActivity.this, getIntent().getStringExtra("version"));
+        SharedpreferencesUtil.setVersionCode(C229LoadAndUnzipFileActivity.this, model.getVersion());
         //解压完成之后删除压缩包
         deleteDir(zipFile);
         //将下载下来的文件统一复制到另一个文件夹
-        copyFolder(saveZipFilePathOld, saveZipFilePathNew);
+//        copyFolder(saveZipFilePathOld, saveZipFilePathNew);
         progress_bar.setProgress(110);
+        finish();
     }
     private String saveZipFilePathNew = FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
             + File.separator + "MyFolder" + File.separator + "NewFile"+ File.separator + "images";

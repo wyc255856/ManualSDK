@@ -24,7 +24,7 @@ public class GlideRoundTransform extends BitmapTransformation {
     }
 
     public GlideRoundTransform(Context context, int dp) {
-        super();
+        super(context);
         radius = Resources.getSystem().getDisplayMetrics().density * dp;
     }
 
@@ -54,8 +54,5 @@ public class GlideRoundTransform extends BitmapTransformation {
         return getClass().getName() + Math.round(radius);
     }
 
-    @Override
-    public void updateDiskCacheKey(@NonNull MessageDigest messageDigest) {
 
-    }
 }

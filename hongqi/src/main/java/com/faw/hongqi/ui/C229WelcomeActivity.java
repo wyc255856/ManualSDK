@@ -41,7 +41,7 @@ public class C229WelcomeActivity extends BaseActivity {
             new Thread() {
                 @Override
                 public void run() {
-                    PhoneUtil.requestGet("http://www.haoweisys.com/hs5_admin/index.php?m=home&c=index&a=get_first_version", new NetWorkCallBack() {
+                    PhoneUtil.requestGet("http://www.haoweisys.com/hongqih9_admin/index.php?m=home&c=index&a=get_first_version", new NetWorkCallBack() {
                         @Override
                         public void onSuccess(Object data) {
                             model = new Gson().fromJson((String) data, VersionUpdateModel.class);

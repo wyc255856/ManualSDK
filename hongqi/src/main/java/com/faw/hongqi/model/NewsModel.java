@@ -56,6 +56,8 @@ public class NewsModel extends BaseModel implements Serializable {
     @Column
     private int updatetime;
     @Column
+    private String head_image;
+    @Column
     private String image;
     @Column
     private String image1;
@@ -163,6 +165,14 @@ public class NewsModel extends BaseModel implements Serializable {
     }
     public int getNewsid() {
         return newsid;
+    }
+
+    public String getHead_image() {
+        return head_image;
+    }
+
+    public void setHead_image(String head_image) {
+        this.head_image = head_image;
     }
 
     public void setNewsid(int newsid) {
