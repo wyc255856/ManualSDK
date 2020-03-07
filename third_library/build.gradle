@@ -27,7 +27,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     //图片框架
     api 'com.github.bumptech.glide:glide:4.7.1'
-    implementation 'com.android.support:recyclerview-v7:28.0.0'
+
     //数据解析框架
     api 'com.google.code.gson:gson:2.8.6'
     //注解框架

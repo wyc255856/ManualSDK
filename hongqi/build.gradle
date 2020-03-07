@@ -38,7 +38,9 @@ dependencies {
     annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
     api project(path: ':res_phone')
 
+    implementation 'com.wang.avi:library:2.1.3'
 
+    implementation 'com.liulishuo.filedownloader:library:1.7.7'
 
 
 }
