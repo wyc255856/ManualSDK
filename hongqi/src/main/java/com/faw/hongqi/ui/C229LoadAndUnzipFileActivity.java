@@ -11,19 +11,18 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.faw.hongqi.R;
+import com.faw.hongqi.dbutil.DBUtil;
 import com.faw.hongqi.model.VersionModel;
 import com.faw.hongqi.model.VersionUpdateModel;
 import com.faw.hongqi.util.LoadAndUnzipUtil;
 import com.faw.hongqi.util.PhoneUtil;
 import com.faw.hongqi.util.SharedpreferencesUtil;
-import com.google.gson.Gson;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadSampleListener;
 import com.liulishuo.filedownloader.FileDownloader;
 import com.liulishuo.filedownloader.util.FileDownloadUtils;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -31,8 +30,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -60,7 +57,7 @@ public class C229LoadAndUnzipFileActivity extends BaseActivity {
         tag = getIntent().getStringExtra("tag");
         model = (VersionUpdateModel) getIntent().getSerializableExtra("model");
     }
-    // private static final String PATH = Environment.getExternalStorageDirectory() + "/123.json";
+
     @Override
     protected void initViews() {
         setContentView(R.layout.activity_load_and_unzip_file);
@@ -102,26 +99,27 @@ public class C229LoadAndUnzipFileActivity extends BaseActivity {
             ll_is_no_wifi.setVisibility(View.GONE);
             ll_is_download.setVisibility(View.GONE);
         }
-        //下载json文件
-        LoadAndUnzipUtil.startDownloadUnzip(C229LoadAndUnzipFileActivity.this,model.getCategory());
-        LoadAndUnzipUtil.startDownloadUnzip(C229LoadAndUnzipFileActivity.this,model.getNews());
+        LoadAndUnzipUtil.startDownloadNews(C229LoadAndUnzipFileActivity.this, model.getNews());
+        LoadAndUnzipUtil.startDownloadCategory(C229LoadAndUnzipFileActivity.this, model.getCategory());
     }
+
     @Override
-    protected void initWidgetActions() {}
+    protected void initWidgetActions() {
+    }
+
     @Override
-    boolean isHasTitle() {return false;}
+    boolean isHasTitle() {
+        return false;
+    }
 
     BaseDownloadTask singleTask;
     public int singleTaskId = 0;
-//    private String downloadUrl = "http:\\/\\/www.haoweisys.com\\/HONGQIH9\\/standard\\/images.zip";
     private String saveZipFilePath = FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
             + File.separator + "MyFolder";
-
-    //下载下来的文件名称
     private String fileName;
+
     private void startDownload() {
         singleTask = FileDownloader.getImpl().create(model.getZip_address())
-//        singleTask = FileDownloader.getImpl().create(downloadUrl)
                 .setPath(saveZipFilePath, true)
                 .setCallbackProgressTimes(300)
                 .setMinIntervalUpdateSpeed(400)
@@ -130,6 +128,7 @@ public class C229LoadAndUnzipFileActivity extends BaseActivity {
                     protected void pending(BaseDownloadTask task, int soFarBytes, int totalBytes) {
                         super.pending(task, soFarBytes, totalBytes);
                     }
+
                     @Override
                     protected void progress(BaseDownloadTask task, int soFarBytes, int totalBytes) {
                         Log.e(TAG, "----->progress taskId:" + task.getId() + ",soFarBytes:" + soFarBytes + ",totalBytes:" + totalBytes
@@ -154,6 +153,7 @@ public class C229LoadAndUnzipFileActivity extends BaseActivity {
                         });
                         progress_bar.setProgress((int) ((soFarBytes * 1.0 / totalBytes) * 100));
                     }
+
                     @Override
                     protected void blockComplete(BaseDownloadTask task) {
                         Log.e(TAG, "----------->blockComplete taskId:" + task.getId() + ",filePath:" + task.getPath() +
@@ -162,38 +162,35 @@ public class C229LoadAndUnzipFileActivity extends BaseActivity {
                         runOnUiThread(new Runnable() {
                             public void run() {
                                 tv_download_title.setText(C229LoadAndUnzipFileActivity.this.getResources().getString(R.string.download_assest_text_unzip));
-                                Toast.makeText(C229LoadAndUnzipFileActivity.this, "下载完成", Toast.LENGTH_LONG).show();
                                 unZipFile(new File(saveZipFilePath + File.separator + "images.zip"), saveZipFilePath);
                             }
                         });
                         super.blockComplete(task);
                     }
+
                     @Override
                     protected void completed(BaseDownloadTask task) {
                         Log.e(TAG, "---------->completed taskId:" + task.getId() + ",isReuse:" + task.reuse());
                         super.completed(task);
                     }
+
                     @Override
                     protected void paused(BaseDownloadTask task, int soFarBytes, int totalBytes) {
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                Toast.makeText(C229LoadAndUnzipFileActivity.this, "暂停", Toast.LENGTH_LONG).show();
-                            }
-                        });
                         super.paused(task, soFarBytes, totalBytes);
                     }
+
                     @Override
                     protected void error(BaseDownloadTask task, Throwable e) {
                         Log.e(TAG, "--------->error taskId:" + task.getId() + ",e:" + e.getLocalizedMessage());
                         runOnUiThread(new Runnable() {
                             public void run() {
-                                Toast.makeText(C229LoadAndUnzipFileActivity.this, "没有网络", Toast.LENGTH_LONG).show();
                                 ll_is_download.setVisibility(View.GONE);
                                 ll_is_no_wifi.setVisibility(View.VISIBLE);
                             }
                         });
                         super.error(task, e);
                     }
+
                     @Override
                     protected void warn(BaseDownloadTask task) {
                         super.warn(task);
@@ -203,10 +200,11 @@ public class C229LoadAndUnzipFileActivity extends BaseActivity {
     }
 
     public static void goC229LoadAndUnzipFileActivity(Context context, VersionUpdateModel model) {
-            Intent intent = new Intent(context, C229LoadAndUnzipFileActivity.class);
-            intent.putExtra("model", model);
-            context.startActivity(intent);
+        Intent intent = new Intent(context, C229LoadAndUnzipFileActivity.class);
+        intent.putExtra("model", model);
+        context.startActivity(intent);
     }
+
     /**
      * zipFile 压缩文件
      * folderPath 解压后的文件路径
@@ -242,21 +240,21 @@ public class C229LoadAndUnzipFileActivity extends BaseActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        Toast.makeText(C229LoadAndUnzipFileActivity.this,model.getVersion()+"-s",Toast.LENGTH_LONG).show();
         //判断是否有未解压的zip包
         SharedpreferencesUtil.setIsUnzip(C229LoadAndUnzipFileActivity.this, "true");
         SharedpreferencesUtil.setVersionCode(C229LoadAndUnzipFileActivity.this, model.getVersion());
-        //解压完成之后删除压缩包
         deleteDir(zipFile);
         //将下载下来的文件统一复制到另一个文件夹
 //        copyFolder(saveZipFilePathOld, saveZipFilePathNew);
         progress_bar.setProgress(110);
         finish();
     }
+
     private String saveZipFilePathNew = FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
-            + File.separator + "MyFolder" + File.separator + "NewFile"+ File.separator + "images";
+            + File.separator + "MyFolder" + File.separator + "NewFile" + File.separator + "images";
     private String saveZipFilePathOld = FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
             + File.separator + "MyFolder" + File.separator + "images";
+
     /**
      * 根据保存zip的文件路径和zip文件相对路径名，返回一个实际的文件，因为zip文件解压后，里边可能是多重文件结构
      */

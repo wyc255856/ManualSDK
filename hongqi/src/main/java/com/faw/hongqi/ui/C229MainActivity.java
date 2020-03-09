@@ -11,78 +11,80 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 import com.faw.hongqi.R;
+import com.faw.hongqi.dbutil.DBUtil;
 import com.faw.hongqi.fragment.BaseFragment;
+import com.faw.hongqi.model.NewsModel;
 import com.faw.hongqi.model.VersionModel;
 import com.faw.hongqi.model.VersionUpdateModel;
 import com.faw.hongqi.util.FragmentUtil;
 import com.faw.hongqi.util.LoadAndUnzipUtil;
+import com.faw.hongqi.util.LogUtil;
 import com.faw.hongqi.util.NetWorkCallBack;
 import com.faw.hongqi.util.PhoneUtil;
 import com.faw.hongqi.util.SharedpreferencesUtil;
 import com.faw.hongqi.widget.TabView;
 import com.google.gson.Gson;
 import com.liulishuo.filedownloader.util.FileDownloadUtils;
+import com.raizlabs.android.dbflow.runtime.transaction.BaseTransaction;
+import com.raizlabs.android.dbflow.runtime.transaction.TransactionListener;
 
 import android.support.v4.app.FragmentManager;
-
 import java.io.File;
+import java.util.List;
 
 import static com.faw.hongqi.ui.C229LoadAndUnzipFileActivity.goC229LoadAndUnzipFileActivity;
 
 public class C229MainActivity extends BaseActivity {
-    private BaseFragment currentFragment;
 
+    private BaseFragment currentFragment;
     private String currentTag;
     TabView tabView;
     View main_layout;
     private VersionModel bean = null;
+
     @Override
     protected void initData() {
         requestWritePermission();
         VersionUpdateModel model = (VersionUpdateModel) getIntent().getSerializableExtra("model");
-        SharedpreferencesUtil.setVersionCode(C229MainActivity.this, PhoneUtil.getVersionName(C229MainActivity.this));
         if ("update".equals(getIntent().getStringExtra("tag"))) {
-            goC229LoadAndUnzipFileActivity(C229MainActivity.this,model);
+            goC229LoadAndUnzipFileActivity(C229MainActivity.this, model);
         } else {
-            final String id = SharedpreferencesUtil.getVersionCode(C229MainActivity.this).replace(".0","");
+            final String id = SharedpreferencesUtil.getVersionCode(C229MainActivity.this).replace(".0", "");
             //增量更新
-                new Thread() {
-                    @Override
-                    public void run() {
-                        PhoneUtil.requestGet("http://www.haoweisys.com/hongqih9_admin/index.php?m=home&c=index&a=get_new_info&version_no=" + id, new NetWorkCallBack() {
-                            @Override
-                            public void onSuccess(Object data) {
-                                bean = new Gson().fromJson((String) data, VersionModel.class);
-                                if ("".equals(bean.getVersion())){
-                                    //如果相同版本无需静默更新
-                                    Toast.makeText(C229MainActivity.this,"No",Toast.LENGTH_LONG).show();
-                                }else{
-                                    runOnUiThread(new Runnable() {
-                                        public void run() {
-                                            for (int i = 0; i < bean.getZip_address().size(); i++) {
-                                                LoadAndUnzipUtil.startDownload(C229MainActivity.this,bean.getZip_address().get(i));
-                                            }
-                                            //判断路径是否有增量更新文件夹如果有下载json文件，并删除文件夹及内容
-                                            LoadAndUnzipUtil.deleteDirectory(FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
-                                                    + File.separator + "HONGQIH9");
-                                            LoadAndUnzipUtil.startDownloadUnzip(C229MainActivity.this,bean.getCategory());
-                                            LoadAndUnzipUtil.startDownloadUnzip(C229MainActivity.this,bean.getNews());
-                                            SharedpreferencesUtil.setVersionCode(C229MainActivity.this, bean.getVersion());
+            new Thread() {
+                @Override
+                public void run() {
+                    PhoneUtil.requestGet("http://www.haoweisys.com/hongqih9_admin/index.php?m=home&c=index&a=get_new_info&version_no=" + id, new NetWorkCallBack() {
+                        @Override
+                        public void onSuccess(Object data) {
+                            bean = new Gson().fromJson((String) data, VersionModel.class);
+                            if ("".equals(bean.getVersion())) {
+                                //如果相同版本无需更新
+                            } else {
+                                runOnUiThread(new Runnable() {
+                                    public void run() {
+                                        for (int i = 0; i < bean.getZip_address().size(); i++) {
+                                            LoadAndUnzipUtil.startDownload(C229MainActivity.this, bean.getZip_address().get(i));
                                         }
-                                    });
-                                }
+                                        SharedpreferencesUtil.setVersionCode(C229MainActivity.this, bean.getVersion());
+                                        //判断路径是否有增量更新文件夹如果有下载json文件，并删除文件夹及内容
+                                        LoadAndUnzipUtil.deleteDirectory(FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
+                                                + File.separator + "HONGQIH9");
+                                        LoadAndUnzipUtil.startDownloadNews(C229MainActivity.this, bean.getNews());
+                                        LoadAndUnzipUtil.startDownloadCategory(C229MainActivity.this, bean.getCategory());
+                                    }
+                                });
                             }
+                        }
 
-                            @Override
-                            public void onFail(Object error) {
-
-                            }
-                        });
-                    }
-                }.start();
-
+                        @Override
+                        public void onFail(Object error) {
+                            LogUtil.logError("error======" + error.toString());
+                        }
+                    });
+                }
+            }.start();
         }
-
     }
 
     @Override
@@ -173,7 +175,30 @@ public class C229MainActivity extends BaseActivity {
             } else {
                 Log.d("tag", "Write Permission Failed");
                 Toast.makeText(this, "You must allow permission write external storage to your mobile device.", Toast.LENGTH_SHORT).show();
-                finish();
+                DBUtil.getAllNews(new TransactionListener() {
+                    @Override
+                    public void onResultReceived(Object result) {
+
+                    }
+
+                    @Override
+                    public boolean onReady(BaseTransaction transaction) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean hasResult(BaseTransaction transaction, Object result) {
+                        LogUtil.logError("result = "+result);
+                        List<NewsModel> list= (List<NewsModel>) result;
+
+                        for(NewsModel newsModel:list){
+                            LogUtil.logError("catid = "+newsModel.getCatid());
+                        }
+                        return false;
+                    }
+                });
+
+//                finish();
             }
         }
     }
@@ -186,7 +211,7 @@ public class C229MainActivity extends BaseActivity {
         }
     }
 
-    public static void goC229MainActivity(Context context, String tag,VersionUpdateModel model) {
+    public static void goC229MainActivity(Context context, String tag, VersionUpdateModel model) {
         Intent intent = new Intent(context, C229MainActivity.class);
         intent.putExtra("tag", tag);
         intent.putExtra("model", model);

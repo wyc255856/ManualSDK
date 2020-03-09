@@ -18,6 +18,7 @@ import com.faw.hongqi.util.TestUtil;
 import com.google.gson.Gson;
 import com.liulishuo.filedownloader.util.FileDownloadUtils;
 import com.raizlabs.android.dbflow.runtime.TransactionManager;
+import com.raizlabs.android.dbflow.runtime.transaction.BaseTransaction;
 import com.raizlabs.android.dbflow.runtime.transaction.TransactionListener;
 import com.raizlabs.android.dbflow.runtime.transaction.process.ProcessModelInfo;
 import com.raizlabs.android.dbflow.runtime.transaction.process.SaveModelTransaction;
@@ -32,8 +33,8 @@ import java.util.List;
 
 public class DBUtil {
 
-    public static void initData(final Context context) {
-        if (SharedpreferencesUtil.isUploadBD(context)) {
+    public static void initData(final Context context, final String tag) {
+
             new Thread() {
                 @Override
                 public void run() {
@@ -41,15 +42,27 @@ public class DBUtil {
 //                    Delete.table(NewsModel.class);
 //                    Delete.table(CategoryModel.class);
                     Constant.initHotWord();
-                    //TODO 插入category
-                    insertCategory(context);
-                    //TODO 插入news
-                    insertNews(context);
-                    SharedpreferencesUtil.setUpLoadBD(context, false);
+                    if ("category".equals(tag)){
+                        //TODO 插入category
+                        SQLite.delete(CategoryModel.class)
+                                .where()
+                                .async().execute();
+                        insertCategory(context);
+                    }else if ("news".equals(tag)){
+                        //TODO 插入news
+                        SQLite.delete(NewsModel.class)
+                                .where()
+                                .async().execute();
+                        insertNews(context);
+
+                    }else{
+
+                    }
+
 
                 }
             }.start();
-        }
+
     }
 
     /**
@@ -58,9 +71,9 @@ public class DBUtil {
      * @return
      */
     private static NewsListModel getList(Context context) {
-        String json = TestUtil.readTextFileFromRawResourceId(context, R.raw.zy_news);
-//        String json = TestUtil.readTextFile(context,FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
-//                + File.separator + "MyFolder"+"/news.json");
+//        String json = TestUtil.readTextFileFromRawResourceId(context, R.raw.zy_news);
+        String json = TestUtil.readTextFile(context,FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
+                + File.separator + "MyFolder"+"/news.json");
         NewsListModel menuListModel = new Gson().fromJson(json, NewsListModel.class);
         if (menuListModel != null) {
             LogUtil.logError("数据长度" + menuListModel.getRECORDS().size());
@@ -71,10 +84,10 @@ public class DBUtil {
 
 
     private static CategoryListModel getCategoryList(Context context) {
-        String json = TestUtil.readTextFileFromRawResourceId(context, R.raw.zy_category);
+//        String json = TestUtil.readTextFileFromRawResourceId(context, R.raw.zy_category);
 
-//        String json = TestUtil.readTextFile(context,FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
-//                + File.separator + "MyFolder"+"/category.json");
+        String json = TestUtil.readTextFile(context,FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
+                + File.separator + "MyFolder"+"/category.json");
         CategoryListModel menuListModel = new Gson().fromJson(json, CategoryListModel.class);
         if (menuListModel != null) {
             LogUtil.logError("数据长度" + menuListModel.getRECORDS().size());
@@ -110,8 +123,8 @@ public class DBUtil {
         LogUtil.logError("fast id = " + id);
         SQLite.select()
                 .from(NewsModel.class)
-                .where(NewsModel_Table.caid.eq(10077))
-                .and(NewsModel_Table.id.eq(1064))
+
+                .where(NewsModel_Table.id.eq(1064))
                 .and(Constant.getCurrentIntProperty(context).eq(1))
 
                 .async().queryList(transactionListener);
@@ -137,7 +150,7 @@ public class DBUtil {
         LogUtil.logError("fast catid = " + catid);
         SQLite.select()
                 .from(NewsModel.class)
-                .where(NewsModel_Table.caid.eq(catid))
+                .where(NewsModel_Table.catid.eq(catid))
 //                .where()
                 .and(Constant.getCurrentIntProperty(context).eq(1))
 

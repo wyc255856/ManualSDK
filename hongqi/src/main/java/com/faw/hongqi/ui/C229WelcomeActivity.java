@@ -35,9 +35,11 @@ public class C229WelcomeActivity extends BaseActivity {
     boolean isHasTitle() {
         return false;
     }
+
     private VersionUpdateModel model = null;
+
     private void isUpdate() {
-        if("".equals(SharedpreferencesUtil.getVersionCode(C229WelcomeActivity.this))){
+        if ("".equals(SharedpreferencesUtil.getVersionCode(C229WelcomeActivity.this))) {
             new Thread() {
                 @Override
                 public void run() {
@@ -48,7 +50,7 @@ public class C229WelcomeActivity extends BaseActivity {
                             LogUtil.logError("error  = 1111111");
                             runOnUiThread(new Runnable() {
                                 public void run() {
-                                    goC229MainActivity(C229WelcomeActivity.this, "update",model);
+                                    goC229MainActivity(C229WelcomeActivity.this, "update", model);
                                     finish();
                                 }
                             });
@@ -61,8 +63,8 @@ public class C229WelcomeActivity extends BaseActivity {
                     });
                 }
             }.start();
-        }else{
-            goC229MainActivity(C229WelcomeActivity.this, "Unupdate",model);
+        } else {
+            goC229MainActivity(C229WelcomeActivity.this, "Unupdate", model);
             finish();
         }
 
