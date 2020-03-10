@@ -13,9 +13,11 @@ import android.widget.Toast;
 import com.faw.hongqi.R;
 import com.faw.hongqi.dbutil.DBUtil;
 import com.faw.hongqi.fragment.BaseFragment;
+import com.faw.hongqi.model.CategoryModel;
 import com.faw.hongqi.model.NewsModel;
 import com.faw.hongqi.model.VersionModel;
 import com.faw.hongqi.model.VersionUpdateModel;
+import com.faw.hongqi.util.Constant;
 import com.faw.hongqi.util.FragmentUtil;
 import com.faw.hongqi.util.LoadAndUnzipUtil;
 import com.faw.hongqi.util.LogUtil;
@@ -27,6 +29,7 @@ import com.google.gson.Gson;
 import com.liulishuo.filedownloader.util.FileDownloadUtils;
 import com.raizlabs.android.dbflow.runtime.transaction.BaseTransaction;
 import com.raizlabs.android.dbflow.runtime.transaction.TransactionListener;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import android.support.v4.app.FragmentManager;
 import java.io.File;
@@ -45,6 +48,10 @@ public class C229MainActivity extends BaseActivity {
     @Override
     protected void initData() {
         requestWritePermission();
+        deleteDir(new File(FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
+                + File.separator + "MyFolder"+"/news.json"));
+        deleteDir(new File(FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
+                + File.separator + "MyFolder"+"/category.json"));
         VersionUpdateModel model = (VersionUpdateModel) getIntent().getSerializableExtra("model");
         if ("update".equals(getIntent().getStringExtra("tag"))) {
             goC229LoadAndUnzipFileActivity(C229MainActivity.this, model);
@@ -102,13 +109,36 @@ public class C229MainActivity extends BaseActivity {
         main_layout = findViewById(R.id.main_layout);
         changeTabs("0");
     }
-
+    public void deleteDir(File file) {
+        if (!file.exists()) {
+            return;
+        }
+        if (file.isDirectory()) {
+            File[] childFiles = file.listFiles();
+            if (childFiles == null || childFiles.length == 0) {
+                file.delete();
+            }
+            for (int index = 0; index < childFiles.length; index++) {
+                deleteDir(childFiles[index]);
+            }
+        }
+        file.delete();
+    }
     @Override
     protected void initWidgetActions() {
         findViewById(R.id.main_back_icon).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
+//                new Thread() {
+//                    @Override
+//                    public void run() {
+//                        super.run();
+//                            SQLite.delete(NewsModel.class)
+//                                    .where()
+//                                    .async().execute();
+//                    }
+//                }.start();
             }
         });
     }
