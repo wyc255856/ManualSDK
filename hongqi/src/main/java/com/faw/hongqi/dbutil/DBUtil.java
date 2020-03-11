@@ -166,6 +166,8 @@ public class DBUtil {
                 .async().queryList(transactionListener);
 
 
+
+
 //        SQLite.select(NewsModel_Table.caid, CategoryModel_Table.catid)
 //                .from(NewsModel.class)
 //                .leftOuterJoin(CategoryModel.class)
