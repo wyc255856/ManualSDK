@@ -6,8 +6,8 @@
     android:orientation="horizontal">
     <com.wang.avi.AVLoadingIndicatorView
         android:id="@+id/avi"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_gravity="center"
         app:indicatorName="BallSpinFadeLoaderIndicator" />
 

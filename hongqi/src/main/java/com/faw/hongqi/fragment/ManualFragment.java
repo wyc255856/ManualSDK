@@ -167,7 +167,7 @@ public class ManualFragment extends BaseFragment {
 //        for (int i = 0; i < 5; i++) {
 //            testlist.add(list.get(i));
 //        }
-        list = list.subList(0, 5);
+        list = list.subList(0, 12);
 //        secondaryListView.setDataList(list, SecondaryOnclickEvent.MANUAL);
         secondaryListView.setDataList(list, SecondaryOnclickEvent.MANUAL);
         startTime = System.currentTimeMillis();
@@ -246,7 +246,7 @@ public class ManualFragment extends BaseFragment {
     private void getFastNewsList() {
 
         CategoryModel categoryModel = list.get(newIndex);
-        DBUtil.getNewsListByCatId(mContext,categoryModel.getCaid(), new TransactionListener() {
+        DBUtil.getNewsListByCatId(mContext,categoryModel.getCatid(), new TransactionListener() {
             @Override
             public void onResultReceived(Object result) {
 

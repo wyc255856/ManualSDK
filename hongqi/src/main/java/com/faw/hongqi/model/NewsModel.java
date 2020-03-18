@@ -27,8 +27,9 @@ public class NewsModel extends BaseModel implements Serializable {
     private int newsid;
     @Column
     private int id;
+
     @Column
-    private int caid;
+    private int catid;
     @Column
     private String title;
     @Column
@@ -166,7 +167,13 @@ public class NewsModel extends BaseModel implements Serializable {
     public int getNewsid() {
         return newsid;
     }
+    public int getCatid() {
+        return catid;
+    }
 
+    public void setCatid(int catid) {
+        this.catid = catid;
+    }
     public String getHead_image() {
         return head_image;
     }
@@ -179,12 +186,7 @@ public class NewsModel extends BaseModel implements Serializable {
         this.newsid = newsid;
     }
 
-    public void setCaid(int caid) {
-        this.caid = caid;
-    }
-    public int getCaid() {
-        return caid;
-    }
+
 
     public void setTitle(String title) {
         this.title = title;

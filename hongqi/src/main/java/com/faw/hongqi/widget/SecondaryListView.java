@@ -5,6 +5,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -16,6 +17,7 @@ import com.faw.hongqi.event.SecondaryOnclickEvent;
 import com.faw.hongqi.event.SecondaryOnscollerEvent;
 import com.faw.hongqi.model.CategoryModel;
 import com.faw.hongqi.util.LogUtil;
+import com.faw.hongqi.util.PhoneUtil;
 import com.faw.hongqi.util.ResUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -73,7 +75,10 @@ public class SecondaryListView extends LinearLayout implements View.OnClickListe
         if (SecondaryOnclickEvent.FAST == type) {
             cecondary_seek_bg.setBackgroundResource(R.mipmap.fast_list_item_bg_1);
         } else {
-            cecondary_seek_bg.setBackgroundResource(R.mipmap.fast_list_item_bg_1);
+            cecondary_seek_bg.setBackgroundResource(R.mipmap.manual_list_item_bg_1);
+            FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) cecondary_seek_bg.getLayoutParams();
+            layoutParams.height = PhoneUtil.dip2px(mContext,600);
+            cecondary_seek_bg.setLayoutParams(layoutParams);
         }
 
     }
@@ -83,19 +88,19 @@ public class SecondaryListView extends LinearLayout implements View.OnClickListe
         if (event instanceof SecondaryOnclickEvent  ) {
             LogUtil.logError("");
             SecondaryOnclickEvent secondaryOnclickEvent = (SecondaryOnclickEvent) event;
-            if (SecondaryOnclickEvent.FAST == secondaryOnclickEvent.getType()) {
+            if (SecondaryOnclickEvent.FAST == secondaryOnclickEvent.getType()&&SecondaryOnclickEvent.FAST==type) {
                 cecondary_seek_bg.setBackgroundResource(ResUtil.getMipmapResId("fast_list_item_bg_" + (secondaryOnclickEvent.getIndex() + 1)));
-            } else {
-                cecondary_seek_bg.setBackgroundResource(ResUtil.getMipmapResId("fast_list_item_bg_" + (secondaryOnclickEvent.getIndex() + 1)));
+            } else  if (SecondaryOnclickEvent.MANUAL == secondaryOnclickEvent.getType()&&SecondaryOnclickEvent.MANUAL==type){
+                cecondary_seek_bg.setBackgroundResource(ResUtil.getMipmapResId("manual_list_item_bg_" + (secondaryOnclickEvent.getIndex() + 1)));
 
             }
         }
         if(event instanceof SecondaryOnscollerEvent){
             SecondaryOnscollerEvent secondaryOnclickEvent = (SecondaryOnscollerEvent) event;
-            if (SecondaryOnclickEvent.FAST == secondaryOnclickEvent.getType()) {
+            if (SecondaryOnscollerEvent.FAST == secondaryOnclickEvent.getType()&&SecondaryOnscollerEvent.FAST==type) {
                 cecondary_seek_bg.setBackgroundResource(ResUtil.getMipmapResId("fast_list_item_bg_" + (secondaryOnclickEvent.getIndex() + 1)));
-            } else {
-                cecondary_seek_bg.setBackgroundResource(ResUtil.getMipmapResId("fast_list_item_bg_" + (secondaryOnclickEvent.getIndex() + 1)));
+            } else  if (SecondaryOnscollerEvent.MANUAL == secondaryOnclickEvent.getType()&&SecondaryOnscollerEvent.MANUAL==type){
+                cecondary_seek_bg.setBackgroundResource(ResUtil.getMipmapResId("manual_list_item_bg_" + (secondaryOnclickEvent.getIndex() + 1)));
 
             }
         }

@@ -56,9 +56,9 @@ public class LoadAndUnzipUtil {
                                 //下载完成
 //                                if (fileIsExists(FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
 //                                        + File.separator + "MyFolder"+File.separator +"zy_news.json")){
-                                if (true){
-                                    DBUtil.initData(context);
-                                }
+//                                if (true){
+//                                    DBUtil.initData(context);
+//                                }
                                 unZipFile(new File(saveZipFilePath + File.separator + fileName), saveZipFilePath);
                             }
                         });
@@ -85,7 +85,7 @@ public class LoadAndUnzipUtil {
                 });
         singleTaskId = singleTask.start();
     }
-    public static void startDownloadUnzip(final Activity context,String downloadUrl) {
+    public static void startDownloadNews(final Activity context,String downloadUrl) {
         singleTask = FileDownloader.getImpl().create(downloadUrl)
                 .setPath(saveZipFilePath, true)
                 .setCallbackProgressTimes(300)
@@ -109,6 +109,7 @@ public class LoadAndUnzipUtil {
                         context.runOnUiThread(new Runnable() {
                             public void run() {
                                 //下载完成
+                                        DBUtil.initData(context,"news");
 //                                if (fileIsExists(FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
 //                                        + File.separator + "MyFolder"+File.separator +"zy_news.json")){
                             }
@@ -135,6 +136,60 @@ public class LoadAndUnzipUtil {
                     }
                 });
         singleTaskId = singleTask.start();
+
+    }
+    public static void startDownloadCategory(final Activity context,String downloadUrl) {
+        singleTask = FileDownloader.getImpl().create(downloadUrl)
+                .setPath(saveZipFilePath, true)
+                .setCallbackProgressTimes(300)
+                .setMinIntervalUpdateSpeed(400)
+                .setListener(new FileDownloadSampleListener() {
+                    @Override
+                    protected void pending(BaseDownloadTask task, int soFarBytes, int totalBytes) {
+                        super.pending(task, soFarBytes, totalBytes);
+                    }
+                    @Override
+                    protected void progress(BaseDownloadTask task, int soFarBytes, int totalBytes) {
+                        Log.e(TAG, "----->progress taskId:" + task.getId() + ",soFarBytes:" + soFarBytes + ",totalBytes:" + totalBytes
+                                + ",percent:" + soFarBytes * 1.0 / totalBytes + ",speed:" + task.getSpeed());
+                        super.progress(task, soFarBytes, totalBytes);
+                    }
+                    @Override
+                    protected void blockComplete(BaseDownloadTask task) {
+                        Log.e(TAG, "----------->blockComplete taskId:" + task.getId() + ",filePath:" + task.getPath() +
+                                ",fileName:" + task.getFilename() + ",speed:" + task.getSpeed() + ",isReuse:" + task.reuse());
+                        fileName = task.getFilename();
+                        context.runOnUiThread(new Runnable() {
+                            public void run() {
+                                //下载完成
+                                DBUtil.initData(context,"category");
+//                                if (fileIsExists(FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
+//                                        + File.separator + "MyFolder"+File.separator +"zy_news.json")){
+                            }
+                        });
+                        super.blockComplete(task);
+                    }
+                    @Override
+                    protected void completed(BaseDownloadTask task) {
+                        Log.e(TAG, "---------->completed taskId:" + task.getId() + ",isReuse:" + task.reuse());
+                        super.completed(task);
+                    }
+                    @Override
+                    protected void paused(BaseDownloadTask task, int soFarBytes, int totalBytes) {
+                        super.paused(task, soFarBytes, totalBytes);
+                    }
+                    @Override
+                    protected void error(BaseDownloadTask task, Throwable e) {
+                        Log.e(TAG, "--------->error taskId:" + task.getId() + ",e:" + e.getLocalizedMessage());
+                        super.error(task, e);
+                    }
+                    @Override
+                    protected void warn(BaseDownloadTask task) {
+                        super.warn(task);
+                    }
+                });
+        singleTaskId = singleTask.start();
+//        DBUtil.initData(context);
     }
     /**
      * zipFile 解压文件
