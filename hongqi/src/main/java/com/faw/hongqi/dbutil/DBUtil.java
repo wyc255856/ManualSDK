@@ -89,6 +89,7 @@ public class DBUtil {
 
         String json = TestUtil.readTextFile(context, FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
                 + File.separator + "MyFolder" + "/category.json");
+        LogUtil.logError("Category json" + json);
         CategoryListModel menuListModel = new Gson().fromJson(json, CategoryListModel.class);
         if (menuListModel != null) {
             LogUtil.logError("数据长度" + menuListModel.getRECORDS().size());
