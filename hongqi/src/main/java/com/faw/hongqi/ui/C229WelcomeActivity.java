@@ -61,6 +61,8 @@ public class C229WelcomeActivity extends BaseActivity {
     @Override
     boolean isHasTitle() {
         return false;
+
+        
     }
 
     private VersionUpdateModel model = null;
