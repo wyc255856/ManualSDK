@@ -35,33 +35,33 @@ public class DBUtil {
 
     public static void initData(final Context context, final String tag) {
 
-            new Thread() {
-                @Override
-                public void run() {
-                    super.run();
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
 //                    Delete.table(NewsModel.class);
 //                    Delete.table(CategoryModel.class);
-                    Constant.initHotWord();
-                    if ("category".equals(tag)){
-                        //TODO 插入category
-                        SQLite.delete(CategoryModel.class)
-                                .where()
-                                .async().execute();
-                        insertCategory(context);
-                    }else if ("news".equals(tag)){
-                        //TODO 插入news
-                        SQLite.delete(NewsModel.class)
-                                .where()
-                                .async().execute();
-                        insertNews(context);
+                Constant.initHotWord();
+                if ("category".equals(tag)) {
+                    //TODO 插入category
+                    SQLite.delete(CategoryModel.class)
+                            .where()
+                            .async().execute();
+                    insertCategory(context);
+                } else if ("news".equals(tag)) {
+                    //TODO 插入news
+                    SQLite.delete(NewsModel.class)
+                            .where()
+                            .async().execute();
+                    insertNews(context);
 
-                    }else{
-
-                    }
-
+                } else {
 
                 }
-            }.start();
+
+
+            }
+        }.start();
 
     }
 
@@ -72,8 +72,11 @@ public class DBUtil {
      */
     private static NewsListModel getList(Context context) {
 //        String json = TestUtil.readTextFileFromRawResourceId(context, R.raw.zy_news);
-        String json = TestUtil.readTextFile(context,FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
-                + File.separator + "MyFolder"+"/news.json");
+        String json = TestUtil.readTextFile(context, FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
+                + File.separator + "MyFolder" + "/news.json");
+        LogUtil.logError("news json" + json);
+        LogUtil.logError("path = " + FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
+                + File.separator + "MyFolder" + "/news.json");
         NewsListModel menuListModel = new Gson().fromJson(json, NewsListModel.class);
         if (menuListModel != null) {
             LogUtil.logError("数据长度" + menuListModel.getRECORDS().size());
@@ -86,8 +89,11 @@ public class DBUtil {
     private static CategoryListModel getCategoryList(Context context) {
 //        String json = TestUtil.readTextFileFromRawResourceId(context, R.raw.zy_category);
 
-        String json = TestUtil.readTextFile(context,FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
-                + File.separator + "MyFolder"+"/category.json");
+        String json = TestUtil.readTextFile(context, FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
+                + File.separator + "MyFolder" + "/category.json");
+        LogUtil.logError("Category json" + json);
+        LogUtil.logError("path = "+FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
+                + File.separator + "MyFolder" + "/category.json");
         CategoryListModel menuListModel = new Gson().fromJson(json, CategoryListModel.class);
         if (menuListModel != null) {
             LogUtil.logError("数据长度" + menuListModel.getRECORDS().size());
@@ -119,7 +125,7 @@ public class DBUtil {
                 .async().queryList(transactionListener);
     }
 
-    public static void getNewsListById(Context context,int id, TransactionListener transactionListener) {
+    public static void getNewsListById(Context context, int id, TransactionListener transactionListener) {
         LogUtil.logError("fast id = " + id);
         SQLite.select()
                 .from(NewsModel.class)
@@ -146,7 +152,7 @@ public class DBUtil {
                 .async().queryList(transactionListener);
     }
 
-    public static void getNewsListByCatId(Context context,int catid, TransactionListener transactionListener) {
+    public static void getNewsListByCatId(Context context, int catid, TransactionListener transactionListener) {
         LogUtil.logError("fast catid = " + catid);
         SQLite.select()
                 .from(NewsModel.class)
@@ -157,15 +163,13 @@ public class DBUtil {
                 .async().queryList(transactionListener);
     }
 
-    public static void searchByWord(Context context,String word, TransactionListener transactionListener) {
+    public static void searchByWord(Context context, String word, TransactionListener transactionListener) {
         SQLite.select()
                 .from(NewsModel.class)
                 .where(NewsModel_Table.title.like("%" + word + "%"))
                 .and(Constant.getCurrentIntProperty(context).eq(1))
 
                 .async().queryList(transactionListener);
-
-
 
 
 //        SQLite.select(NewsModel_Table.caid, CategoryModel_Table.catid)
