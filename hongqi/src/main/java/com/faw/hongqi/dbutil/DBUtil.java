@@ -125,12 +125,12 @@ public class DBUtil {
                 .async().queryList(transactionListener);
     }
 
-    public static void getNewsListById(Context context, int id, TransactionListener transactionListener) {
+    public static void getNewsListById(Context context, String id, TransactionListener transactionListener) {
         LogUtil.logError("fast id = " + id);
         SQLite.select()
                 .from(NewsModel.class)
 
-                .where(NewsModel_Table.id.eq(1064))
+                .where(NewsModel_Table.id.eq(id))
                 .and(Constant.getCurrentIntProperty(context).eq(1))
 
                 .async().queryList(transactionListener);

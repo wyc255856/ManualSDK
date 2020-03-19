@@ -284,9 +284,9 @@ public class HomeModelHotPointView extends LinearLayout implements View.OnClickL
         } else {
             k = 1;
         }
-        BaseModelItem baseModelItem1 = new BaseModelItem(mContext, "1064", mContext.getString(R.string.model_item_text_1), R.mipmap.test_point_view_icon_2);
-        BaseModelItem baseModelItem2 = new BaseModelItem(mContext, "906", mContext.getString(R.string.model_item_text_2), R.mipmap.test_point_view_icon_l);
-        BaseModelItem baseModelItem3 = new BaseModelItem(mContext, "1152", mContext.getString(R.string.model_item_text_3), R.mipmap.test_point_view_icon_3);
+        BaseModelItem baseModelItem1 = new BaseModelItem(mContext, "42", mContext.getString(R.string.model_item_text_1), R.mipmap.test_point_view_icon_2);
+        BaseModelItem baseModelItem2 = new BaseModelItem(mContext, "16", mContext.getString(R.string.model_item_text_2), R.mipmap.test_point_view_icon_l);
+        BaseModelItem baseModelItem3 = new BaseModelItem(mContext, "36", mContext.getString(R.string.model_item_text_3), R.mipmap.test_point_view_icon_3);
 
 
         view_list.add(baseModelItem1);

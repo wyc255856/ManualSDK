@@ -26,7 +26,7 @@ public class NewsModel extends BaseModel implements Serializable {
     @PrimaryKey(autoincrement = true)
     private int newsid;
     @Column
-    private int id;
+    private String id;
 
     @Column
     private int catid;
@@ -158,12 +158,15 @@ public class NewsModel extends BaseModel implements Serializable {
     private int zdzg;
     @Column
     private int zdqj;
-    public void setId(int id) {
-        this.id = id;
-    }
-    public int getId() {
+
+    public String getId() {
         return id;
     }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public int getNewsid() {
         return newsid;
     }
