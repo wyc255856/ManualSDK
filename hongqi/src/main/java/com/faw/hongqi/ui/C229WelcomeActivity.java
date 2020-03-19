@@ -5,8 +5,12 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
-
+import android.os.Handler;
+import android.os.Message;
 import com.faw.hongqi.R;
 import com.faw.hongqi.dbutil.DBUtil;
 import com.faw.hongqi.model.NewsModel;
@@ -28,19 +32,27 @@ import static com.faw.hongqi.ui.C229MainActivity.goC229MainActivity;
  * welcome，免责声明
  */
 public class C229WelcomeActivity extends BaseActivity {
-
+    public int WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 2000;
+    public View manua_mzsm;
+    int time = 6;
+    TextView next;
     @Override
     protected void initData() {
         setContentView(R.layout.activity_welcome);
-//        requestWritePermission();
+        goMainActivity();
+
         isUpdate();
+        LogUtil.logError("android.os.Build.VERSION.RELEASE = " + android.os.Build.VERSION.RELEASE);
+        int currentapiVersion = android.os.Build.VERSION.SDK_INT;
     }
 
     @Override
     protected void initViews() {
 
     }
-
+    private void goMainActivity() {
+        handler.sendEmptyMessageDelayed(0, 2000);
+    }
     @Override
     protected void initWidgetActions() {
 
@@ -84,52 +96,76 @@ public class C229WelcomeActivity extends BaseActivity {
         }
 
     }
-    int permissionCheck = PackageManager.PERMISSION_GRANTED;
-    private static final int WRITE_PERMISSION = 0x01;
+    public boolean onPause = false;
+
+    @Override
+    public void onPause() {
+        LogUtil.logError("============onPause==============");
+        super.onPause();
+        onPause = true;
+        handler.removeMessages(100001);
+        handler.removeMessages(10000);
+        handler.removeMessages(0);
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
-    }
-    private void requestWritePermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION);
-            }
-        }
+        handler.removeMessages(100001);
+        handler.removeMessages(10000);
+        handler.removeMessages(0);
     }
     @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        if (requestCode == WRITE_PERMISSION) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-            } else {
-                Log.d("tag", "Write Permission Failed");
-                Toast.makeText(this, "You must allow permission write external storage to your mobile device.", Toast.LENGTH_SHORT).show();
-                DBUtil.getAllNews(new TransactionListener() {
-                    @Override
-                    public void onResultReceived(Object result) {
-
-                    }
-
-                    @Override
-                    public boolean onReady(BaseTransaction transaction) {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean hasResult(BaseTransaction transaction, Object result) {
-                        LogUtil.logError("result = "+result);
-                        List<NewsModel> list= (List<NewsModel>) result;
-
-                        for(NewsModel newsModel:list){
-                            LogUtil.logError("catid = "+newsModel.getCatid());
-                        }
-                        return false;
-                    }
-                });
-
-//                finish();
-            }
+    public void onResume() {
+        super.onResume();
+        if (onPause) {
+            onPause = false;
+            handler.sendEmptyMessageDelayed(100001, 1000);
         }
     }
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+
+            super.handleMessage(msg);
+
+//            boolean isFirst = H5SharedpreferencesUtil.getIsFirst(com.faw.h5.H5ManuaWelecomActivity.this);
+//            if (isFirst) {
+//                if (msg.what == 0) {
+//                    manua_mzsm.setVisibility(View.VISIBLE);
+//                    handler.sendEmptyMessage(100001);
+//                } else if (msg.what == 10000) {
+//                    goNext();
+//                } else if (msg.what == 100001) {
+//                    if (time == 0) {
+//                        goNext();
+//                        return;
+//                    }
+//                    if (time > 3) {
+//                        next.setText("剩余" + time + "秒");
+//                    } else {
+//                        next.setText("剩余" + time + "秒 跳过>");
+//                    }
+//                    time--;
+//                    handler.sendEmptyMessageDelayed(100001, 1000);
+//                }
+//            } else {
+//                goNext();
+//            }
+        }
+    };
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK
+                && event.getRepeatCount() == 0) {
+//
+            handler.removeMessages(100001);
+            handler.removeMessages(10000);
+            handler.removeMessages(0);
+            finish();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 }
