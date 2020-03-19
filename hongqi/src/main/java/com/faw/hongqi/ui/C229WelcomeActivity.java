@@ -62,7 +62,7 @@ public class C229WelcomeActivity extends BaseActivity {
     boolean isHasTitle() {
         return false;
 
-        
+
     }
 
     private VersionUpdateModel model = null;
