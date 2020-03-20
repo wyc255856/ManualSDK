@@ -29,28 +29,28 @@
         <activity
             android:name="com.faw.hongqi.ui.C229WelcomeActivity"
             android:screenOrientation="landscape"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar.Translucent">
+            >
         </activity>
         <activity
             android:name="com.faw.hongqi.ui.C229MainActivity"
             android:screenOrientation="landscape"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar.Translucent" />
+             />
         <activity
             android:name="com.faw.hongqi.ui.C229ContentActivity"
             android:screenOrientation="landscape"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar.Translucent" />
+            />
         <activity
             android:name="com.faw.hongqi.ui.C229LoadAndUnzipFileActivity"
             android:screenOrientation="landscape"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar.Translucent"></activity>
+            ></activity>
         <activity
             android:name="com.faw.hongqi.ui.C229PlayVideoActivity"
             android:screenOrientation="landscape"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar.Translucent"></activity>
+            ></activity>
         <activity
             android:name="com.faw.hongqi.ui.C229InteractionGameActivity"
             android:screenOrientation="landscape"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar.Translucent">
+            >
 
         </activity>
     </application>
