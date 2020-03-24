@@ -58,6 +58,20 @@
                 android:layout_marginTop="10dp"
                 android:max="110"
                 android:progressDrawable="@drawable/progress_bg_c229" />
+            <RelativeLayout
+                android:id="@+id/rl_is_cancle_download"
+                android:layout_width="100dp"
+                android:layout_marginTop="20dp"
+                android:layout_height="30dp"
+                android:background="@mipmap/down_wifi_no"
+                android:layout_gravity="center_horizontal">
+
+                <TextView
+                    style="@style/text_32_white"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/download_assest_text_cancle" />
+            </RelativeLayout>
         </LinearLayout>
 
         <LinearLayout

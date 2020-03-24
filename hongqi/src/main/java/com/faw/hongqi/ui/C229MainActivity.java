@@ -16,6 +16,9 @@ import android.view.View;
 import android.widget.Toast;
 import com.faw.hongqi.R;
 import com.faw.hongqi.dbutil.DBUtil;
+import com.faw.hongqi.event.BaseEvent;
+import com.faw.hongqi.event.CancelDownLoadEvent;
+import com.faw.hongqi.event.HideKeyboardEvent;
 import com.faw.hongqi.fragment.BaseFragment;
 import com.faw.hongqi.model.CategoryModel;
 import com.faw.hongqi.model.NewsModel;
@@ -36,6 +39,10 @@ import com.raizlabs.android.dbflow.runtime.transaction.TransactionListener;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import android.support.v4.app.FragmentManager;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.io.File;
 import java.util.List;
 
@@ -51,8 +58,8 @@ public class C229MainActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        requestWritePermission();
-
+//        requestWritePermission();
+        EventBus.getDefault().register(this);
 
         deleteDir(new File(FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
                 + File.separator + "MyFolder"+"/news.json"));
@@ -81,8 +88,8 @@ public class C229MainActivity extends BaseActivity {
                                         }
                                         SharedpreferencesUtil.setVersionCode(C229MainActivity.this, bean.getVersion());
                                         //判断路径是否有增量更新文件夹如果有下载json文件，并删除文件夹及内容
-                                        LoadAndUnzipUtil.deleteDirectory(FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
-                                                + File.separator + "HONGQIH9");
+                                        deleteDir(new File(FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
+                                                + File.separator + "HONGQIH9"));
                                         LoadAndUnzipUtil.startDownloadNews(C229MainActivity.this, bean.getNews());
                                         LoadAndUnzipUtil.startDownloadCategory(C229MainActivity.this, bean.getCategory());
                                     }
@@ -199,45 +206,51 @@ public class C229MainActivity extends BaseActivity {
         }
 
     }
+    @Subscribe
+    public void onEvent(BaseEvent event) {
+        if (event instanceof CancelDownLoadEvent) {
+            finish();
+        }
 
+    }
 
     private static final int WRITE_PERMISSION = 0x01;
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        if (requestCode == WRITE_PERMISSION) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-            } else {
-                Log.d("tag", "Write Permission Failed");
-                Toast.makeText(this, "You must allow permission write external storage to your mobile device.", Toast.LENGTH_SHORT).show();
-                DBUtil.getAllNews(new TransactionListener() {
-                    @Override
-                    public void onResultReceived(Object result) {
-
-                    }
-
-                    @Override
-                    public boolean onReady(BaseTransaction transaction) {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean hasResult(BaseTransaction transaction, Object result) {
-                        LogUtil.logError("result = "+result);
-                        List<NewsModel> list= (List<NewsModel>) result;
-
-                        for(NewsModel newsModel:list){
-                            LogUtil.logError("catid = "+newsModel.getCatid());
-                        }
-                        return false;
-                    }
-                });
-
-//                finish();
-            }
-        }
-    }
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+//        if (requestCode == WRITE_PERMISSION) {
+//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//
+//            } else {
+//                Log.d("tag", "Write Permission Failed");
+//                Toast.makeText(this, "You must allow permission write external storage to your mobile device.", Toast.LENGTH_SHORT).show();
+//                DBUtil.getAllNews(new TransactionListener() {
+//                    @Override
+//                    public void onResultReceived(Object result) {
+//
+//                    }
+//
+//                    @Override
+//                    public boolean onReady(BaseTransaction transaction) {
+//                        return false;
+//                    }
+//
+//                    @Override
+//                    public boolean hasResult(BaseTransaction transaction, Object result) {
+//                        LogUtil.logError("result = "+result);
+//                        List<NewsModel> list= (List<NewsModel>) result;
+//
+//                        for(NewsModel newsModel:list){
+//                            LogUtil.logError("catid = "+newsModel.getCatid());
+//                        }
+//                        return false;
+//                    }
+//                });
+//
+////                finish();
+//            }
+//        }
+//    }
 
     private void requestWritePermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -253,5 +266,9 @@ public class C229MainActivity extends BaseActivity {
         intent.putExtra("model", model);
         context.startActivity(intent);
     }
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 }

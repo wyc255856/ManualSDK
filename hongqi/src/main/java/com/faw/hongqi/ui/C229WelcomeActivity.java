@@ -4,6 +4,8 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.PermissionChecker;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -39,11 +41,14 @@ public class C229WelcomeActivity extends BaseActivity {
     @Override
     protected void initData() {
         setContentView(R.layout.activity_welcome);
-        goMainActivity();
-
-        isUpdate();
-        LogUtil.logError("android.os.Build.VERSION.RELEASE = " + android.os.Build.VERSION.RELEASE);
-        int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+        if (ContextCompat.checkSelfPermission(C229WelcomeActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            // 没有权限，申请权限。
+            requestWritePermission();
+        }else{
+            // 有权限了，去放肆吧。
+            isUpdate();
+        }
     }
 
     @Override
@@ -169,5 +174,26 @@ public class C229WelcomeActivity extends BaseActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
+    private static final int WRITE_PERMISSION = 0x01;
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        if (requestCode == WRITE_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                isUpdate();
+
+            } else {
+                finish();
+
+            }
+        }
+    }
+
+    private void requestWritePermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION);
+            }
+        }
+    }
 }

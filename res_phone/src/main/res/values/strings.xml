@@ -14,6 +14,7 @@
     <string name="download_assest_text_wifi">当前非WiFi网络是否继续下载</string>
     <string name="download_assest_text_yes">是</string>
     <string name="download_assest_text_no">否</string>
+    <string name="download_assest_text_cancle">取消下载</string>
     <string name="download_assest_text_signal">当前网络断开,请检查网络...</string>
     <string name="download_assest_text_pack">正在下载资源包,请勿退出</string>
     <string name="download_assest_text_unzip">正在解压,请勿退出</string>

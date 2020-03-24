@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.faw.hongqi.R;
 import com.faw.hongqi.dbutil.DBUtil;
+import com.faw.hongqi.event.CancelDownLoadEvent;
 import com.faw.hongqi.model.VersionModel;
 import com.faw.hongqi.model.VersionUpdateModel;
 import com.faw.hongqi.util.LoadAndUnzipUtil;
@@ -21,6 +23,9 @@ import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadSampleListener;
 import com.liulishuo.filedownloader.FileDownloader;
 import com.liulishuo.filedownloader.util.FileDownloadUtils;
+
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -44,6 +49,7 @@ public class C229LoadAndUnzipFileActivity extends BaseActivity {
     private FrameLayout fl_download;
     private RelativeLayout rl_is_wifi_yes;
     private RelativeLayout rl_is_wifi_no;
+    private RelativeLayout rl_is_cancle_download;
     private TextView tv_download_title;
     private ProgressBar progress_bar;
     private boolean isNextDownload = true;
@@ -53,6 +59,7 @@ public class C229LoadAndUnzipFileActivity extends BaseActivity {
 
     @Override
     protected void initData() {
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         data = (VersionModel) getIntent().getSerializableExtra("data");
         tag = getIntent().getStringExtra("tag");
         model = (VersionUpdateModel) getIntent().getSerializableExtra("model");
@@ -64,6 +71,7 @@ public class C229LoadAndUnzipFileActivity extends BaseActivity {
         fl_download = findViewById(R.id.fl_download);
         ll_is_no_wifi = findViewById(R.id.ll_is_no_wifi);
         tv_download_title = findViewById(R.id.tv_download_title);
+        rl_is_cancle_download = findViewById(R.id.rl_is_cancle_download);
         rl_is_wifi_yes = findViewById(R.id.rl_is_wifi_yes);
         ll_is_download = findViewById(R.id.ll_is_download);
         ll_is_wifi = findViewById(R.id.ll_is_wifi);
@@ -85,11 +93,19 @@ public class C229LoadAndUnzipFileActivity extends BaseActivity {
                 startDownload();
             }
         });
+        rl_is_cancle_download.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+                EventBus.getDefault().post(new CancelDownLoadEvent());
+            }
+        });
         rl_is_wifi_no.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 isNextDownload = true;
-                finish();//不下载是否退出
+                finish();
+                EventBus.getDefault().post(new CancelDownLoadEvent());
             }
         });
         if (PhoneUtil.isWifi(C229LoadAndUnzipFileActivity.this)) {
