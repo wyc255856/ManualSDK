@@ -9,13 +9,16 @@
         android:id="@+id/image_content"
         android:layout_width="150dp"
         android:layout_height="150dp"
+        android:scaleType="fitXY"
         android:layout_marginLeft="95dp" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp">
+        android:layout_marginLeft="50dp"
+        android:scrollbarTrackVertical="@drawable/seek_blue_bg"
+        android:scrollbarThumbVertical="@drawable/bg_scroll_bar"
+        android:layout_marginRight="50dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,6 +28,7 @@
 
             <TextView
                 android:id="@+id/text_content"
+                android:layout_marginRight="60dp"
                 style="@style/text_28_white"></TextView>
 
         </LinearLayout>

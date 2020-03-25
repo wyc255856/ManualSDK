@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.request.RequestListener;
@@ -102,11 +103,12 @@ public abstract class BaseContentView extends LinearLayout {
             if (file.exists())
                 Glide.with(mContext)
                         .load(Uri.fromFile(file))
-                        .transform(new CenterCrop(mContext),new GlideRoundTransform(mContext))
+//                        .transform(new CenterCrop(mContext),new GlideRoundTransform(mContext))
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .placeholder(R.mipmap.theme1_main2_bg)
+//                        .placeholder(R.mipmap.theme1_main2_bg)
                         .dontAnimate()
                         .crossFade()
+                        .priority(Priority.HIGH)
                         .into(imageView);
 //        }
 

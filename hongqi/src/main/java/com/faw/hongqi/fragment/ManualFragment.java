@@ -1,7 +1,9 @@
 package com.faw.hongqi.fragment;
 
 import android.app.Activity;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -78,6 +80,7 @@ public class ManualFragment extends BaseFragment {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void initView(View view) {
         secondaryListView = view.findViewById(R.id.secondary_list_view);
@@ -109,6 +112,12 @@ public class ManualFragment extends BaseFragment {
 //                return false;
 //            }
 //        });
+        secondaryListView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(View view, int i, int i1, int i2, int i3) {
+
+            }
+        });
         recyclerView.addOnScrollListener(new PullToRefreshRecyclerView.OnScrollListener() {
 
 
@@ -119,7 +128,9 @@ public class ManualFragment extends BaseFragment {
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-
+                if (recyclerView.getScrollState() != RecyclerView.SCROLL_STATE_IDLE) {
+//                    secondaryListView.scrollBy(dx, dy);
+                }
             }
 
             @Override

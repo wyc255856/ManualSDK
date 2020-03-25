@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.faw.hongqi.R;
 import com.faw.hongqi.model.ContentItemModel;
+import com.faw.hongqi.util.FileUtil;
 
 
 public class ImageContentView extends BaseContentView {
@@ -40,6 +41,6 @@ public class ImageContentView extends BaseContentView {
 
     @Override
     public void setContent(ContentItemModel data) {
-        setLongImage(mContext, image_content, data.getImage());
+        setLongImage(mContext, image_content, data.getImage().replace("HONGQIH9/standard/",""));
     }
 }

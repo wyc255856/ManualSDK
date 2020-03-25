@@ -38,7 +38,7 @@ public class ImageTextContentView extends BaseContentView {
 
 
     public void setContent(ContentItemModel data) {
-        setImage(mContext, image_content, data.getImage());
+        setImage(mContext, image_content, data.getImage().replace("HONGQIH9/standard/",""));
         setHtmlText(text_content, data.getContent());
     }
 }
