@@ -74,6 +74,11 @@ public class NewsModel extends BaseModel implements Serializable {
     private String video;
     @Column
     private int template1;
+
+    public int getTemplate1() {
+        return template1;
+    }
+
     @Column
     private int template2;
     @Column
@@ -333,9 +338,6 @@ public class NewsModel extends BaseModel implements Serializable {
 
     public void setTemplate1(int template1) {
         this.template1 = template1;
-    }
-    public int getTemplate1() {
-        return template1;
     }
 
     public void setTemplate2(int template2) {

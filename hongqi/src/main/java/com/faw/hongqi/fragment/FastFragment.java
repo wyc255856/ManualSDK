@@ -1,26 +1,28 @@
 package com.faw.hongqi.fragment;
 
 import android.app.Activity;
-import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import com.faw.hongqi.R;
-import com.faw.hongqi.adaptar.PtrrvAdapter;
+
+import com.faw.hongqi.adaptar.SortFastAdapter;
 import com.faw.hongqi.dbutil.DBUtil;
 import com.faw.hongqi.event.BaseEvent;
 import com.faw.hongqi.event.SecondaryOnclickEvent;
 import com.faw.hongqi.event.SecondaryOnscollerEvent;
-import com.faw.hongqi.holder.ContentHolder;
 import com.faw.hongqi.model.CategoryModel;
 import com.faw.hongqi.model.NewsListModel;
 import com.faw.hongqi.model.NewsModel;
 import com.faw.hongqi.util.Constant;
 import com.faw.hongqi.util.LogUtil;
 import com.faw.hongqi.util.PhoneUtil;
-import com.faw.hongqi.widget.SecondaryListView;
-import com.lhh.ptrrv.library.PullToRefreshRecyclerView;
+import com.faw.hongqi.widget.CheckListener;
+import com.faw.hongqi.widget.ItemHeaderDecoration;
+import com.faw.hongqi.widget.RvListener;
 import com.raizlabs.android.dbflow.runtime.transaction.BaseTransaction;
 import com.raizlabs.android.dbflow.runtime.transaction.TransactionListener;
 
@@ -31,12 +33,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class FastFragment extends BaseFragment {
+public class FastFragment extends BaseFragment implements CheckListener {
     List<CategoryModel> list = new ArrayList<>();
-    SecondaryListView secondaryListView;
-    PullToRefreshRecyclerView recyclerView;
-    public PtrrvAdapter mAdapter;
     List<NewsListModel> newsList = new ArrayList<>();
+    /////
+    private RecyclerView rvSort;
+    private SortFastAdapter mSortAdapter;
+    private SortFastDetailFragment mSortDetailFragment;
+    private LinearLayoutManager mLinearLayoutManager;
+    private int targetPosition;//点击左边某一个具体的item的位置
+    private boolean isMoved;
 
     @Override
     protected int getLayoutId() {
@@ -44,7 +50,53 @@ public class FastFragment extends BaseFragment {
     }
 
     private List<CategoryModel> list5 = new ArrayList<>();
+    public void createFragment() {
+        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        mSortDetailFragment = new SortFastDetailFragment(newsList,list5);
+        mSortDetailFragment.setListener(this);
+        fragmentTransaction.add(R.id.lin_fragment_fast, mSortDetailFragment);
+        fragmentTransaction.commit();
+    }
 
+    private void setChecked(int position, boolean isLeft) {
+        Log.d("p-------->", String.valueOf(position));
+        if (isLeft) {
+            mSortAdapter.setCheckedPosition(position);
+            //此处的位置需要根据每个分类的集合来进行计算
+            int count = 0;
+            for (int i = 0; i < position; i++) {
+                count += newsList.get(i).getRECORDS().size();
+            }
+            count += position;
+            mSortDetailFragment.setData(count);
+            ItemHeaderDecoration.setCurrentTag(String.valueOf(targetPosition));//凡是点击左边，将左边点击的位置作为当前的tag
+        } else {
+            if (isMoved) {
+                isMoved = false;
+            } else
+                mSortAdapter.setCheckedPosition(position);
+            ItemHeaderDecoration.setCurrentTag(String.valueOf(position));//如果是滑动右边联动左边，则按照右边传过来的位置作为tag
+
+        }
+        moveToCenter(position);
+
+
+    }
+    @Override
+    public void check(int position, boolean isScroll) {
+        setChecked(position, isScroll);
+    }
+
+    //将当前选中的item居中
+    private void moveToCenter(int position) {
+        //将点击的position转换为当前屏幕上可见的item的位置以便于计算距离顶部的高度，从而进行移动居中
+        View childAt = rvSort.getChildAt(position - mLinearLayoutManager.findFirstVisibleItemPosition());
+        if (childAt != null) {
+            int y = (childAt.getTop() - (rvSort.getHeight() / 2)+PhoneUtil.dip2px(getActivity(),30f));
+            rvSort.smoothScrollBy(0, y);
+        }
+
+    }
     @Override
     protected void initData() {
         EventBus.getDefault().register(this);
@@ -81,17 +133,30 @@ public class FastFragment extends BaseFragment {
         });
 
     }
-
+    private void initData1() {
+        List<String> lists = new ArrayList<>();
+        //初始化左侧列表数据
+        for (int i = 0; i < list5.size(); i++) {
+            lists.add(list5.get(i).getCatname());
+        }
+        mSortAdapter = new SortFastAdapter(mContext, lists, new RvListener() {
+            @Override
+            public void onItemClick(int id, int position) {
+                if (mSortDetailFragment != null) {
+                    isMoved = true;
+                    targetPosition = position;
+                    setChecked(position, true);
+                }
+            }
+        });
+        rvSort.setAdapter(mSortAdapter);
+        createFragment();
+    }
     @Override
     protected void initView(View view) {
-        secondaryListView = view.findViewById(R.id.secondary_list_view);
-        recyclerView = view.findViewById(R.id.ptrrv);
-        //        recyclerView.removeHeader();
-//        recyclerView.setSwipeEnable(true);
-        mAdapter = new PtrrvAdapter(mContext, R.layout.item_list, ContentHolder.class);
-        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-//        recyclerView.onFinishLoading(true, false);
-        recyclerView.setAdapter(mAdapter);
+        rvSort = view.findViewById(R.id.rv_sort);
+        mLinearLayoutManager = new LinearLayoutManager(getActivity());
+        rvSort.setLayoutManager(mLinearLayoutManager);
 
 
 //        recyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
@@ -113,42 +178,7 @@ public class FastFragment extends BaseFragment {
 //                return false;
 //            }
 //        });
-        recyclerView.addOnScrollListener(new PullToRefreshRecyclerView.OnScrollListener() {
 
-
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-
-            }
-
-            @Override
-            public void onScroll(RecyclerView recyclerView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                //                if (isBanScorller) {
-//
-//                } else {
-                dyCount += totalItemCount;
-                LogUtil.logError("onScrolled dyCount = " + dyCount);
-                refreshMenueState();
-                if (recyclerView.canScrollVertically(1)) {
-                } else {
-                    //滑动到底部
-                    EventBus.getDefault().post(new SecondaryOnscollerEvent(SecondaryOnclickEvent.FAST, list.size() - 1));
-                }
-                if (recyclerView.canScrollVertically(-1)) {
-                } else {
-                    //滑动到顶部
-                    EventBus.getDefault().post(new SecondaryOnscollerEvent(SecondaryOnclickEvent.FAST, 0));
-                }
-//                }
-
-
-            }
-        });
     }
 
     int dyCount = 0;
@@ -170,7 +200,6 @@ public class FastFragment extends BaseFragment {
     long startTime = 0;
 
     private void initList() {
-        secondaryListView.setDataList(list5, SecondaryOnclickEvent.FAST);
         startTime = System.currentTimeMillis();
         getFastNewsList();
 
@@ -228,7 +257,6 @@ public class FastFragment extends BaseFragment {
                     dyCount = scrollerUpIndexs.get(secondaryOnclickEvent.getIndex() - 1);
                 }
 
-                recyclerView.scrollToPosition(secondaryOnclickEvent.getIndex());
 
             }
         }
@@ -238,7 +266,6 @@ public class FastFragment extends BaseFragment {
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
-        secondaryListView.onDestory();
     }
 
     /**
@@ -293,7 +320,6 @@ public class FastFragment extends BaseFragment {
     private void onDone() {
         LogUtil.logError("查询栏目数据耗时" + (System.currentTimeMillis() - startTime) + "毫秒");
         LogUtil.logError("查询栏目数据长度 = " + newsList.size());
-        mAdapter.refreshData(newsList);
         int downIndex = 0;
 //        List<Integer> lines = new ArrayList<>();
         for (int i = 0; i < newsList.size(); i++) {
@@ -310,8 +336,7 @@ public class FastFragment extends BaseFragment {
             LogUtil.logError("downIndex = " + downIndex);
             scrollerUpIndexs.add(downIndex);
         }
-
-
+        initData1();
     }
 
     //记录上一次滑动切换的标记
@@ -354,7 +379,6 @@ public class FastFragment extends BaseFragment {
             }
             oldIndex = index;
         }
-
     }
 
 }

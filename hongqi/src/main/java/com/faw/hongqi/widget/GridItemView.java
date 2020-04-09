@@ -69,7 +69,17 @@ public class GridItemView extends LinearLayout implements View.OnClickListener {
 //        Glide.with(mContext).load(R.drawable.c229_point).into(point_view_1_point1);
 //        Glide.with(mContext).load(R.drawable.c229_point)
 //                .diskCacheStrategy(DiskCacheStrategy.ALL).into(point_view_1_point1);
-        setOnClickListener(this);
+        setOnClickListener(new NoDoubleClickListener() {
+            @Override
+            protected void onNoDoubleClick(View v) {
+                if (TextUtils.isEmpty(data.getVideo1())) {
+                    C229ContentActivity.goContentActivity(mContext, data);
+                } else {
+//            mContext.startActivity(new Intent(mContext, C229PlayVideoActivity.class));
+                    C229PlayVideoActivity.goVideoActivity(mContext,data);
+                }
+            }
+        });
     }
 
     public NewsModel data;

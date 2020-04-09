@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.TextView;
 
 import com.faw.hongqi.R;
 import com.faw.hongqi.adaptar.PlanePagerAdapter;
@@ -28,6 +29,7 @@ import java.util.List;
 public class C229ContentActivity extends BaseActivity {
 
     ViewPager viewPager;
+    TextView title;
     CirclePageIndicator circleView;
     PlanePagerAdapter adapter;
     ArrayList<BaseFragment> _dataList = new ArrayList<>();
@@ -43,6 +45,7 @@ public class C229ContentActivity extends BaseActivity {
         changeModelToList();
         circleView = findViewById(R.id.circleView);
         viewPager = findViewById(R.id.viewpager);
+        title = findViewById(R.id.tv_title_content);
         for (int i = 0; i < data_list.size(); i++) {
             ContentItemModel contentItemModel = data_list.get(i);
             Bundle bundle = new Bundle();
@@ -69,6 +72,7 @@ public class C229ContentActivity extends BaseActivity {
 
             }
         });
+        title.setText(newsModel.getTitle());
     }
 
     @Override
@@ -77,9 +81,9 @@ public class C229ContentActivity extends BaseActivity {
     }
 
     List<ContentItemModel> data_list = new ArrayList<>();
-
+    NewsModel newsModel;
     private void changeModelToList() {
-        NewsModel newsModel = (NewsModel) getIntent().getSerializableExtra("data");
+        newsModel = (NewsModel) getIntent().getSerializableExtra("data");
         //第一组
         if (newsModel.getTemplate1() != -1) {
             ContentItemModel contentItemMode = new ContentItemModel();

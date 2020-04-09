@@ -144,11 +144,15 @@ public class SearchFragment extends BaseFragment {
     }
 
     public void HideKeyboard(View v) {
+//        InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+//        if (imm.isActive()) {
+//            imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
+//
+//        }
+        search_edit.requestFocus();
         InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (imm.isActive()) {
-            imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
+        imm.showSoftInput(search_edit, InputMethodManager.SHOW_IMPLICIT);
 
-        }
     }
 
     @Subscribe

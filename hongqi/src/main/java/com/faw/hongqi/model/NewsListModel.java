@@ -2,6 +2,7 @@ package com.faw.hongqi.model;
 
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class NewsListModel extends BaseModel {

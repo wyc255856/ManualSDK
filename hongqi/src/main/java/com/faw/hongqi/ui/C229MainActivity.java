@@ -60,7 +60,7 @@ public class C229MainActivity extends BaseActivity {
     protected void initData() {
 //        requestWritePermission();
         EventBus.getDefault().register(this);
-
+        final String ids = SharedpreferencesUtil.getVersionCode(C229MainActivity.this).replace(".0", "");
         deleteDir(new File(FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
                 + File.separator + "MyFolder"+"/news.json"));
         deleteDir(new File(FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"

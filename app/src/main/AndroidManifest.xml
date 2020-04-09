@@ -31,13 +31,19 @@
             android:screenOrientation="landscape"
             >
         </activity>
+
         <activity
             android:name="com.faw.hongqi.ui.C229MainActivity"
             android:screenOrientation="landscape"
+            android:configChanges="keyboardHidden|orientation"
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/Theme.NoBackgroundAndTitleMain"
             />
+
         <activity
             android:name="com.faw.hongqi.ui.C229ContentActivity"
             android:screenOrientation="landscape"
+            android:theme="@style/Theme.NoBackgroundAndTitleMain"
             />
         <activity
             android:name="com.faw.hongqi.ui.C229LoadAndUnzipFileActivity"
