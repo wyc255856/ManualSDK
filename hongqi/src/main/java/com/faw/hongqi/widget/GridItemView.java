@@ -26,6 +26,7 @@ import com.faw.hongqi.model.NewsModel;
 import com.faw.hongqi.ui.C229ContentActivity;
 import com.faw.hongqi.ui.C229PlayVideoActivity;
 import com.faw.hongqi.ui.C229VideoActivity;
+import com.faw.hongqi.util.Constant;
 import com.faw.hongqi.util.FileUtil;
 import com.faw.hongqi.util.GlideRoundTransform;
 import com.faw.hongqi.util.LogUtil;
@@ -92,19 +93,21 @@ public class GridItemView extends LinearLayout implements View.OnClickListener {
         data.setStatus(index);
         this.index = index;
         if (!TextUtils.isEmpty(model.getHead_image())) {
-            String url = FileUtil.getResPath() + model.getHead_image().replace("HONGQIH9/standard/","");
+//            String url = FileUtil.getResPath() + model.getHead_image().replace("HONGQIH9/standard/","");
+            String url = Constant.BASE_URL + model.getHead_image();
             LogUtil.logError("image url = " + url);
 //            Glide.with(mContext).load(url).diskCacheStrategy(DiskCacheStrategy.RESOURCE).into(imageView);
 //            Bitmap bitmap = FileUtil.getLoacalBitmap(url);
 //            LogUtil.logError("bitmap = " + bitmap);
 //            imageView.setImageBitmap(bitmap);
-            File file = new File(FileUtil.getResPath() + model.getHead_image().replace("HONGQIH9/standard/",""));
+//            File file = new File(FileUtil.getResPath() + model.getHead_image().replace("HONGQIH9/standard/",""));
+            File file = new File(Constant.BASE_URL + model.getHead_image());
 //            LogUtil.logError("file url = " + file.exists());
             Glide.with(mContext)
                     .load(Uri.fromFile(file))
                     .transform(new CenterCrop(mContext),new GlideRoundTransform(mContext))
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .placeholder(R.mipmap.theme1_main2_bg)
+                    .placeholder(R.mipmap.download_error)
                     .dontAnimate()
                     .crossFade()
                     .into(imageView);
@@ -116,7 +119,7 @@ public class GridItemView extends LinearLayout implements View.OnClickListener {
                     .load(url)
                     .transform(new CenterCrop(mContext),new GlideRoundTransform(mContext))
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .placeholder(R.mipmap.theme1_main2_bg)
+                    .placeholder(R.mipmap.download_error)
                     .dontAnimate()
                     .crossFade()
                     .into(imageView);

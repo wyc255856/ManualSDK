@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.faw.hongqi.R;
 import com.faw.hongqi.model.ContentItemModel;
+import com.faw.hongqi.util.Constant;
 
 
 public class ImageTextContentView extends BaseContentView {
@@ -38,7 +39,7 @@ public class ImageTextContentView extends BaseContentView {
 
 
     public void setContent(ContentItemModel data) {
-        setImage(mContext, image_content, data.getImage().replace("HONGQIH9/standard/",""));
+        setImage(mContext, image_content, Constant.BASE_URL+data.getImage());
         setHtmlText(text_content, data.getContent());
     }
 }

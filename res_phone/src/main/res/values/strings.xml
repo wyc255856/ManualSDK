@@ -20,6 +20,10 @@
     <string name="download_assest_text_unzip">正在解压,请勿退出</string>
     <string name="download_assest_text_check">正在验证资源文件完整性</string>
     <string name="download_assest_text_lianj">点击重试</string>
+    <string name="download_assest_text_intent">网络异常,请检查网络!</string>
+    <string name="download_assest_text_re">重试</string>
+    <string name="download_assest_text_can">取消</string>
+    <string name="download_assest_text_ok">确认</string>
 
     <string name="search_hot_title">高频搜索</string>
 

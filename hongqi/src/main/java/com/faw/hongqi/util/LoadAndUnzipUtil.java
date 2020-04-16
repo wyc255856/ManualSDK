@@ -1,10 +1,12 @@
 package com.faw.hongqi.util;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.util.Log;
 
 import com.faw.hongqi.dbutil.DBUtil;
 import com.faw.hongqi.ui.C229LoadAndUnzipFileActivity;
+import com.faw.hongqi.ui.C229MainActivity;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadSampleListener;
 import com.liulishuo.filedownloader.FileDownloader;
@@ -109,9 +111,10 @@ public class LoadAndUnzipUtil {
                         context.runOnUiThread(new Runnable() {
                             public void run() {
                                 //下载完成
-                                        DBUtil.initData(context,"news");
-//                                if (fileIsExists(FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
-//                                        + File.separator + "MyFolder"+File.separator +"zy_news.json")){
+                                DBUtil.initData(context,"news");
+                                context.startActivity(new Intent(context,C229MainActivity.class));
+                                context.finish();
+
                             }
                         });
                         super.blockComplete(task);

@@ -28,7 +28,7 @@
 
             <TextView
                 android:id="@+id/text_content"
-                android:layout_marginRight="60dp"
+                android:layout_marginRight="0dp"
                 style="@style/text_28_white"></TextView>
 
         </LinearLayout>

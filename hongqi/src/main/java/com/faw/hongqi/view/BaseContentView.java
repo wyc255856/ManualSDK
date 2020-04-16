@@ -22,6 +22,8 @@ import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.faw.hongqi.R;
 import com.faw.hongqi.model.ContentItemModel;
@@ -74,18 +76,19 @@ public abstract class BaseContentView extends LinearLayout {
 //        }else {
             File file = new File(FileUtil.getResPath() + fileName);
 //            LogUtil.logError("file url = " + file.exists());
-            if (file.exists())
+//            if (file.exists())
 //                Glide.with(mContext)
 //                        .load(Uri.fromFile(file)).apply(options)
 //                        .into(imageView);
-        Glide.with(mContext)
-                .load(Uri.fromFile(file))
-                .transform(new CenterCrop(mContext),new GlideRoundTransform(mContext))
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .placeholder(R.mipmap.theme1_main2_bg)
-                .dontAnimate()
-                .crossFade()
-                .into(imageView);
+                Glide.with(mContext)
+                        .load(fileName)
+                        .transform(new CenterCrop(mContext),new GlideRoundTransform(mContext))
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .placeholder(R.mipmap.down_error_content)
+                        .error(R.mipmap.down_error_content)
+                        .dontAnimate()
+                        .crossFade()
+                        .into(imageView);
 //        }
 
 
@@ -96,25 +99,24 @@ public abstract class BaseContentView extends LinearLayout {
 
     public void setLongImage(Context mContext, final ImageView imageView, String fileName) {
 //        if(Constant.TEST){
-//            Glide.with(this).load("file:///android_asset/" + fileName).into(imageView);
+            Glide.with(mContext).load(fileName).into(imageView);
 //        }else {
-            File file = new File(FileUtil.getResPath() + fileName);
+//            File file = new File(FileUtil.getResPath() + fileName);
+            File file = new File(Constant.BASE_URL + fileName);
 //            LogUtil.logError("file url = " + file.exists());
-            if (file.exists())
-                Glide.with(mContext)
-                        .load(Uri.fromFile(file))
+//            if (file.exists())
+//                Glide.with(mContext)
+//                        .load(fileName)
+////                        .load(Uri.fromFile(file))
 //                        .transform(new CenterCrop(mContext),new GlideRoundTransform(mContext))
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-//                        .placeholder(R.mipmap.theme1_main2_bg)
-                        .dontAnimate()
-                        .crossFade()
-                        .priority(Priority.HIGH)
-                        .into(imageView);
-//        }
+//                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+////                        .placeholder(R.mipmap.down_error_content_long)
+////                        .error(R.mipmap.down_error_content_long)
+//                        .dontAnimate()
+//                        .crossFade()
+//                        .into(imageView);
 
-//        Bitmap bitmap = getBitmap(mContext, fileName);
-//        if (bitmap != null)
-//            imageView.setImageBitmap(getBitmap(mContext, fileName));
+//        }
     }
 
     @SuppressLint("WrongThread")

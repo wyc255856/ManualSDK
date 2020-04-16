@@ -14,7 +14,7 @@ import java.util.Map;
  */
 
 public class Constant {
-    public final static String BASE_URL = "http://59.110.156.116/app/";//万臣
+    public final static String BASE_URL = "https://www.haoweisys.com/";//万臣
 
     public final static boolean IS_PHONE = true;//判断包是否是手机应用
 

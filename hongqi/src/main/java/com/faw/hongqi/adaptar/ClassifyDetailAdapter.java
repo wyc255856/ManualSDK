@@ -13,6 +13,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.faw.hongqi.R;
 import com.faw.hongqi.holder.RvHolder;
 import com.faw.hongqi.model.RightBean;
+import com.faw.hongqi.util.Constant;
 import com.faw.hongqi.util.FileUtil;
 import com.faw.hongqi.util.GlideRoundTransform;
 import com.faw.hongqi.util.LogUtil;
@@ -73,14 +74,17 @@ public class ClassifyDetailAdapter extends RvAdapter<RightBean> {
                 case 1:
                     tvCity.setText(sortBean.getTitle());
                     if (!TextUtils.isEmpty(sortBean.getHead_image())) {
-                        String url = FileUtil.getResPath() + sortBean.getHead_image().replace("HONGQIH9/standard/","");
+//                        String url = FileUtil.getResPath() + sortBean.getHead_image().replace("HONGQIH9/standard/","");
+                        String url = Constant.BASE_URL + sortBean.getHead_image();
                         LogUtil.logError("image url = " + url);
-                        File file = new File(FileUtil.getResPath() + sortBean.getHead_image().replace("HONGQIH9/standard/",""));
+//                        File file = new File(FileUtil.getResPath() + sortBean.getHead_image().replace("HONGQIH9/standard/",""));
+                        File file = new File(Constant.BASE_URL + sortBean.getHead_image());
                         Glide.with(mContext)
-                                .load(Uri.fromFile(file))
+                                .load(url)
                                 .transform(new CenterCrop(mContext),new GlideRoundTransform(mContext))
                                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-//                                .placeholder(R.mipmap.theme1_main2_bg)
+                                .placeholder(R.mipmap.download_error)
+                                .error(R.mipmap.download_error)
                                 .dontAnimate()
                                 .crossFade()
                                 .into(avatar);
@@ -90,7 +94,8 @@ public class ClassifyDetailAdapter extends RvAdapter<RightBean> {
                                 .load(url)
                                 .transform(new CenterCrop(mContext),new GlideRoundTransform(mContext))
                                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-//                                .placeholder(R.mipmap.theme1_main2_bg)
+                                .placeholder(R.mipmap.download_error)
+                                .error(R.mipmap.download_error)
                                 .dontAnimate()
                                 .crossFade()
                                 .into(avatar);

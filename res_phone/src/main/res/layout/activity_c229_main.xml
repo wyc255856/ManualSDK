@@ -38,5 +38,55 @@
             android:layout_marginTop="10dp" />
     </FrameLayout>
 
+    <RelativeLayout
+        android:id="@+id/rl_load_faile"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="@mipmap/download_faile_bg">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_centerHorizontal="true"
+                android:src="@mipmap/download_faile_icon" />
+
+            <TextView
+                style="@style/text_32_white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/download_assest_text_intent" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="40dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/rl_ok"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/re_btn"
+                android:gravity="center">
+
+                <TextView
+                    style="@style/text_32_white"
+                    android:text="@string/download_assest_text_ok" />
+            </RelativeLayout>
+
+
+        </LinearLayout>
+    </RelativeLayout>
 </FrameLayout>

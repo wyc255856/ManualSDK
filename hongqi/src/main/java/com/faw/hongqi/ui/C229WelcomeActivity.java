@@ -9,6 +9,7 @@ import android.support.v4.content.PermissionChecker;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.os.Handler;
@@ -17,6 +18,7 @@ import com.faw.hongqi.R;
 import com.faw.hongqi.dbutil.DBUtil;
 import com.faw.hongqi.model.NewsModel;
 import com.faw.hongqi.model.VersionUpdateModel;
+import com.faw.hongqi.util.LoadAndUnzipUtil;
 import com.faw.hongqi.util.LogUtil;
 import com.faw.hongqi.util.NetWorkCallBack;
 import com.faw.hongqi.util.PhoneUtil;
@@ -34,30 +36,52 @@ import static com.faw.hongqi.ui.C229MainActivity.goC229MainActivity;
  * welcome，免责声明
  */
 public class C229WelcomeActivity extends BaseActivity {
+
     public int WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 2000;
     public View manua_mzsm;
     int time = 6;
     TextView next;
+
+    private RelativeLayout rl_load_faile;
+    private RelativeLayout rl_re;
+    private RelativeLayout rl_can;
+
     @Override
     protected void initData() {
         setContentView(R.layout.activity_welcome);
+        rl_load_faile = findViewById(R.id.rl_load_faile);
+        rl_re = findViewById(R.id.rl_re);
+        rl_can = findViewById(R.id.rl_can);
+        rl_can.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+        rl_re.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isUpdate();
+            }
+        });
         if (ContextCompat.checkSelfPermission(C229WelcomeActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
-            // 没有权限，申请权限。
             requestWritePermission();
         }else{
-            // 有权限了，去放肆吧。
             isUpdate();
         }
+
     }
 
     @Override
     protected void initViews() {
 
     }
+
     private void goMainActivity() {
         handler.sendEmptyMessageDelayed(0, 2000);
     }
+
     @Override
     protected void initWidgetActions() {
 
@@ -73,7 +97,7 @@ public class C229WelcomeActivity extends BaseActivity {
     private VersionUpdateModel model = null;
 
     private void isUpdate() {
-        if ("".equals(SharedpreferencesUtil.getVersionCode(C229WelcomeActivity.this))) {
+//        if ("".equals(SharedpreferencesUtil.getVersionCode(C229WelcomeActivity.this))) {
             new Thread() {
                 @Override
                 public void run() {
@@ -84,8 +108,9 @@ public class C229WelcomeActivity extends BaseActivity {
                             LogUtil.logError("error  = 1111111");
                             runOnUiThread(new Runnable() {
                                 public void run() {
-                                    goC229MainActivity(C229WelcomeActivity.this, "update", model);
-                                    finish();
+                                    LoadAndUnzipUtil.startDownloadNews(C229WelcomeActivity.this, model.getNews());
+                                    LoadAndUnzipUtil.startDownloadCategory(C229WelcomeActivity.this, model.getCategory());
+                                    rl_load_faile.setVisibility(View.GONE);
                                 }
                             });
                         }
@@ -93,14 +118,15 @@ public class C229WelcomeActivity extends BaseActivity {
                         @Override
                         public void onFail(Object error) {
                             LogUtil.logError("error  = " + error);
+                            rl_load_faile.setVisibility(View.VISIBLE);
                         }
                     });
                 }
             }.start();
-        } else {
-            goC229MainActivity(C229WelcomeActivity.this, "Unupdate", model);
-            finish();
-        }
+//        } else {
+//            goC229MainActivity(C229WelcomeActivity.this, "Unupdate", model);
+//            finish();
+//        }
 
     }
     public boolean onPause = false;
@@ -165,7 +191,6 @@ public class C229WelcomeActivity extends BaseActivity {
 
         if (keyCode == KeyEvent.KEYCODE_BACK
                 && event.getRepeatCount() == 0) {
-//
             handler.removeMessages(100001);
             handler.removeMessages(10000);
             handler.removeMessages(0);
@@ -181,10 +206,8 @@ public class C229WelcomeActivity extends BaseActivity {
         if (requestCode == WRITE_PERMISSION) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 isUpdate();
-
             } else {
                 finish();
-
             }
         }
     }

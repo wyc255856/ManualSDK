@@ -142,7 +142,8 @@ public class C229PlayVideoActivity extends BaseActivity implements SurfaceHolder
     protected void initData() {
         initInteractive();
         newsModel = (NewsModel) getIntent().getSerializableExtra("data");
-        path = (FileUtil.getResPath() + newsModel.getVideo1()).replace("/HONGQIH9/standard", "");
+//        path = (FileUtil.getResPath() + newsModel.getVideo1()).replace("/HONGQIH9/standard", "");
+        path = (Constant.BASE_URL + newsModel.getVideo1());
         Log.i("playPath", path);
         setContentView(R.layout.activity_c229_play_video);
         initViews();
