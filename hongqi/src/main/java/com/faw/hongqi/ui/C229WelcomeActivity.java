@@ -5,31 +5,21 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.PermissionChecker;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.os.Handler;
 import android.os.Message;
 import com.faw.hongqi.R;
-import com.faw.hongqi.dbutil.DBUtil;
-import com.faw.hongqi.model.NewsModel;
 import com.faw.hongqi.model.VersionUpdateModel;
 import com.faw.hongqi.util.LoadAndUnzipUtil;
 import com.faw.hongqi.util.LogUtil;
 import com.faw.hongqi.util.NetWorkCallBack;
 import com.faw.hongqi.util.PhoneUtil;
-import com.faw.hongqi.util.SharedpreferencesUtil;
+import com.faw.hqzl3.hqextendsproxy.HQExtendsProxy;
 import com.google.gson.Gson;
-import com.raizlabs.android.dbflow.runtime.transaction.BaseTransaction;
-import com.raizlabs.android.dbflow.runtime.transaction.TransactionListener;
-
-import java.util.List;
-
-import static com.faw.hongqi.ui.C229MainActivity.goC229MainActivity;
+import static com.faw.hqzl3.hqextendsproxy.HQExtendsProxy.getInstance;
 
 
 /**
@@ -95,6 +85,7 @@ public class C229WelcomeActivity extends BaseActivity {
     }
 
     private VersionUpdateModel model = null;
+//    String str = HQExtendsProxy.getInstance(C229WelcomeActivity.this).getVehicleCfg();
 
     private void isUpdate() {
 //        if ("".equals(SharedpreferencesUtil.getVersionCode(C229WelcomeActivity.this))) {
