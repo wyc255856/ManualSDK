@@ -85,7 +85,12 @@ public class C229WelcomeActivity extends BaseActivity {
     }
 
     private VersionUpdateModel model = null;
-//    String str = HQExtendsProxy.getInstance(C229WelcomeActivity.this).getVehicleCfg();
+
+
+
+//    String  str = HQExtendsProxy.getInstance(C229WelcomeActivity.this).getVehicleCfg();
+
+
 
     private void isUpdate() {
 //        if ("".equals(SharedpreferencesUtil.getVersionCode(C229WelcomeActivity.this))) {
@@ -95,7 +100,7 @@ public class C229WelcomeActivity extends BaseActivity {
                     PhoneUtil.requestGet("http://www.haoweisys.com/hongqih9_admin/index.php?m=home&c=index&a=get_first_version", new NetWorkCallBack() {
                         @Override
                         public void onSuccess(Object data) {
-                            model = new Gson().fromJson((String) data, VersionUpdateModel.class);
+                                model = new Gson().fromJson((String) data, VersionUpdateModel.class);
                             LogUtil.logError("error  = 1111111");
                             runOnUiThread(new Runnable() {
                                 public void run() {

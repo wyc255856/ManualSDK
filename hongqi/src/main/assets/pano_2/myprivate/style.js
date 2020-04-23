@@ -239,7 +239,7 @@
 
 		//热点线动画 和弹窗动画
 		$('.line').animate({
-			width: "70px"
+			width: "1rem"
 		}, function() {
 			$('.list').fadeIn()
 			// $('.list').addClass('bounceIn').show()

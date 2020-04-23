@@ -17,8 +17,8 @@
     <hotspots width="180" wordwrap="1" height="20">
       <label borderalpha="1" border="1" bordercolor="0x000000" backgroundcolor="0xffffff" backgroundalpha="1" enabled="1" width="180" borderradius="1" textcolor="0x000000" textalpha="1" wordwrap="1" background="1" height="20"/>
       <polystyle handcursor="1" borderalpha="1" bordercolor="0x0000ff" backgroundcolor="0x0000ff" backgroundalpha="0.25098" mode="0"/>
-      <hotspot description="" title="" skinid="Hotspot_1" id="Point01" pan="-332.8" url="" tilt="11.06" target="_blank"/>
-      <hotspot description="" title="" skinid="Hotspot_2" id="Point02" pan="-6.79" url="" tilt="5.82" target="_blank"/>
+      <hotspot description="" title="" skinid="Hotspot_1" id="Point01" pan="-328.8" url="" tilt="11.06" target="_blank"/>
+      <hotspot description="" title="" skinid="Hotspot_2" id="Point02" pan="-9.79" url="" tilt="5.82" target="_blank"/>
     </hotspots>
     <media/>
     <transition blendcolor="0x000000" type="crossdissolve" zoomin="0" zoomspeed="2" zoomout="0" enabled="0" zoomoutpause="1" softedge="0" zoomfov="20" blendtime="1"/>

@@ -313,22 +313,22 @@ img {
 
 .line {
 	position: absolute;
-	left: .4rem;
-	bottom: .55rem;
+	left: .28rem;
+	bottom: .36rem;
 	z-index: 999;
 	width: 0px;
 	height: .44rem;
 	background: url(../myprivate/line.png) no-repeat;
-	background-size: .7rem .44rem;
+	background-size: .87rem .44rem;
 	pointer-events: all;
 }
 
 .list {
 	transform: scale(1) rotateY(0deg) rotateX(0deg);
 	position: absolute;
-	left: 1.2rem;
-	bottom: 0px;
-	z-index: 999;
+	left: 1rem;
+	bottom: -.5rem;
+	z-index: 9999;
 	width: 2.28rem;
 	height: 2.55rem;
 	background: url(../myprivate/modo.png) no-repeat;
@@ -381,21 +381,22 @@ img {
 	height: 100%;
 	position: fixed;
 	z-index: 9999999;
-	background-color: rgba(0,0,0,0);
+	background-color: rgba(0, 0, 0, 0);
 	top: 0;
 	left: 0;
 }
 
-.item{
+.item {
 	position: absolute;
 	top: 0;
 	left: 0;
 	right: 0;
 	bottom: 0;
 	margin: auto;
-	
+
 }
-.la-ball-grid-beat{
+
+.la-ball-grid-beat {
 	position: absolute;
 	top: 0;
 	left: 0;
