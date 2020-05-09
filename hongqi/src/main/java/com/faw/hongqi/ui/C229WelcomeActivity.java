@@ -17,9 +17,7 @@ import com.faw.hongqi.util.LoadAndUnzipUtil;
 import com.faw.hongqi.util.LogUtil;
 import com.faw.hongqi.util.NetWorkCallBack;
 import com.faw.hongqi.util.PhoneUtil;
-import com.faw.hqzl3.hqextendsproxy.HQExtendsProxy;
 import com.google.gson.Gson;
-import static com.faw.hqzl3.hqextendsproxy.HQExtendsProxy.getInstance;
 
 
 /**
