@@ -217,6 +217,7 @@ public class BaseModelItem extends LinearLayout {
                     }
                 }else{
 
+                    
                 }
                 break;
             case 7:
