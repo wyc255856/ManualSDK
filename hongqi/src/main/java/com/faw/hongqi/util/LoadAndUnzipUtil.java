@@ -7,6 +7,7 @@ import android.util.Log;
 import com.faw.hongqi.dbutil.DBUtil;
 import com.faw.hongqi.ui.C229LoadAndUnzipFileActivity;
 import com.faw.hongqi.ui.C229MainActivity;
+import com.faw.hongqi.ui.C229SelectCarModelActivity;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadSampleListener;
 import com.liulishuo.filedownloader.FileDownloader;
@@ -112,7 +113,7 @@ public class LoadAndUnzipUtil {
                             public void run() {
                                 //下载完成
                                 DBUtil.initData(context,"news");
-                                context.startActivity(new Intent(context,C229MainActivity.class));
+                                context.startActivity(new Intent(context, C229SelectCarModelActivity.class));
                                 context.finish();
 
                             }

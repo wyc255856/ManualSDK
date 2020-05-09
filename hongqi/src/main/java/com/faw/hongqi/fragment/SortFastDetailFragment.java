@@ -121,8 +121,10 @@ public class SortFastDetailFragment extends BaseListFragment<SortDetailPresenter
                 newsModel.setTemplate10(rightBean.getTemplate10());
                 newsModel.setTitle(rightBean.getTitle());
                 newsModel.setHead_image(rightBean.getHead_image());
-                if (TextUtils.isEmpty(mDatas.get(position).getVideo1())) {
-                    C229ContentActivity.goContentActivity(mContext, newsModel);
+                if (mDatas.get(position).getTemplate1()!=6) {
+                    if (newsModel.getHead_image()!=null) {
+                        C229ContentActivity.goContentActivity(mContext, newsModel);
+                    }
                 } else {
                     C229PlayVideoActivity.goVideoActivity(mContext,newsModel);
                 }

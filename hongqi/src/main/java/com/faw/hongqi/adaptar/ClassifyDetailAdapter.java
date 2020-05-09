@@ -70,6 +70,12 @@ public class ClassifyDetailAdapter extends RvAdapter<RightBean> {
             switch (itemViewType) {
                 case 0:
                     tvTitle.setText(sortBean.getTopTitle());
+                    tvTitle.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                        }
+                    });
                     break;
                 case 1:
                     tvCity.setText(sortBean.getTitle());

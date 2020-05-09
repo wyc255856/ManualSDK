@@ -74,10 +74,10 @@ public class GridItemView extends LinearLayout implements View.OnClickListener {
             @Override
             protected void onNoDoubleClick(View v) {
                 if (TextUtils.isEmpty(data.getVideo1())) {
-                    C229ContentActivity.goContentActivity(mContext, data);
+//                    C229ContentActivity.goContentActivity(mContext, data);
                 } else {
 //            mContext.startActivity(new Intent(mContext, C229PlayVideoActivity.class));
-                    C229PlayVideoActivity.goVideoActivity(mContext,data);
+//                    C229PlayVideoActivity.goVideoActivity(mContext,data);
                 }
             }
         });

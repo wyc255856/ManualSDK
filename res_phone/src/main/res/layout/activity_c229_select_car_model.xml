@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:gravity="center"
+    android:background="@mipmap/select_car_bg"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_car_model_1"
+        style="@style/text_26_white"
+        android:text="2020款     2.0低配"
+        />
+    <View
+        android:layout_width="200dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:background="@mipmap/select_car_line"
+        />
+
+    <TextView
+        android:id="@+id/tv_car_model_2"
+        style="@style/text_26_white"
+        android:layout_marginTop="10dp"
+        android:text="2020款     2.0中配"
+        />
+    <View
+        android:layout_width="200dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:background="@mipmap/select_car_line"
+        />
+
+    <TextView
+        android:id="@+id/tv_car_model_3"
+        style="@style/text_26_white"
+        android:layout_marginTop="10dp"
+        android:text="2020款     2.0高配"
+        />
+    <View
+        android:layout_width="200dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:background="@mipmap/select_car_line"
+        />
+
+    <TextView
+        android:id="@+id/tv_car_model_4"
+        style="@style/text_26_white"
+        android:layout_marginTop="10dp"
+        android:text="2020款     3.0高配"
+        />
+    <View
+        android:layout_width="200dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:background="@mipmap/select_car_line"
+        />
+
+    <TextView
+        android:id="@+id/tv_car_model_5"
+        style="@style/text_26_white"
+        android:layout_marginTop="10dp"
+        android:text="2020款     3.0商务"
+        />
+
+</LinearLayout>

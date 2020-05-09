@@ -11,15 +11,15 @@
 
         <TextView
             android:id="@+id/text"
-            style="@style/text_32_white"
+            style="@style/text_28_white"
             android:layout_marginLeft="50dp"
             android:layout_marginTop="70dp"
             android:text="车轮/轮毂" />
 
         <ImageView
             android:id="@+id/line"
-            android:layout_width="150dp"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:src="@mipmap/point_view_1_1" />
 
         <com.faw.hongqi.widget.PointView

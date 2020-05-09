@@ -1,5 +1,6 @@
 package com.faw.hongqi.fragment;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -8,8 +9,10 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.faw.hongqi.R;
+import com.faw.hongqi.ui.C229SelectCarModelActivity;
 import com.faw.hongqi.util.AppUtil;
 import com.faw.hongqi.util.Constant;
+import com.faw.hongqi.util.LogUtil;
 import com.faw.hongqi.util.PhoneUtil;
 import com.faw.hongqi.util.ResUtil;
 import com.faw.hongqi.widget.HomeModelHotPointView;
@@ -20,7 +23,7 @@ import java.util.List;
 public class ModelsFragment extends BaseFragment implements View.OnTouchListener {
     ImageView car_model;
     HomeModelHotPointView homeModelHotPointView;
-
+    View view_select_car_model;
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_c229_model;
@@ -35,6 +38,7 @@ public class ModelsFragment extends BaseFragment implements View.OnTouchListener
     protected void initView(View view) {
         car_model = view.findViewById(R.id.car_model);
         homeModelHotPointView = view.findViewById(R.id.home_model_hot_point_view);
+        view_select_car_model = view.findViewById(R.id.view_select_car_model);
         initPics();
         car_model.setOnTouchListener(this);
     }
@@ -80,6 +84,7 @@ public class ModelsFragment extends BaseFragment implements View.OnTouchListener
                     lp.width = screenWidth-PhoneUtil.dip2px(mContext, (float) (screenWidth*0.1)/2);
                     lp.height = (int) ( lp.width * 0.46785);
                     homeModelHotPointView.setItem(lp.width);
+                    LogUtil.logError("image:"+lp.width);
                 } else {
                     lp.width = PhoneUtil.getDisplayWidth(mContext);
                     lp.height = 620;
@@ -92,7 +97,12 @@ public class ModelsFragment extends BaseFragment implements View.OnTouchListener
 
         });
 
-
+        view_select_car_model.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), C229SelectCarModelActivity.class));
+            }
+        });
     }
 
     @Override
