@@ -216,7 +216,7 @@ public class BaseModelItem extends LinearLayout {
                         pointView.setVisibility(VISIBLE);
                     }
                 }else{
-                    
+
                 }
                 break;
             case 7:
