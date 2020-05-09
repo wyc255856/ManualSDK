@@ -33,5 +33,4 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     implementation project(path: ':hongqi')
     androidTestImplementation 'junit:junit:4.12'
-    api(name: 'HQExtendsProxy', ext: 'aar')
 }
