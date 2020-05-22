@@ -172,7 +172,8 @@ public class DBUtil {
                 .async().queryList(transactionListener);
 
 
-//        SQLite.select(NewsModel_Table.caid, CategoryModel_Table.catid)
+
+        //        SQLite.select(NewsModel_Table.caid, CategoryModel_Table.catid)
 //                .from(NewsModel.class)
 //                .leftOuterJoin(CategoryModel.class)
 //                .on(NewsModel_Table.caid.withTable().eq(CategoryModel_Table.catid.withTable())).where(CategoryModel_Table.parentid.eq(1855)).and(NewsModel_Table.title.like(word))

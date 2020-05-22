@@ -40,6 +40,7 @@ public class ImageTextContentView extends BaseContentView {
 
     public void setContent(ContentItemModel data) {
         setImage(mContext, image_content, Constant.BASE_URL+data.getImage());
-        setHtmlText(text_content, data.getContent());
+//        setHtmlText(text_content, data.getContent());
+        setHtmlText(text_content, data.getContent().replaceAll("#",""));
     }
 }

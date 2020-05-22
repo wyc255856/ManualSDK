@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.os.Message;
 import com.faw.hongqi.R;
 import com.faw.hongqi.model.VersionUpdateModel;
+import com.faw.hongqi.util.Constant;
 import com.faw.hongqi.util.LoadAndUnzipUtil;
 import com.faw.hongqi.util.LogUtil;
 import com.faw.hongqi.util.NetWorkCallBack;
@@ -91,13 +92,16 @@ public class C229WelcomeActivity extends BaseActivity {
 
 
     private void isUpdate() {
+        final String url = Constant.BASE_URL+"/hongqih9_admin/index.php?m=home&c=index&a=get_first_version";
 //        if ("".equals(SharedpreferencesUtil.getVersionCode(C229WelcomeActivity.this))) {
             new Thread() {
                 @Override
                 public void run() {
-                    PhoneUtil.requestGet("http://www.haoweisys.com/hongqih9_admin/index.php?m=home&c=index&a=get_first_version", new NetWorkCallBack() {
+                    PhoneUtil.requestGet(url, new NetWorkCallBack() {
                         @Override
                         public void onSuccess(Object data) {
+
+
                                 model = new Gson().fromJson((String) data, VersionUpdateModel.class);
                             LogUtil.logError("error  = 1111111");
                             runOnUiThread(new Runnable() {
