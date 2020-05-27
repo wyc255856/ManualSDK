@@ -17,7 +17,7 @@ public class Constant {
 //    public final static String BASE_URL = "https://www.haoweisys.com/";
     public final static String BASE_URL = "http://www.e-guides.faw.cn/";
 
-    
+
     public final static boolean IS_PHONE = true;//判断包是否是手机应用
 
     public final static boolean DEBUG = true;//是否是调试包
