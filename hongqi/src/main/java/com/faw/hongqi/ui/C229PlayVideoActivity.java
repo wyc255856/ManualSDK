@@ -487,4 +487,9 @@ public class C229PlayVideoActivity extends BaseActivity implements SurfaceHolder
 
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        stop();
+    }
 }

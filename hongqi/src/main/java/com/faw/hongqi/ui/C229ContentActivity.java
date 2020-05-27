@@ -86,6 +86,18 @@ public class C229ContentActivity extends BaseActivity {
         newsModel = (NewsModel) getIntent().getSerializableExtra("data");
         //第一组
         if (newsModel.getTemplate1() != -1) {
+//            String image = newsModel.getImage1();
+//            String content = newsModel.getContent1();
+//            String[] split_image = image.split(",");
+//            String[] split_content = content.split(",");
+//            for (int i = 0; i < split_image.length; i++) {
+//                ContentItemModel contentItemMode = new ContentItemModel();
+//                contentItemMode.setImage(split_image[i]);
+//                contentItemMode.setContent(split_content[i]);
+//                contentItemMode.setTemplate(newsModel.getTemplate1());
+//                contentItemMode.setVideo(newsModel.getVideo1());
+//                data_list.add(contentItemMode);
+//            }
             ContentItemModel contentItemMode = new ContentItemModel();
             contentItemMode.setImage(newsModel.getImage1());
             contentItemMode.setContent(newsModel.getContent1());
