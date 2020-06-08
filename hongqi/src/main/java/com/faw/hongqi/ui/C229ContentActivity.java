@@ -100,7 +100,7 @@ public class C229ContentActivity extends BaseActivity {
 //            }
             ContentItemModel contentItemMode = new ContentItemModel();
             contentItemMode.setImage(newsModel.getImage1());
-            contentItemMode.setContent(newsModel.getContent1());
+            contentItemMode.setContent(newsModel.getContent1_app());
             contentItemMode.setTemplate(newsModel.getTemplate1());
             contentItemMode.setVideo(newsModel.getVideo1());
             data_list.add(contentItemMode);
@@ -109,7 +109,7 @@ public class C229ContentActivity extends BaseActivity {
         if (newsModel.getTemplate2() != -1) {
             ContentItemModel contentItemMode = new ContentItemModel();
             contentItemMode.setImage(newsModel.getImage2());
-            contentItemMode.setContent(newsModel.getContent2());
+            contentItemMode.setContent(newsModel.getContent2_app());
             contentItemMode.setTemplate(newsModel.getTemplate2());
             contentItemMode.setVideo(newsModel.getVideo2());
             data_list.add(contentItemMode);
@@ -118,7 +118,7 @@ public class C229ContentActivity extends BaseActivity {
         if (newsModel.getTemplate3() != -1) {
             ContentItemModel contentItemMode = new ContentItemModel();
             contentItemMode.setImage(newsModel.getImage3());
-            contentItemMode.setContent(newsModel.getContent3());
+            contentItemMode.setContent(newsModel.getContent3_app());
             contentItemMode.setTemplate(newsModel.getTemplate3());
             contentItemMode.setVideo(newsModel.getVideo3());
             data_list.add(contentItemMode);
@@ -127,7 +127,7 @@ public class C229ContentActivity extends BaseActivity {
         if (newsModel.getTemplate4() != -1) {
             ContentItemModel contentItemMode = new ContentItemModel();
             contentItemMode.setImage(newsModel.getImage4());
-            contentItemMode.setContent(newsModel.getContent4());
+            contentItemMode.setContent(newsModel.getContent4_app());
             contentItemMode.setTemplate(newsModel.getTemplate4());
             contentItemMode.setVideo(newsModel.getVideo4());
             data_list.add(contentItemMode);
@@ -136,7 +136,7 @@ public class C229ContentActivity extends BaseActivity {
         if (newsModel.getTemplate5() != -1) {
             ContentItemModel contentItemMode = new ContentItemModel();
             contentItemMode.setImage(newsModel.getImage5());
-            contentItemMode.setContent(newsModel.getContent5());
+            contentItemMode.setContent(newsModel.getContent5_app());
             contentItemMode.setTemplate(newsModel.getTemplate5());
             contentItemMode.setVideo(newsModel.getVideo5());
             data_list.add(contentItemMode);
@@ -145,7 +145,7 @@ public class C229ContentActivity extends BaseActivity {
         if (newsModel.getTemplate6() != -1) {
             ContentItemModel contentItemMode = new ContentItemModel();
             contentItemMode.setImage(newsModel.getImage6());
-            contentItemMode.setContent(newsModel.getContent6());
+            contentItemMode.setContent(newsModel.getContent6_app());
             contentItemMode.setTemplate(newsModel.getTemplate6());
             contentItemMode.setVideo(newsModel.getVideo6());
             data_list.add(contentItemMode);
@@ -154,7 +154,7 @@ public class C229ContentActivity extends BaseActivity {
         if (newsModel.getTemplate7() != -1) {
             ContentItemModel contentItemMode = new ContentItemModel();
             contentItemMode.setImage(newsModel.getImage7());
-            contentItemMode.setContent(newsModel.getContent7());
+            contentItemMode.setContent(newsModel.getContent7_app());
             contentItemMode.setTemplate(newsModel.getTemplate7());
             contentItemMode.setVideo(newsModel.getVideo7());
             data_list.add(contentItemMode);
@@ -163,7 +163,7 @@ public class C229ContentActivity extends BaseActivity {
         if (newsModel.getTemplate8() != -1) {
             ContentItemModel contentItemMode = new ContentItemModel();
             contentItemMode.setImage(newsModel.getImage8());
-            contentItemMode.setContent(newsModel.getContent8());
+            contentItemMode.setContent(newsModel.getContent8_app());
             contentItemMode.setTemplate(newsModel.getTemplate8());
             contentItemMode.setVideo(newsModel.getVideo8());
             data_list.add(contentItemMode);
@@ -172,7 +172,7 @@ public class C229ContentActivity extends BaseActivity {
         if (newsModel.getTemplate9() != -1) {
             ContentItemModel contentItemMode = new ContentItemModel();
             contentItemMode.setImage(newsModel.getImage9());
-            contentItemMode.setContent(newsModel.getContent9());
+            contentItemMode.setContent(newsModel.getContent9_app());
             contentItemMode.setTemplate(newsModel.getTemplate9());
             contentItemMode.setVideo(newsModel.getVideo9());
             data_list.add(contentItemMode);
@@ -181,7 +181,7 @@ public class C229ContentActivity extends BaseActivity {
         if (newsModel.getTemplate10() != -1) {
             ContentItemModel contentItemMode = new ContentItemModel();
             contentItemMode.setImage(newsModel.getImage10());
-            contentItemMode.setContent(newsModel.getContent10());
+            contentItemMode.setContent(newsModel.getContent10_app());
             contentItemMode.setTemplate(newsModel.getTemplate10());
             contentItemMode.setVideo(newsModel.getVideo10());
             data_list.add(contentItemMode);

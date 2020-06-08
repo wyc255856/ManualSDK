@@ -94,6 +94,26 @@ public class NewsModel extends BaseModel implements Serializable {
     @Column
     private String video4;
     @Column
+    private String content1_app;
+    @Column
+    private String content2_app;
+    @Column
+    private String content3_app;
+    @Column
+    private String content4_app;
+    @Column
+    private String content5_app;
+    @Column
+    private String content6_app;
+    @Column
+    private String content7_app;
+    @Column
+    private String content8_app;
+    @Column
+    private String content9_app;
+    @Column
+    private String content10_app;
+    @Column
     private String content1;
     @Column
     private String content2;
@@ -194,7 +214,85 @@ public class NewsModel extends BaseModel implements Serializable {
         this.newsid = newsid;
     }
 
+    public String getContent1_app() {
+        return content1_app;
+    }
 
+    public void setContent1_app(String content1_app) {
+        this.content1_app = content1_app;
+    }
+
+    public String getContent2_app() {
+        return content2_app;
+    }
+
+    public void setContent2_app(String content2_app) {
+        this.content2_app = content2_app;
+    }
+
+    public String getContent3_app() {
+        return content3_app;
+    }
+
+    public void setContent3_app(String content3_app) {
+        this.content3_app = content3_app;
+    }
+
+    public String getContent4_app() {
+        return content4_app;
+    }
+
+    public void setContent4_app(String content4_app) {
+        this.content4_app = content4_app;
+    }
+
+    public String getContent5_app() {
+        return content5_app;
+    }
+
+    public void setContent5_app(String content5_app) {
+        this.content5_app = content5_app;
+    }
+
+    public String getContent6_app() {
+        return content6_app;
+    }
+
+    public void setContent6_app(String content6_app) {
+        this.content6_app = content6_app;
+    }
+
+    public String getContent7_app() {
+        return content7_app;
+    }
+
+    public void setContent7_app(String content7_app) {
+        this.content7_app = content7_app;
+    }
+
+    public String getContent8_app() {
+        return content8_app;
+    }
+
+    public void setContent8_app(String content8_app) {
+        this.content8_app = content8_app;
+    }
+
+    public String getContent9_app() {
+        return content9_app;
+    }
+
+    public void setContent9_app(String content9_app) {
+        this.content9_app = content9_app;
+    }
+
+    public String getContent10_app() {
+        return content10_app;
+    }
+
+    public void setContent10_app(String content10_app) {
+        this.content10_app = content10_app;
+    }
 
     public void setTitle(String title) {
         this.title = title;
