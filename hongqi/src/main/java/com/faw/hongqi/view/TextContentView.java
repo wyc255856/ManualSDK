@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.faw.hongqi.R;
 import com.faw.hongqi.model.ContentItemModel;
+import com.faw.hongqi.widget.TypesetTextView;
 
 
 public class TextContentView extends BaseContentView {

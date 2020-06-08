@@ -30,6 +30,7 @@ import com.faw.hongqi.model.ContentItemModel;
 import com.faw.hongqi.util.Constant;
 import com.faw.hongqi.util.FileUtil;
 import com.faw.hongqi.util.GlideRoundTransform;
+import com.faw.hongqi.widget.TypesetTextView;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -67,7 +68,6 @@ public abstract class BaseContentView extends LinearLayout {
     }
 
     public void setHtmlText(TextView textView, String text) {
-
         textView.setText(Html.fromHtml(text));
     }
     public void setImage(Context mContext, ImageView imageView, String fileName) {
