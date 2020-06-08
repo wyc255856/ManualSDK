@@ -189,14 +189,14 @@ public class DBUtil {
                 .async().queryList(transactionListener);
     }
 
-    public static NewsModel getTestModel(Context context) {
-        String json = TestUtil.readTextFileFromRawResourceId(context, R.raw.test);
-        NewsModel menuListModel = new Gson().fromJson(json, NewsModel.class);
-        if (menuListModel != null) {
-            return menuListModel;
-        }
-        return null;
-    }
+//    public static NewsModel getTestModel(Context context) {
+//        String json = TestUtil.readTextFileFromRawResourceId(context, R.raw.test);
+//        NewsModel menuListModel = new Gson().fromJson(json, NewsModel.class);
+//        if (menuListModel != null) {
+//            return menuListModel;
+//        }
+//        return null;
+//    }
 
     public static void insertHotWord(String word) {
         HotWord hotWord = new HotWord();

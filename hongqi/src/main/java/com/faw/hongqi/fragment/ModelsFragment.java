@@ -10,7 +10,6 @@ import android.widget.ImageView;
 
 import com.faw.hongqi.R;
 import com.faw.hongqi.ui.C229SelectCarModelActivity;
-import com.faw.hongqi.util.AppUtil;
 import com.faw.hongqi.util.Constant;
 import com.faw.hongqi.util.LogUtil;
 import com.faw.hongqi.util.PhoneUtil;

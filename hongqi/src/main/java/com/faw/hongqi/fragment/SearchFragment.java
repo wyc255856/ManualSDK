@@ -2,15 +2,22 @@ package com.faw.hongqi.fragment;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.v7.widget.DividerItemDecoration;
+import android.content.res.ColorStateList;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.StateListDrawable;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.TypedValue;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-
+import android.widget.TextView;
 import com.faw.hongqi.R;
 import com.faw.hongqi.adaptar.PtrrvAdapter;
 import com.faw.hongqi.dbutil.DBUtil;
@@ -24,10 +31,11 @@ import com.faw.hongqi.widget.HotWordView;
 import com.lhh.ptrrv.library.PullToRefreshRecyclerView;
 import com.raizlabs.android.dbflow.runtime.transaction.BaseTransaction;
 import com.raizlabs.android.dbflow.runtime.transaction.TransactionListener;
-
+import com.zhy.view.flowlayout.FlowLayout;
+import com.zhy.view.flowlayout.TagAdapter;
+import com.zhy.view.flowlayout.TagFlowLayout;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +49,7 @@ public class SearchFragment extends BaseFragment {
     List<NewsModel> newsList = new ArrayList<>();
     public static String WORD = "";
     HotWordView hot_word_view;
-
+//    private TagFlowLayout tagFlowLayout;
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_c229_search;
@@ -67,10 +75,46 @@ public class SearchFragment extends BaseFragment {
                 search_edit.setText(word);
             }
         });
-
+//        tagFlowLayout = view.findViewById(R.id.tagfl);
+//        initView();
+        //初始化搜索历史/热门搜
 //        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL);
 //        recyclerView.addItemDecoration(dividerItemDecoration);
     }
+    private void initView() {
+        List<String> datas = new ArrayList<>();
+        datas.add("小花花");
+        datas.add("撒旦撒嗲基地啊实打实撒旦撒嗲基地啊实打实撒旦撒嗲基地啊实打实撒旦撒嗲基地啊实打实撒旦撒嗲基地啊实打实撒旦撒嗲基地啊实打实撒旦撒嗲基地啊实打实撒旦撒嗲基地啊实打实");
+        datas.add("a");
+        datas.add("弟弟救我");
+        datas.add("拉拉");
+        datas.add("德玛西亚");
+        datas.add("哈哈");
+        datas.add("哼");
+        datas.add("哈哈");
+        datas.add("哼");
+        datas.add("哈哈");
+        datas.add("哼");
+        TagAdapter<String> adapter= new TagAdapter<String>(datas) {
+            @Override
+            public View getView(FlowLayout parent, int position, String o) {
+                TextView view = (TextView) LayoutInflater.from(getActivity()).inflate(R.layout.item_tag, parent,false);
+                view.setText(o);
+                view.setTextColor(getResources().getColor(R.color.theme1_text_color_gray));
+                return view;
+            }
+        };
+//        tagFlowLayout.setAdapter(adapter);
+//        tagFlowLayout.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
+//        //选中事件
+//
+//            @Override
+//            public boolean onTagClick(View view, int position, FlowLayout parent) {
+//                return false;
+//            }
+//        });
+    }
+
 
     @Override
     protected void initWidgetActions() {
@@ -147,11 +191,6 @@ public class SearchFragment extends BaseFragment {
     }
 
     public void HideKeyboard(View v) {
-//        InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-//        if (imm.isActive()) {
-//            imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
-//
-//        }
         search_edit.requestFocus();
         InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(search_edit, InputMethodManager.SHOW_IMPLICIT);

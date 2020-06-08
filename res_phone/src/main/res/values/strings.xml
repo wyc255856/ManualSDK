@@ -31,6 +31,7 @@
     <string name="download_assest_text_can">取消</string>
     <string name="download_assest_text_ok">确认</string>
 
-    <string name="search_hot_title">高频搜索</string>
+    <string name="search_hot_title">热门搜索</string>
+    <string name="search_hot_title_history">搜索历史</string>
 
 </resources>

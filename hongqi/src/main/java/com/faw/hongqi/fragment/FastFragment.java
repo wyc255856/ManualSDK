@@ -51,11 +51,13 @@ public class FastFragment extends BaseFragment implements CheckListener {
 
     private List<CategoryModel> list5 = new ArrayList<>();
     public void createFragment() {
-        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        mSortDetailFragment = new SortFastDetailFragment(newsList,list5);
-        mSortDetailFragment.setListener(this);
-        fragmentTransaction.add(R.id.lin_fragment_fast, mSortDetailFragment);
-        fragmentTransaction.commit();
+        if (getActivity().getSupportFragmentManager() != null) {
+            FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+            mSortDetailFragment = new SortFastDetailFragment(newsList,list5);
+            mSortDetailFragment.setListener(this);
+            fragmentTransaction.add(R.id.lin_fragment_fast, mSortDetailFragment);
+            fragmentTransaction.commit();
+        }
     }
 
     private void setChecked(int position, boolean isLeft) {

@@ -7,4 +7,9 @@
     <color name="theme1_text_color_scroll_black" >#00383A3D</color>>
     <color name="theme1_text_color_scroll_white" >#bfbfbf</color>>
 
+
+    //
+    <color name="green">#009E8F</color>
+    <color name="white">#ffffff</color>
+    <color name="text_color_gray">#b5b5b5</color>
 </resources>

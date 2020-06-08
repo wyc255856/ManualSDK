@@ -9,7 +9,7 @@
         android:id="@+id/word"
         android:layout_width="70dp"
         android:layout_height="28dp"
-        android:background="@drawable/key_word_bg"
+        android:background="@drawable/bg_hot_word"
         android:paddingLeft="15dp"
         android:paddingTop="6dp"
         android:paddingRight="15dp"

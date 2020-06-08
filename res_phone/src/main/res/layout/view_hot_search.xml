@@ -7,12 +7,10 @@
     <TextView
         style="@style/text_28_white"
         android:layout_width="wrap_content"
-        android:layout_marginLeft="15dp"
         android:layout_height="wrap_content"
-        android:text="@string/search_hot_title" />
+        android:text="@string/search_hot_title_history" />
 
     <LinearLayout
-        android:layout_marginLeft="15dp"
         android:id="@+id/hot_word_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

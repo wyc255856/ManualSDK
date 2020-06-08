@@ -92,7 +92,7 @@ public class C229WelcomeActivity extends BaseActivity {
 
 
     private void isUpdate() {
-        final String url = Constant.BASE_URL+"/hongqih9_admin/index.php?m=home&c=index&a=get_first_version";
+        final String url = Constant.BASE_URL+"hongqih9_admin/index.php?m=home&c=index&a=get_first_version";
 //        if ("".equals(SharedpreferencesUtil.getVersionCode(C229WelcomeActivity.this))) {
             new Thread() {
                 @Override
