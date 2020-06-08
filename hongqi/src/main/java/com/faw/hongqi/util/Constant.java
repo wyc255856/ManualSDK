@@ -14,8 +14,8 @@ import java.util.Map;
  */
 
 public class Constant {
-    public final static String BASE_URL = "http://www.haoweisys.com/";
-//    public final static String BASE_URL = "http://www.e-guides.faw.cn/";
+//    public final static String BASE_URL = "http://www.haoweisys.com/";
+    public final static String BASE_URL = "http://www.e-guides.faw.cn/";
 
 
     public final static boolean IS_PHONE = true;//判断包是否是手机应用
