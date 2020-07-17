@@ -54,7 +54,14 @@ public class C229NativeInterface {
                     BrightSpotFragment.context.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            C229ContentActivity.goContentActivity(BrightSpotFragment.context, finalResult1List.get(0));
+                            if (finalResult1List.get(0).getTemplate1() != 6) {
+                                C229ContentActivity.goContentActivity(BrightSpotFragment.context, finalResult1List.get(0));
+
+                            }else {
+                                C229PlayVideoActivity.goVideoActivity(BrightSpotFragment.context,finalResult1List.get(0));
+
+                            }
+//                            C229ContentActivity.goContentActivity(BrightSpotFragment.context, finalResult1List.get(0));
                         }
                     });
                 }

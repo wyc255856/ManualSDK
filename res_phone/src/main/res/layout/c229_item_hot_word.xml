@@ -7,7 +7,7 @@
 
     <TextView
         android:id="@+id/word"
-        android:layout_width="70dp"
+        android:layout_width="90dp"
         android:layout_height="28dp"
         android:background="@drawable/bg_hot_word"
         android:paddingLeft="15dp"
