@@ -113,7 +113,7 @@ public class BrightSpotFragment extends BaseFragment {
     }
 
     private void loadUrl() {
-        webView.loadUrl("file:///android_asset/pano_2/index.html");
+        webView.loadUrl("http://www.haoweisys.com/c229_360/");
     }
 
     @Override

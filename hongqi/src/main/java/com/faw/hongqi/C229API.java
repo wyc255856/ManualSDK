@@ -22,8 +22,16 @@ public class C229API {
     public static void openManual(Context context) {
         context.startActivity(new Intent(context, C229WelcomeActivity.class));
     }
-    public static void openManual(Context context ,String model){
-        SharedpreferencesUtil.setCarModel(context,model);
+
+    public static void openManual(Context context, String carType, String trim) {
+        Constant.CAR_TYPE = carType;
+        Constant.INTPROPERTY_TYPE = trim;
+        context.startActivity(new Intent(context, C229WelcomeActivity.class));
+    }
+
+    public static void openManual(Context context, String model) {
+        SharedpreferencesUtil.setCarModel(context, model);
         openManual(context);
+
     }
 }

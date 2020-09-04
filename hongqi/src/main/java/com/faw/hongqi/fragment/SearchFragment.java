@@ -81,39 +81,6 @@ public class SearchFragment extends BaseFragment {
 //        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL);
 //        recyclerView.addItemDecoration(dividerItemDecoration);
     }
-    private void initView() {
-        List<String> datas = new ArrayList<>();
-        datas.add("小花花");
-        datas.add("撒旦撒嗲基地啊实打实撒旦撒嗲基地啊实打实撒旦撒嗲基地啊实打实撒旦撒嗲基地啊实打实撒旦撒嗲基地啊实打实撒旦撒嗲基地啊实打实撒旦撒嗲基地啊实打实撒旦撒嗲基地啊实打实");
-        datas.add("a");
-        datas.add("弟弟救我");
-        datas.add("拉拉");
-        datas.add("德玛西亚");
-        datas.add("哈哈");
-        datas.add("哼");
-        datas.add("哈哈");
-        datas.add("哼");
-        datas.add("哈哈");
-        datas.add("哼");
-        TagAdapter<String> adapter= new TagAdapter<String>(datas) {
-            @Override
-            public View getView(FlowLayout parent, int position, String o) {
-                TextView view = (TextView) LayoutInflater.from(getActivity()).inflate(R.layout.item_tag, parent,false);
-                view.setText(o);
-                view.setTextColor(getResources().getColor(R.color.theme1_text_color_gray));
-                return view;
-            }
-        };
-//        tagFlowLayout.setAdapter(adapter);
-//        tagFlowLayout.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
-//        //选中事件
-//
-//            @Override
-//            public boolean onTagClick(View view, int position, FlowLayout parent) {
-//                return false;
-//            }
-//        });
-    }
 
 
     @Override

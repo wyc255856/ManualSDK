@@ -1,8 +1,6 @@
 package com.haowei.wyc.c229sdk;
 
 import android.app.Application;
-import android.os.Build;
-import android.os.StrictMode;
 
 import com.faw.hongqi.C229API;
 

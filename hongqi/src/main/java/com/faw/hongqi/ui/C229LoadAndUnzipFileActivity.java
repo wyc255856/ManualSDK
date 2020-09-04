@@ -10,9 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.faw.hongqi.R;
-import com.faw.hongqi.dbutil.DBUtil;
 import com.faw.hongqi.event.CancelDownLoadEvent;
 import com.faw.hongqi.model.VersionModel;
 import com.faw.hongqi.model.VersionUpdateModel;
@@ -220,7 +218,22 @@ public class C229LoadAndUnzipFileActivity extends BaseActivity {
         intent.putExtra("model", model);
         context.startActivity(intent);
     }
-
+    /**
+     * 判断是否是照片
+     */
+    public static boolean checkIsImageFile(String fName) {
+        boolean isImageFile = false;
+        //获取拓展名
+        String fileEnd = fName.substring(fName.lastIndexOf(".") + 1,
+                fName.length()).toLowerCase();
+        if (fileEnd.equals("jpg") || fileEnd.equals("png") || fileEnd.equals("gif")
+                || fileEnd.equals("jpeg") || fileEnd.equals("bmp")) {
+            isImageFile = true;
+        } else {
+            isImageFile = false;
+        }
+        return isImageFile;
+    }
     /**
      * zipFile 压缩文件
      * folderPath 解压后的文件路径

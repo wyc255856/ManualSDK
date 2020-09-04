@@ -143,7 +143,9 @@ public class ModelsFragment extends BaseFragment implements View.OnTouchListener
 
                 NowID = NowID == 0 ? 1 : NowID;
                 OldID = NowID;
-                homeModelHotPointView.showHotPointViewByResId(pics.get(NowID - 1));
+                //解注释第一行删第二行，fragment_c229_model.xml,imageview中加入36张第一张图
+//                homeModelHotPointView.showHotPointViewByResId(pics.get(NowID - 1));
+                homeModelHotPointView.hideAllView();
                 break;
             case MotionEvent.ACTION_MOVE:
                 if(OldID != NowID){
