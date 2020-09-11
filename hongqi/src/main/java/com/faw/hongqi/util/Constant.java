@@ -14,10 +14,15 @@ import java.util.Map;
  */
 
 public class Constant {
-//    public final static String BASE_URL = "http://www.haoweisys.com/";
-    public final static String BASE_URL = "http://www.e-guides.faw.cn/";
-    public static String CAR_TYPE = "c229";
-    public static String INTPROPERTY_TYPE = "c229_1";
+    public final static String BASE_URL = "http://www.haoweisys.com/";
+//    public final static String BASE_URL = "http://www.e-guides.faw.cn/";
+    public static String CAR_TYPE = "E115";//车型
+    public static String INTPROPERTY_TYPE = "c229_1";//车型配置
+    public static String TRIM_WEB_URL = "";//内饰360webview地址
+    public static String GAME_WEB_URL = "";//互动游戏webview地址
+    public static String ZIP_VERSION = "";//36张图资源包版本
+    public static String ZIP_URL = "";//36张图资源包下载地址
+    public static String CAR_NAME = "";//车型名称
 
 
     public final static boolean IS_PHONE = true;//判断包是否是手机应用

@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.os.Handler;
 import android.os.Message;
+
 import com.faw.hongqi.R;
 import com.faw.hongqi.model.VersionUpdateModel;
 import com.faw.hongqi.util.Constant;
@@ -56,7 +57,7 @@ public class C229WelcomeActivity extends BaseActivity {
         if (ContextCompat.checkSelfPermission(C229WelcomeActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             requestWritePermission();
-        }else{
+        } else {
             isUpdate();
         }
 
@@ -86,47 +87,51 @@ public class C229WelcomeActivity extends BaseActivity {
     private VersionUpdateModel model = null;
 
 
-
 //    String  str = HQExtendsProxy.getInstance(C229WelcomeActivity.this).getVehicleCfg();
 
 
-
     private void isUpdate() {
-        final String url = Constant.BASE_URL+"hongqih9_admin/index.php?m=home&c=index&a=get_first_version";
+        //http://www.haoweisys.com/hongqih9_admin/index.php?m=home&c=index&a=get_car_info&car_name=E115
+        final String url = Constant.BASE_URL + "hongqih9_admin/index.php?m=home&c=index&a=get_car_info&car_name=" + Constant.CAR_TYPE;
 //        if ("".equals(SharedpreferencesUtil.getVersionCode(C229WelcomeActivity.this))) {
-            new Thread() {
-                @Override
-                public void run() {
-                    PhoneUtil.requestGet(url, new NetWorkCallBack() {
-                        @Override
-                        public void onSuccess(Object data) {
+        new Thread() {
+            @Override
+            public void run() {
+                PhoneUtil.requestGet(url, new NetWorkCallBack() {
+                    @Override
+                    public void onSuccess(Object data) {
 
+                        model = new Gson().fromJson((String) data, VersionUpdateModel.class);
+                        LogUtil.logError("error  = 1111111");
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                Constant.GAME_WEB_URL = model.getGame_web_url();
+                                Constant.TRIM_WEB_URL = model.getTrim_web_url();
+                                Constant.CAR_NAME = model.getCar_name();
+                                Constant.ZIP_VERSION = model.getVersion();
+                                Constant.ZIP_URL = model.getZip_url();
+                                LoadAndUnzipUtil.startDownloadNews(C229WelcomeActivity.this, model.getNews_url(),model);
+                                LoadAndUnzipUtil.startDownloadCategory(C229WelcomeActivity.this, model.getCategory_url());
+                                rl_load_faile.setVisibility(View.GONE);
+                            }
+                        });
+                    }
 
-                                model = new Gson().fromJson((String) data, VersionUpdateModel.class);
-                            LogUtil.logError("error  = 1111111");
-                            runOnUiThread(new Runnable() {
-                                public void run() {
-                                    LoadAndUnzipUtil.startDownloadNews(C229WelcomeActivity.this, model.getNews());
-                                    LoadAndUnzipUtil.startDownloadCategory(C229WelcomeActivity.this, model.getCategory());
-                                    rl_load_faile.setVisibility(View.GONE);
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void onFail(Object error) {
-                            LogUtil.logError("error  = " + error);
-                            rl_load_faile.setVisibility(View.VISIBLE);
-                        }
-                    });
-                }
-            }.start();
+                    @Override
+                    public void onFail(Object error) {
+                        LogUtil.logError("error  = " + error);
+                        rl_load_faile.setVisibility(View.VISIBLE);
+                    }
+                });
+            }
+        }.start();
 //        } else {
 //            goC229MainActivity(C229WelcomeActivity.this, "Unupdate", model);
 //            finish();
 //        }
 
     }
+
     public boolean onPause = false;
 
     @Override
@@ -138,6 +143,7 @@ public class C229WelcomeActivity extends BaseActivity {
         handler.removeMessages(10000);
         handler.removeMessages(0);
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -145,6 +151,7 @@ public class C229WelcomeActivity extends BaseActivity {
         handler.removeMessages(10000);
         handler.removeMessages(0);
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -153,6 +160,7 @@ public class C229WelcomeActivity extends BaseActivity {
             handler.sendEmptyMessageDelayed(100001, 1000);
         }
     }
+
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -184,6 +192,7 @@ public class C229WelcomeActivity extends BaseActivity {
 //            }
         }
     };
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
@@ -197,6 +206,7 @@ public class C229WelcomeActivity extends BaseActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
+
     private static final int WRITE_PERMISSION = 0x01;
 
     @Override

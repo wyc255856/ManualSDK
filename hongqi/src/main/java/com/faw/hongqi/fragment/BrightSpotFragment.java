@@ -13,6 +13,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.faw.hongqi.R;
+import com.faw.hongqi.util.Constant;
 import com.faw.hongqi.util.LogUtil;
 import com.faw.hongqi.widget.C229NativeInterface;
 
@@ -113,7 +114,8 @@ public class BrightSpotFragment extends BaseFragment {
     }
 
     private void loadUrl() {
-        webView.loadUrl("http://www.haoweisys.com/c229_360/");
+//        webView.loadUrl("http://www.haoweisys.com/c229_360/");
+        webView.loadUrl(Constant.TRIM_WEB_URL);
     }
 
     @Override

@@ -3,8 +3,10 @@ package com.faw.hongqi.util;
 import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.ListView;
 
 import com.faw.hongqi.dbutil.DBUtil;
+import com.faw.hongqi.model.VersionUpdateModel;
 import com.faw.hongqi.ui.C229LoadAndUnzipFileActivity;
 import com.faw.hongqi.ui.C229MainActivity;
 import com.faw.hongqi.ui.C229SelectCarModelActivity;
@@ -23,6 +25,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -88,7 +91,7 @@ public class LoadAndUnzipUtil {
                 });
         singleTaskId = singleTask.start();
     }
-    public static void startDownloadNews(final Activity context,String downloadUrl) {
+    public static void startDownloadNews(final Activity context, String downloadUrl, final VersionUpdateModel model) {
         singleTask = FileDownloader.getImpl().create(downloadUrl)
                 .setPath(saveZipFilePath, true)
                 .setCallbackProgressTimes(300)
@@ -113,7 +116,9 @@ public class LoadAndUnzipUtil {
                             public void run() {
                                 //下载完成
                                 DBUtil.initData(context,"news");
-                                context.startActivity(new Intent(context, C229SelectCarModelActivity.class));
+                                Intent intent = new Intent(context,C229SelectCarModelActivity.class);
+                                intent.putExtra("data",model);
+                                context.startActivity(intent);
                                 context.finish();
 
                             }

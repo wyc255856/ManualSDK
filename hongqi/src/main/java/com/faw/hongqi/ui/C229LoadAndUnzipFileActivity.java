@@ -113,8 +113,9 @@ public class C229LoadAndUnzipFileActivity extends BaseActivity {
             ll_is_no_wifi.setVisibility(View.GONE);
             ll_is_download.setVisibility(View.GONE);
         }
-        LoadAndUnzipUtil.startDownloadNews(C229LoadAndUnzipFileActivity.this, model.getNews());
-        LoadAndUnzipUtil.startDownloadCategory(C229LoadAndUnzipFileActivity.this, model.getCategory());
+        //不知道这个是什么意思
+//        LoadAndUnzipUtil.startDownloadNews(C229LoadAndUnzipFileActivity.this, model.getNews_url());
+        LoadAndUnzipUtil.startDownloadCategory(C229LoadAndUnzipFileActivity.this, model.getCategory_url());
     }
 
     @Override
@@ -133,7 +134,7 @@ public class C229LoadAndUnzipFileActivity extends BaseActivity {
     private String fileName;
 
     private void startDownload() {
-        singleTask = FileDownloader.getImpl().create(model.getZip_address())
+        singleTask = FileDownloader.getImpl().create(model.getZip_url())
                 .setPath(saveZipFilePath, true)
                 .setCallbackProgressTimes(300)
                 .setMinIntervalUpdateSpeed(400)
