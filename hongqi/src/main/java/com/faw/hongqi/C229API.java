@@ -20,7 +20,10 @@ public class C229API {
     }
 
     public static void openManual(Context context) {
-        context.startActivity(new Intent(context, C229WelcomeActivity.class));
+        Intent intent = new Intent(context, C229WelcomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
+        context.startActivity(intent);
+
     }
 
     public static void openManual(Context context, String carType, String trim) {

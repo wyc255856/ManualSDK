@@ -1,6 +1,7 @@
 package com.faw.hongqi.adaptar;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.faw.hongqi.R;
+import com.faw.hongqi.ui.C229MainActivity;
 
 import java.util.List;
 
@@ -43,6 +45,12 @@ public class GeneralAdapter extends RecyclerView.Adapter<GeneralAdapter.MyViewHo
         public MyViewHolder(View itemView) {
             super(itemView);
             textView = itemView.findViewById(R.id.text_cat_type);
+            textView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    context.startActivity(new Intent(context, C229MainActivity.class));
+                }
+            });
         }
     }
 }

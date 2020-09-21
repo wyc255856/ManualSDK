@@ -29,20 +29,11 @@ public class ResUtil {
             return -1;
         }
     }
+    public static int getDrawableId(Context paramContext, String paramString) {
+        int resId = paramContext.getResources().getIdentifier(paramString,
+                "file", paramContext.getPackageName());
 
+        return resId;
+    }
 
-//    /**
-//     * 根据url获取本地的图片
-//     * @param context 上下文
-//     * @param url 图片url
-//     * @return 本地图片资源id
-//     */
-//    public int getLocalImageByURL(Context context, String url) {
-//        int resId = 0;
-//        String picName = map.get(url);
-//        resId = context.getResources().getIdentifier(
-//                picName == null ? "no_picture" : picName, "drawable",context.getPackageName());
-//
-//        return resId;
-//    }
 }

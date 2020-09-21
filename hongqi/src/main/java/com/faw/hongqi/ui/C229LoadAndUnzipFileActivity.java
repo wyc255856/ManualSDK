@@ -10,11 +10,12 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.faw.hongqi.R;
 import com.faw.hongqi.event.CancelDownLoadEvent;
 import com.faw.hongqi.model.VersionModel;
 import com.faw.hongqi.model.VersionUpdateModel;
-import com.faw.hongqi.util.LoadAndUnzipUtil;
+import com.faw.hongqi.util.Constant;
 import com.faw.hongqi.util.PhoneUtil;
 import com.faw.hongqi.util.SharedpreferencesUtil;
 import com.liulishuo.filedownloader.BaseDownloadTask;
@@ -37,7 +38,6 @@ import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-
 public class C229LoadAndUnzipFileActivity extends BaseActivity {
 
     private String TAG = getClass().getSimpleName();
@@ -51,16 +51,16 @@ public class C229LoadAndUnzipFileActivity extends BaseActivity {
     private TextView tv_download_title;
     private ProgressBar progress_bar;
     private boolean isNextDownload = true;
-    private VersionModel data;
-    private String tag;
-    private VersionUpdateModel model = null;
+//    private VersionModel data;
+//    private String tag;
+//    private VersionUpdateModel model = null;
 
     @Override
     protected void initData() {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        data = (VersionModel) getIntent().getSerializableExtra("data");
-        tag = getIntent().getStringExtra("tag");
-        model = (VersionUpdateModel) getIntent().getSerializableExtra("model");
+//        data = (VersionModel) getIntent().getSerializableExtra("data");
+//        tag = getIntent().getStringExtra("tag");
+//        model = (VersionUpdateModel) getIntent().getSerializableExtra("model");
     }
 
     @Override
@@ -113,9 +113,8 @@ public class C229LoadAndUnzipFileActivity extends BaseActivity {
             ll_is_no_wifi.setVisibility(View.GONE);
             ll_is_download.setVisibility(View.GONE);
         }
-        //不知道这个是什么意思
 //        LoadAndUnzipUtil.startDownloadNews(C229LoadAndUnzipFileActivity.this, model.getNews_url());
-        LoadAndUnzipUtil.startDownloadCategory(C229LoadAndUnzipFileActivity.this, model.getCategory_url());
+//        LoadAndUnzipUtil.startDownloadCategory(C229LoadAndUnzipFileActivity.this, model.getCategory_url());
     }
 
     @Override
@@ -134,7 +133,7 @@ public class C229LoadAndUnzipFileActivity extends BaseActivity {
     private String fileName;
 
     private void startDownload() {
-        singleTask = FileDownloader.getImpl().create(model.getZip_url())
+        singleTask = FileDownloader.getImpl().create(Constant.ZIP_URL)
                 .setPath(saveZipFilePath, true)
                 .setCallbackProgressTimes(300)
                 .setMinIntervalUpdateSpeed(400)
@@ -177,7 +176,8 @@ public class C229LoadAndUnzipFileActivity extends BaseActivity {
                         runOnUiThread(new Runnable() {
                             public void run() {
                                 tv_download_title.setText(C229LoadAndUnzipFileActivity.this.getResources().getString(R.string.download_assest_text_unzip));
-                                unZipFile(new File(saveZipFilePath + File.separator + "images.zip"), saveZipFilePath);
+                                //e115-36images.zip
+                                unZipFile(new File(saveZipFilePath + File.separator + Constant.CAR_NAME + "-36images.zip"), saveZipFilePath);
                             }
                         });
                         super.blockComplete(task);
@@ -219,6 +219,7 @@ public class C229LoadAndUnzipFileActivity extends BaseActivity {
         intent.putExtra("model", model);
         context.startActivity(intent);
     }
+
     /**
      * 判断是否是照片
      */
@@ -235,6 +236,7 @@ public class C229LoadAndUnzipFileActivity extends BaseActivity {
         }
         return isImageFile;
     }
+
     /**
      * zipFile 压缩文件
      * folderPath 解压后的文件路径
@@ -271,8 +273,8 @@ public class C229LoadAndUnzipFileActivity extends BaseActivity {
             e.printStackTrace();
         }
         //判断是否有未解压的zip包
-        SharedpreferencesUtil.setIsUnzip(C229LoadAndUnzipFileActivity.this, "true");
-        SharedpreferencesUtil.setVersionCode(C229LoadAndUnzipFileActivity.this, model.getVersion());
+//        SharedpreferencesUtil.setIsUnzip(C229LoadAndUnzipFileActivity.this, "true");
+        SharedpreferencesUtil.setVersionCode(C229LoadAndUnzipFileActivity.this, Constant.CAR_NAME+Constant.ZIP_VERSION);
         deleteDir(zipFile);
         //将下载下来的文件统一复制到另一个文件夹
 //        copyFolder(saveZipFilePathOld, saveZipFilePathNew);

@@ -92,6 +92,7 @@ public class C229WelcomeActivity extends BaseActivity {
 
     private void isUpdate() {
         //http://www.haoweisys.com/hongqih9_admin/index.php?m=home&c=index&a=get_car_info&car_name=E115
+        //传大写E115 C229
         final String url = Constant.BASE_URL + "hongqih9_admin/index.php?m=home&c=index&a=get_car_info&car_name=" + Constant.CAR_TYPE;
 //        if ("".equals(SharedpreferencesUtil.getVersionCode(C229WelcomeActivity.this))) {
         new Thread() {
@@ -105,11 +106,11 @@ public class C229WelcomeActivity extends BaseActivity {
                         LogUtil.logError("error  = 1111111");
                         runOnUiThread(new Runnable() {
                             public void run() {
-                                Constant.GAME_WEB_URL = model.getGame_web_url();
-                                Constant.TRIM_WEB_URL = model.getTrim_web_url();
-                                Constant.CAR_NAME = model.getCar_name();
-                                Constant.ZIP_VERSION = model.getVersion();
-                                Constant.ZIP_URL = model.getZip_url();
+                                Constant.GAME_WEB_URL = model.getGame_web_url();//互动程序
+                                Constant.TRIM_WEB_URL = model.getTrim_web_url();//内饰360
+                                Constant.CAR_NAME = model.getCar_name().toLowerCase();//E115 - e115
+                                Constant.ZIP_VERSION = model.getVersion();//36张图版本
+                                Constant.ZIP_URL = model.getZip_url();//36张图
                                 LoadAndUnzipUtil.startDownloadNews(C229WelcomeActivity.this, model.getNews_url(),model);
                                 LoadAndUnzipUtil.startDownloadCategory(C229WelcomeActivity.this, model.getCategory_url());
                                 rl_load_faile.setVisibility(View.GONE);

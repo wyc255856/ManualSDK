@@ -1,6 +1,7 @@
 package com.faw.hongqi.fragment;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,9 +14,10 @@ import com.faw.hongqi.ui.C229SelectCarModelActivity;
 import com.faw.hongqi.util.Constant;
 import com.faw.hongqi.util.LogUtil;
 import com.faw.hongqi.util.PhoneUtil;
-import com.faw.hongqi.util.ResUtil;
 import com.faw.hongqi.widget.HomeModelHotPointView;
+import com.liulishuo.filedownloader.util.FileDownloadUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +25,7 @@ public class ModelsFragment extends BaseFragment implements View.OnTouchListener
     ImageView car_model;
     HomeModelHotPointView homeModelHotPointView;
     View view_select_car_model;
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_c229_model;
@@ -35,7 +38,10 @@ public class ModelsFragment extends BaseFragment implements View.OnTouchListener
 
     @Override
     protected void initView(View view) {
+        //e115-36images.zip
         car_model = view.findViewById(R.id.car_model);
+        car_model.setImageURI(Uri.parse(FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
+                + File.separator + "MyFolder" + File.separator + Constant.CAR_NAME + "-36images/" + Constant.CAR_NAME + "_car_1.png"));
         homeModelHotPointView = view.findViewById(R.id.home_model_hot_point_view);
         view_select_car_model = view.findViewById(R.id.view_select_car_model);
         initPics();
@@ -57,8 +63,8 @@ public class ModelsFragment extends BaseFragment implements View.OnTouchListener
 
                     int screenWidth = PhoneUtil.getDisplayWidth(mContext);
 //                    lp.width = screenWidth-PhoneUtil.dip2px(mContext,120);
-                    lp.width = screenWidth-PhoneUtil.dip2px(mContext, (float) (screenWidth*0.1)/2);
-                    lp.height = (int) ( lp.width * 0.46785);
+                    lp.width = screenWidth - PhoneUtil.dip2px(mContext, (float) (screenWidth * 0.1) / 2);
+                    lp.height = (int) (lp.width * 0.46785);
                 } else {
                     lp.width = 1440;
                     lp.height = 675;
@@ -80,10 +86,10 @@ public class ModelsFragment extends BaseFragment implements View.OnTouchListener
                     //TODO 手机尺寸适配
                     int screenWidth = PhoneUtil.getDisplayWidth(mContext);
 //                    lp.width = screenWidth-PhoneUtil.dip2px(mContext,120);
-                    lp.width = screenWidth-PhoneUtil.dip2px(mContext, (float) (screenWidth*0.1)/2);
-                    lp.height = (int) ( lp.width * 0.46785);
+                    lp.width = screenWidth - PhoneUtil.dip2px(mContext, (float) (screenWidth * 0.1) / 2);
+                    lp.height = (int) (lp.width * 0.46785);
                     homeModelHotPointView.setItem(lp.width);
-                    LogUtil.logError("image:"+lp.width);
+                    LogUtil.logError("image:" + lp.width);
                 } else {
                     lp.width = PhoneUtil.getDisplayWidth(mContext);
                     lp.height = 620;
@@ -143,21 +149,19 @@ public class ModelsFragment extends BaseFragment implements View.OnTouchListener
 
                 NowID = NowID == 0 ? 1 : NowID;
                 OldID = NowID;
-                //解注释第一行删第二行，fragment_c229_model.xml,imageview中加入36张第一张图
-//                homeModelHotPointView.showHotPointViewByResId(pics.get(NowID - 1));
-                homeModelHotPointView.hideAllView();
+                homeModelHotPointView.showHotPointViewByResId(pics.get(NowID - 1));
                 break;
             case MotionEvent.ACTION_MOVE:
-                if(OldID != NowID){
+                if (OldID != NowID) {
                     homeModelHotPointView.hideAllView();
-                }else {
+                } else {
 
                 }
                 int nowX = (int) event.getX();
                 //计算移动距离
                 float spec = nowX - start;
                 int mo;
-                int id;
+                String id;
                 if (spec > 0) {
                     //从左向右滑
                     mo = (int) ((spec / singleSpec) + (pics.size() + 1 - OldID));
@@ -179,7 +183,10 @@ public class ModelsFragment extends BaseFragment implements View.OnTouchListener
                     if (mo != NowID && !leftScreen) {
                         Log.e(Tag, "ACTION_MOVE>>" + NowID);
                         NowID = mo;
-                        car_model.setImageResource(id);
+                        // car_model.setImageResource(id);
+                        String url = FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
+                                + File.separator + "MyFolder" + File.separator + Constant.CAR_NAME + "-36images/" + Constant.CAR_NAME + "_car_1.png";
+                        car_model.setImageURI(Uri.parse(url));
                     }
 
                 }
@@ -192,12 +199,12 @@ public class ModelsFragment extends BaseFragment implements View.OnTouchListener
 
     int NowID = 0;
     int OldID = 0;
-    List<Integer> pics;
+    List<String> pics;
 
     private void initPics() {
         pics = new ArrayList<>();
         for (int i = 0; i < 36; i++) {
-            pics.add(ResUtil.getDrawableResId("c229_car_" + (i + 1)));
+            pics.add(Constant.CAR_NAME + "_car_" + i);
         }
     }
 }
