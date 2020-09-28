@@ -16,6 +16,7 @@ import com.faw.hongqi.util.LogUtil;
 import com.faw.hongqi.util.PhoneUtil;
 import com.faw.hongqi.widget.HomeModelHotPointView;
 import com.liulishuo.filedownloader.util.FileDownloadUtils;
+import com.raizlabs.android.dbflow.sql.language.Condition;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -105,7 +106,9 @@ public class ModelsFragment extends BaseFragment implements View.OnTouchListener
         view_select_car_model.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(), C229SelectCarModelActivity.class));
+                Intent intent = new Intent(getActivity(),C229SelectCarModelActivity.class);
+                intent.putExtra("data",C229SelectCarModelActivity.model);
+                startActivity(intent);
             }
         });
     }
@@ -185,7 +188,7 @@ public class ModelsFragment extends BaseFragment implements View.OnTouchListener
                         NowID = mo;
                         // car_model.setImageResource(id);
                         String url = FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
-                                + File.separator + "MyFolder" + File.separator + Constant.CAR_NAME + "-36images/" + Constant.CAR_NAME + "_car_1.png";
+                                + File.separator + "MyFolder" + File.separator + Constant.CAR_NAME + "-36images/" +id+".png";
                         car_model.setImageURI(Uri.parse(url));
                     }
 
@@ -204,7 +207,7 @@ public class ModelsFragment extends BaseFragment implements View.OnTouchListener
     private void initPics() {
         pics = new ArrayList<>();
         for (int i = 0; i < 36; i++) {
-            pics.add(Constant.CAR_NAME + "_car_" + i);
+            pics.add(Constant.CAR_NAME + "_car_" + (i+1));
         }
     }
 }

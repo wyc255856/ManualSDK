@@ -11,6 +11,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.faw.hongqi.R;
+import com.faw.hongqi.util.Constant;
 import com.faw.hongqi.util.LogUtil;
 import com.faw.hongqi.widget.C229NativeInterface;
 
@@ -125,6 +126,6 @@ public class C229InteractionGameActivity extends BaseActivity {
     }
 
     private void loadUrl() {
-        webView.loadUrl("file:///android_asset/web_mobile/index.html");
+        webView.loadUrl(Constant.GAME_WEB_URL);
     }
 }

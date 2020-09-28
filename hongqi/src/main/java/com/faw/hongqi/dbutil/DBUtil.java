@@ -137,17 +137,29 @@ public class DBUtil {
     }
 
     public static void getFastCategoryList(TransactionListener transactionListener) {
+        int id = 0;
+        if (Constant.CAR_NAME.equals("e115")){
+            id = 17;
+        }else if (Constant.CAR_NAME.equals("c229")){
+            id = 1869;
+        }
         SQLite.select()
                 .from(CategoryModel.class)
-                .where(CategoryModel_Table.parentid.eq(1869))
+                .where(CategoryModel_Table.parentid.eq(id))
 //                .where()
                 .async().queryList(transactionListener);
     }
 
     public static void getManuaCategoryList(TransactionListener transactionListener) {
+        int id = 0;
+        if (Constant.CAR_NAME.equals("e115")){
+            id = 1;
+        }else if (Constant.CAR_NAME.equals("c229")){
+            id = 1855;
+        }
         SQLite.select()
                 .from(CategoryModel.class)
-                .where(CategoryModel_Table.parentid.eq(1855))
+                .where(CategoryModel_Table.parentid.eq(id))
 //                .where()
                 .async().queryList(transactionListener);
     }

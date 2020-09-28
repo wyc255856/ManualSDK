@@ -19,7 +19,7 @@ public class C229SelectCarModelActivity extends BaseActivity {
 
     private RecyclerView recyclerView;
     private List<String> list = new ArrayList();
-    private VersionUpdateModel model;
+    public static VersionUpdateModel model;
 
     @Override
     protected void initData() {
@@ -40,17 +40,17 @@ public class C229SelectCarModelActivity extends BaseActivity {
             startActivity(new Intent(C229SelectCarModelActivity.this, C229LoadAndUnzipFileActivity.class));
         }
     }
-    private boolean isTopActivity(){
-        ActivityManager am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
-        List<ActivityManager.RunningTaskInfo>  tasksInfo = am.getRunningTasks(1);
-        if(tasksInfo.size() > 0){
-            //应用程序位于堆栈的顶层  com.example.androidtest
-            if("com.haowei.wyc.hongqicare115".equals(tasksInfo.get(0).topActivity.getPackageName())){
-                return true;
-            }
-        }
-        return false;
-    }
+//    private boolean isTopActivity(){
+//        ActivityManager am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+//        List<ActivityManager.RunningTaskInfo>  tasksInfo = am.getRunningTasks(1);
+//        if(tasksInfo.size() > 0){
+//            //应用程序位于堆栈的顶层  com.example.androidtest
+//            if("com.haowei.wyc.hongqicare115".equals(tasksInfo.get(0).topActivity.getPackageName())){
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
     @Override
     protected void initViews() {
 

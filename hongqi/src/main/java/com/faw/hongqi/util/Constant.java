@@ -14,9 +14,10 @@ import java.util.Map;
  */
 
 public class Constant {
-    public final static String BASE_URL = "http://www.haoweisys.com/";
-//    public final static String BASE_URL = "http://www.e-guides.faw.cn/";
-    public static String CAR_TYPE = "C229";//车型
+//    public final static String BASE_URL = "http://www.haoweisys.com/";
+    public final static String BASE_URL = "http://www.e-guides.faw.cn/";
+//    public static String CAR_TYPE = "C229";//车型
+    public static String CAR_TYPE = "E115";//车型
     public static String INTPROPERTY_TYPE = "c229_1";//车型配置
     public static String TRIM_WEB_URL = "";//内饰360webview地址
     public static String GAME_WEB_URL = "";//互动游戏webview地址

@@ -179,7 +179,13 @@ public class ManualFragment extends BaseFragment implements CheckListener {
     long startTime = 0;
 
     private void initList() {
-        list = list.subList(0, 12);
+        if (Constant.CAR_NAME.equals("c229")){
+            list = list.subList(0, 12);
+
+        }else if (Constant.CAR_NAME.equals("e115")){
+            list = list.subList(0, 13);
+
+        }
 //        secondaryListView.setDataList(list, SecondaryOnclickEvent.MANUAL);
         startTime = System.currentTimeMillis();
         getFastNewsList();

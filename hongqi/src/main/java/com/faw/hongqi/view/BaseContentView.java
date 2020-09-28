@@ -8,9 +8,12 @@ import android.graphics.BitmapFactory;
 import android.graphics.BitmapRegionDecoder;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.PointF;
 import android.graphics.Rect;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.transition.Transition;
 import android.text.Html;
 import android.util.AttributeSet;
 import android.widget.ImageView;
@@ -25,11 +28,15 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
+import com.davemorrissey.labs.subscaleview.ImageSource;
+import com.davemorrissey.labs.subscaleview.ImageViewState;
+import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.faw.hongqi.R;
 import com.faw.hongqi.model.ContentItemModel;
 import com.faw.hongqi.util.Constant;
 import com.faw.hongqi.util.FileUtil;
 import com.faw.hongqi.util.GlideRoundTransform;
+import com.faw.hongqi.util.LogUtil;
 import com.faw.hongqi.widget.TypesetTextView;
 
 import java.io.ByteArrayInputStream;
@@ -69,6 +76,33 @@ public abstract class BaseContentView extends LinearLayout {
 
     public void setHtmlText(TextView textView, String text) {
         textView.setText(Html.fromHtml(text));
+    }
+    public void setVLongImage(Context mContext, final SubsamplingScaleImageView imageView, String fileName) {
+
+        String url = (FileUtil.getResPath() + fileName).replace("/E115/standard", "");
+        File file = new File(url);
+        LogUtil.logError("file url = " + url);
+////        if (file.exists()) {
+        LogUtil.logError("file url = " + file.exists());
+//            Glide.with(mContext).asBitmap()
+//                    .load(Uri.fromFile(file))
+//                    .into(imageView);
+
+//        LogUtil.logError("file url = " + imageView.getHeight()+"="+imageView.getMaxScale());
+
+        imageView.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CENTER_CROP);
+        imageView.setZoomEnabled(false);
+        imageView.setMinScale(1);//最小显示比例
+        imageView.setMaxScale(1);//最大显示比例（太大了图片显示会失真，因为一般微博长图的宽度不会太宽）
+        Glide.with(mContext)
+                .load(fileName).downloadOnly(new SimpleTarget<File>() {
+            @Override
+            public void onResourceReady(File resource, GlideAnimation<? super File> glideAnimation) {
+                imageView.setImage(ImageSource.uri(Uri.fromFile(resource)), new ImageViewState(0.5f, new PointF(0, 0), 0));
+            }
+
+        });
+////        }
     }
     public void setImage(Context mContext, ImageView imageView, String fileName) {
 //        if(Constant.TEST){

@@ -8,11 +8,13 @@
 
     <string name="model_item_text_1">轮胎/车轮</string>
     <string name="model_item_text_2">发动机舱</string>
+    <string name="model_item_text_11">机舱</string>
     <string name="model_item_text_3">外后视镜</string>
     <string name="model_item_text_4">刮水器</string>
     <string name="model_item_text_5">天窗</string>
     <string name="model_item_text_6">前照灯</string>
     <string name="model_item_text_7">油箱盖</string>
+    <string name="model_item_text_10">充电口</string>
     <string name="model_item_text_8">行李箱盖</string>
     <string name="model_item_text_9">车门</string>
 

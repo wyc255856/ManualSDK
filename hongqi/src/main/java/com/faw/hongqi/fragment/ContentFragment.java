@@ -9,6 +9,7 @@ import com.faw.hongqi.model.ContentItemModel;
 import com.faw.hongqi.view.ImageContentView;
 import com.faw.hongqi.view.ImageTextContentView;
 import com.faw.hongqi.view.TextContentView;
+import com.faw.hongqi.view.VerticalImageTextView;
 import com.faw.hongqi.view.VideoContentView;
 
 public class ContentFragment extends BaseFragment {
@@ -65,6 +66,11 @@ public class ContentFragment extends BaseFragment {
                 VideoContentView videoContentView = new VideoContentView(mContext);
                 videoContentView.setContent(contentItemModel);
                 container.addView(videoContentView);
+                break;
+            case 5:
+                VerticalImageTextView verticalImageTextView = new VerticalImageTextView(mContext);
+                verticalImageTextView.setContent(contentItemModel);
+                container.addView(verticalImageTextView);
                 break;
             default:
                 break;

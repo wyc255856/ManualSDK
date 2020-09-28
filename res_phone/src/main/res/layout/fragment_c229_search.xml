@@ -58,7 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="0dp"
             android:gravity="center_horizontal"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="0dp"
             android:scrollbarStyle="outsideOverlay"
             android:scrollbarThumbVertical="@drawable/bg_scroll_bar"
             android:scrollbarTrackVertical="@drawable/seek_blue_bg">
