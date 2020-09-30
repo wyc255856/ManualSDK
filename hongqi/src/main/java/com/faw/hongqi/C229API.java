@@ -16,7 +16,6 @@ public class C229API {
         FileDownloader.setup(context);
         FlowManager.initModule(hongqiGeneratedDatabaseHolder.class);
         Constant.initData();
-
     }
 
     public static void openManual(Context context) {

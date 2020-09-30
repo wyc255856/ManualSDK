@@ -4,6 +4,7 @@ import android.app.ActivityManager;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.faw.hongqi.R;
 import com.faw.hongqi.adaptar.GeneralAdapter;
@@ -39,6 +40,12 @@ public class C229SelectCarModelActivity extends BaseActivity {
         }else{
             startActivity(new Intent(C229SelectCarModelActivity.this, C229LoadAndUnzipFileActivity.class));
         }
+        recyclerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 //    private boolean isTopActivity(){
 //        ActivityManager am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
