@@ -40,8 +40,8 @@ public class PointView extends LinearLayout {
                 this, true);
         iv1 = findViewById(R.id.iv_wave_1);
         iv2 = findViewById(R.id.iv_wave_2);
-        setAnim1();
-        setAnim2();
+//        setAnim1();
+//        setAnim2();
     }
 
     private void setAnim1() {
