@@ -110,6 +110,7 @@ public class BrightSpotFragment extends BaseFragment {
         webView.getSettings().setAppCachePath(appCachePath);
         webView.getSettings().setAllowFileAccess(true);
         webView.getSettings().setAppCacheEnabled(true);
+        
         loadUrl();
     }
 
