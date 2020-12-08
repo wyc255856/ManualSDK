@@ -42,7 +42,7 @@ public class PointView extends LinearLayout {
         iv2 = findViewById(R.id.iv_wave_2);
 //        setAnim1();
 //        setAnim2();
-        
+
 
     }
 

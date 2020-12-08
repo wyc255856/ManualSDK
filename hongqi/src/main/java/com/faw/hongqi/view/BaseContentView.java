@@ -10,10 +10,10 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.transition.Transition;
 import android.text.Html;
 import android.util.AttributeSet;
 import android.widget.ImageView;
@@ -22,12 +22,16 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.transition.Transition;
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.ImageViewState;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
@@ -95,16 +99,21 @@ public abstract class BaseContentView extends LinearLayout {
         imageView.setMinScale(1);//最小显示比例
         imageView.setMaxScale(1);//最大显示比例（太大了图片显示会失真，因为一般微博长图的宽度不会太宽）
         Glide.with(mContext)
-                .load(fileName).downloadOnly(new SimpleTarget<File>() {
+                .load(url).downloadOnly(new SimpleTarget<File>() {
             @Override
-            public void onResourceReady(File resource, GlideAnimation<? super File> glideAnimation) {
+            public void onResourceReady(@NonNull File resource, @Nullable Transition<? super File> transition) {
                 imageView.setImage(ImageSource.uri(Uri.fromFile(resource)), new ImageViewState(0.5f, new PointF(0, 0), 0));
             }
+
+//            @Override
+//            public void onResourceReady(File resource, GlideAnimation<? super File> glideAnimation) {
+//                imageView.setImage(ImageSource.uri(Uri.fromFile(resource)), new ImageViewState(0.5f, new PointF(0, 0), 0));
+//            }
 
         });
 ////        }
     }
-    public void setImage(Context mContext, ImageView imageView, String fileName) {
+    public void setImage(Context mContext, final ImageView imageView, String fileName) {
 //        if(Constant.TEST){
 //            Glide.with(this).load("file:///android_asset/" + fileName).into(imageView);
 //        }else {
@@ -114,15 +123,28 @@ public abstract class BaseContentView extends LinearLayout {
 //                Glide.with(mContext)
 //                        .load(Uri.fromFile(file)).apply(options)
 //                        .into(imageView);
-                Glide.with(mContext)
-                        .load(fileName)
-                        .transform(new CenterCrop(mContext),new GlideRoundTransform(mContext))
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .placeholder(R.mipmap.down_error_content)
-                        .error(R.mipmap.down_error_content)
-                        .dontAnimate()
-                        .crossFade()
-                        .into(imageView);
+//                Glide.with(mContext)
+//                        .load(fileName)
+//
+//                        .error(R.mipmap.down_error_content)
+//
+//                        .into(imageView);
+        RoundedCorners roundedCorners= new RoundedCorners(20);
+        RequestOptions options=RequestOptions.bitmapTransform(roundedCorners).override(300, 300);
+        Glide.with(mContext).load(fileName).apply(options).listener(new RequestListener<Drawable>() {
+            @Override
+            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+//                            LogTools.i(TAG,"Glide==onLoadFailed="+e.getMessage());
+                return false;
+            }
+
+            @Override
+            public boolean onResourceReady(Drawable drawable, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                imageView.setBackground(drawable);
+
+                return false;
+            }
+        }).submit();
 //        }
 
 

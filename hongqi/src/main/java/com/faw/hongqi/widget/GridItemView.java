@@ -104,24 +104,24 @@ public class GridItemView extends LinearLayout implements View.OnClickListener {
             File file = new File(Constant.BASE_URL + model.getHead_image());
 //            LogUtil.logError("file url = " + file.exists());
             Glide.with(mContext)
-                    .load(Uri.fromFile(file))
-                    .transform(new CenterCrop(mContext),new GlideRoundTransform(mContext))
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .placeholder(R.mipmap.download_error)
-                    .dontAnimate()
-                    .crossFade()
+                    .load(url)
+                    .error(R.mipmap.download_error)
                     .into(imageView);
 //            Glide.with(mContext)
 //                    .load(Uri.fromFile(file)).apply(options).into(imageView);
         } else {
             String url = "images/2019-04-26/5cc2b440a0ab1.png";
+//            Glide.with(mContext)
+//                    .load(url)
+//                    .transform(new CenterCrop(mContext),new GlideRoundTransform(mContext))
+//                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+//                    .placeholder(R.mipmap.download_error)
+//                    .dontAnimate()
+//                    .crossFade()
+//                    .into(imageView);
             Glide.with(mContext)
                     .load(url)
-                    .transform(new CenterCrop(mContext),new GlideRoundTransform(mContext))
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .placeholder(R.mipmap.download_error)
-                    .dontAnimate()
-                    .crossFade()
+                    .error(R.mipmap.download_error)
                     .into(imageView);
 //            Glide.with(mContext)
 //                    .load(Uri.fromFile(new File(FileUtil.getResPath() + url))).apply(options).into(imageView);
