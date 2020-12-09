@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.request.RequestOptions;
 import com.faw.hongqi.R;
 import com.faw.hongqi.event.BaseEvent;
 import com.faw.hongqi.event.SecondaryOnclickEvent;
@@ -38,6 +39,8 @@ import org.greenrobot.eventbus.Subscribe;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+
+import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
 public class GridItemView extends LinearLayout implements View.OnClickListener {
 
@@ -103,13 +106,12 @@ public class GridItemView extends LinearLayout implements View.OnClickListener {
 //            File file = new File(FileUtil.getResPath() + model.getHead_image().replace("HONGQIH9/standard/",""));
             File file = new File(Constant.BASE_URL + model.getHead_image());
 //            LogUtil.logError("file url = " + file.exists());
+
             Glide.with(mContext)
-                    .load(Uri.fromFile(file))
-                    .transform(new CenterCrop(mContext),new GlideRoundTransform(mContext))
+                    .load(url)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .placeholder(R.mipmap.download_error)
                     .dontAnimate()
-                    .crossFade()
                     .into(imageView);
 //            Glide.with(mContext)
 //                    .load(Uri.fromFile(file)).apply(options).into(imageView);
@@ -117,11 +119,9 @@ public class GridItemView extends LinearLayout implements View.OnClickListener {
             String url = "images/2019-04-26/5cc2b440a0ab1.png";
             Glide.with(mContext)
                     .load(url)
-                    .transform(new CenterCrop(mContext),new GlideRoundTransform(mContext))
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .placeholder(R.mipmap.download_error)
                     .dontAnimate()
-                    .crossFade()
                     .into(imageView);
 //            Glide.with(mContext)
 //                    .load(Uri.fromFile(new File(FileUtil.getResPath() + url))).apply(options).into(imageView);

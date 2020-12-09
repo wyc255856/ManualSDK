@@ -13,7 +13,6 @@ import android.graphics.Rect;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.transition.Transition;
 import android.text.Html;
 import android.util.AttributeSet;
 import android.widget.ImageView;
@@ -25,9 +24,10 @@ import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.transition.Transition;
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.ImageViewState;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
@@ -47,7 +47,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-
+import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
 
 public abstract class BaseContentView extends LinearLayout {
@@ -97,9 +97,14 @@ public abstract class BaseContentView extends LinearLayout {
         Glide.with(mContext)
                 .load(fileName).downloadOnly(new SimpleTarget<File>() {
             @Override
-            public void onResourceReady(File resource, GlideAnimation<? super File> glideAnimation) {
+            public void onResourceReady(@NonNull File resource, @Nullable Transition<? super File> transition) {
                 imageView.setImage(ImageSource.uri(Uri.fromFile(resource)), new ImageViewState(0.5f, new PointF(0, 0), 0));
             }
+
+//            @Override
+//            public void onResourceReady(File resource, GlideAnimation<? super File> glideAnimation) {
+//                imageView.setImage(ImageSource.uri(Uri.fromFile(resource)), new ImageViewState(0.5f, new PointF(0, 0), 0));
+//            }
 
         });
 ////        }
@@ -114,15 +119,26 @@ public abstract class BaseContentView extends LinearLayout {
 //                Glide.with(mContext)
 //                        .load(Uri.fromFile(file)).apply(options)
 //                        .into(imageView);
-                Glide.with(mContext)
-                        .load(fileName)
-                        .transform(new CenterCrop(mContext),new GlideRoundTransform(mContext))
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .placeholder(R.mipmap.down_error_content)
-                        .error(R.mipmap.down_error_content)
-                        .dontAnimate()
-                        .crossFade()
-                        .into(imageView);
+//        RequestOptions options = bitmapTransform(new GlideRoundTransform(30));
+//                Glide.with(mContext)
+//                        .load(fileName)
+//                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+//                        .placeholder(R.mipmap.down_error_content)
+//                        .error(R.mipmap.down_error_content)
+//                        .dontAnimate()
+////                        .apply(options)
+//                        .into(imageView);
+
+        RequestOptions options = new RequestOptions()
+                .centerCrop()
+                .placeholder(R.mipmap.down_error_content)
+                .error(R.mipmap.down_error_content)
+                .priority(Priority.HIGH)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .transform(new GlideRoundTransform(8));
+        Glide.with(mContext).load(fileName).apply(options).into(imageView);
+
+
 //        }
 
 
