@@ -36,6 +36,7 @@
             android:name="com.faw.hongqi.ui.C229MainActivity"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="stateAlwaysHidden"
+            android:configChanges="keyboardHidden|orientation"
             android:theme="@style/Theme.NoBackgroundAndTitleMain"
             />
 
