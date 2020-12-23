@@ -85,7 +85,7 @@ public class BrightSpotFragment extends BaseFragment {
         webView.setLayerType(View.LAYER_TYPE_NONE, null);
         webView.getSettings().setJavaScriptEnabled(true);
 //        +
-        
+
 
 
        // webView.getSettings().setPluginState(WebSettings.PluginState.ON);
