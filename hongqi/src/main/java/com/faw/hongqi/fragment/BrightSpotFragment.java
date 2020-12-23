@@ -63,21 +63,12 @@ public class BrightSpotFragment extends BaseFragment {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 LogUtil.logError("url = " + url);
-                if (url != null) {
-//                    if (!url.contains("mp4")) {
-//                        LogUtil.logError("url = vr");
-//                        webView.setLayerType(View.LAYER_TYPE_NONE, null);
-//                    } else {
-//                        LogUtil.logError("url = LAYER_TYPE_HARDWARE");
-//                        webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-//                    }
-                }
-                if (Build.VERSION.SDK_INT < 26) {
+
+
+               // if (Build.VERSION.SDK_INT < 26) {
                     view.loadUrl(url);
                     return true;
-                }
-                LogUtil.logError("url = " + url);
-                return false;
+
             }
         });
         //支持App内部javascript交互
@@ -93,23 +84,22 @@ public class BrightSpotFragment extends BaseFragment {
         webView.getSettings().setBuiltInZoomControls(true);
         webView.setLayerType(View.LAYER_TYPE_NONE, null);
         webView.getSettings().setJavaScriptEnabled(true);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            webView.getSettings().setMediaPlaybackRequiresUserGesture(false);
-        }
+//        +
+        
 
 
-        webView.getSettings().setPluginState(WebSettings.PluginState.ON);
+       // webView.getSettings().setPluginState(WebSettings.PluginState.ON);
         webView.getSettings().setAllowFileAccess(true);
         webView.getSettings().setAllowContentAccess(true);
         webView.getSettings().setAllowFileAccessFromFileURLs(true);
         webView.getSettings().setAllowUniversalAccessFromFileURLs(true);
         webView.addJavascriptInterface(new C229NativeInterface(), "Android");
         webView.getSettings().setDomStorageEnabled(true);
-        webView.getSettings().setAppCacheMaxSize(1024 * 1024 * 8);
-        String appCachePath = mContext.getApplicationContext().getCacheDir().getAbsolutePath();
-        webView.getSettings().setAppCachePath(appCachePath);
-        webView.getSettings().setAllowFileAccess(true);
-        webView.getSettings().setAppCacheEnabled(true);
+       // webView.getSettings().setAppCacheMaxSize(1024 * 1024 * 8);
+       // String appCachePath = mContext.getApplicationContext().getCacheDir().getAbsolutePath();
+        //webView.getSettings().setAppCachePath(appCachePath);
+
+        //webView.getSettings().setAppCacheEnabled(true);
         loadUrl();
     }
 
