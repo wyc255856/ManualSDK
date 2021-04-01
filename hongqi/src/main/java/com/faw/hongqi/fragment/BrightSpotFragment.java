@@ -76,15 +76,6 @@ public class BrightSpotFragment extends BaseFragment {
         //自适应屏幕
         webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         webView.getSettings().setLoadWithOverviewMode(true);
-        //设置可以支持缩放
-        webView.getSettings().setSupportZoom(true);
-        //扩大比例的缩放
-        webView.getSettings().setUseWideViewPort(true);
-        //设置是否出现缩放工具
-        webView.getSettings().setBuiltInZoomControls(true);
-        webView.setLayerType(View.LAYER_TYPE_NONE, null);
-        webView.getSettings().setJavaScriptEnabled(true);
-//        +
 
 
 
