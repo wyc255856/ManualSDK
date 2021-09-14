@@ -14,10 +14,11 @@ import java.util.Map;
  */
 
 public class Constant {
-//    public final static String BASE_URL = "http://www.haoweisys.com/";
+    //    public final static String BASE_URL = "http://www.haoweisys.com/";
     public final static String BASE_URL = "http://www.e-guides.faw.cn/";
-//    public static String CAR_TYPE = "C229";//车型
-    public static String CAR_TYPE = "E115";//车型
+//        public static String CAR_TYPE = "C229";//车型
+//    public static String CAR_TYPE = "E115";//车型
+    public static String CAR_TYPE = "C235";//车型
     public static String INTPROPERTY_TYPE = "c229_1";//车型配置
     public static String TRIM_WEB_URL = "";//内饰360webview地址
     public static String GAME_WEB_URL = "";//互动游戏webview地址
@@ -44,23 +45,24 @@ public class Constant {
     }
 
     public static IntProperty getCurrentIntProperty(Context context) {
-        String modle=SharedpreferencesUtil.getCarModel(context);
+        String modle = SharedpreferencesUtil.getCarModel(context);
         return intPropertyList.get(modle);
     }
-    public static void initHotWord(){
-        HotWord hotWord1=new HotWord();
+
+    public static void initHotWord() {
+        HotWord hotWord1 = new HotWord();
         hotWord1.setWord("爆胎");
         hotWord1.save();
 
-        HotWord hotWord2=new HotWord();
+        HotWord hotWord2 = new HotWord();
         hotWord2.setWord("雾灯");
         hotWord2.save();
 
-        HotWord hotWord3=new HotWord();
+        HotWord hotWord3 = new HotWord();
         hotWord3.setWord("安全带");
         hotWord3.save();
 
-        HotWord hotWord4=new HotWord();
+        HotWord hotWord4 = new HotWord();
         hotWord4.setWord("方向盘");
         hotWord4.save();
     }

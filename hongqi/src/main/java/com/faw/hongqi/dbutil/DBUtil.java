@@ -142,6 +142,8 @@ public class DBUtil {
             id = 17;
         }else if (Constant.CAR_NAME.equals("c229")){
             id = 1869;
+        }else if (Constant.CAR_NAME.equals("c235")){
+            id = 1869;
         }
         SQLite.select()
                 .from(CategoryModel.class)
@@ -155,6 +157,9 @@ public class DBUtil {
         if (Constant.CAR_NAME.equals("e115")){
             id = 1;
         }else if (Constant.CAR_NAME.equals("c229")){
+            id = 1855;
+        }
+        else if (Constant.CAR_NAME.equals("c235")){
             id = 1855;
         }
         SQLite.select()

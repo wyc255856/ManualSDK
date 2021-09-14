@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+
 import com.faw.hongqi.R;
 import com.faw.hongqi.adaptar.SortAdapter;
 import com.faw.hongqi.dbutil.DBUtil;
@@ -24,6 +25,7 @@ import com.faw.hongqi.widget.ItemHeaderDecoration;
 import com.faw.hongqi.widget.RvListener;
 import com.raizlabs.android.dbflow.runtime.transaction.BaseTransaction;
 import com.raizlabs.android.dbflow.runtime.transaction.TransactionListener;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -50,12 +52,31 @@ public class ManualFragment extends BaseFragment implements CheckListener {
 
     public void createFragment() {
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        mSortDetailFragment = new SortDetailFragment(newsList,list);
+        mSortDetailFragment = new SortDetailFragment(newsList, list);
         mSortDetailFragment.setListener(this);
         fragmentTransaction.add(R.id.lin_fragment, mSortDetailFragment);
         fragmentTransaction.commit();
     }
+    private void initData1() {
+        createFragment();
+        List<String> lists = new ArrayList<>();
+        //初始化左侧列表数据
+        for (int i = 0; i < list.size(); i++) {
+            lists.add(list.get(i).getCatname());
+        }
+        mSortAdapter = new SortAdapter(mContext, lists, new RvListener() {
+            @Override
+            public void onItemClick(int id, int position) {
+                if (mSortDetailFragment != null) {
+                    isMoved = false;
+                    targetPosition = position;
+                    setChecked(position, true);
+                }
+            }
+        });
+        rvSort.setAdapter(mSortAdapter);
 
+    }
     private void setChecked(int position, boolean isLeft) {
         Log.d("p-------->", String.valueOf(position));
         if (isLeft) {
@@ -80,6 +101,7 @@ public class ManualFragment extends BaseFragment implements CheckListener {
 
 
     }
+
     @Override
     public void check(int position, boolean isScroll) {
         setChecked(position, isScroll);
@@ -90,7 +112,7 @@ public class ManualFragment extends BaseFragment implements CheckListener {
         //将点击的position转换为当前屏幕上可见的item的位置以便于计算距离顶部的高度，从而进行移动居中
         View childAt = rvSort.getChildAt(position - mLinearLayoutManager.findFirstVisibleItemPosition());
         if (childAt != null) {
-            int y = (childAt.getTop() - (rvSort.getHeight() / 2)+PhoneUtil.dip2px(getActivity(),30f));
+            int y = (childAt.getTop() - (rvSort.getHeight() / 2) + PhoneUtil.dip2px(getActivity(), 30f));
             rvSort.smoothScrollBy(0, y);
         }
 
@@ -133,25 +155,8 @@ public class ManualFragment extends BaseFragment implements CheckListener {
         });
 
     }
-    private void initData1() {
-        List<String> lists = new ArrayList<>();
-        //初始化左侧列表数据
-        for (int i = 0; i < list.size(); i++) {
-            lists.add(list.get(i).getCatname());
-        }
-        mSortAdapter = new SortAdapter(mContext, lists, new RvListener() {
-            @Override
-            public void onItemClick(int id, int position) {
-                if (mSortDetailFragment != null) {
-                    isMoved = true;
-                    targetPosition = position;
-                    setChecked(position, true);
-                }
-            }
-        });
-        rvSort.setAdapter(mSortAdapter);
-        createFragment();
-    }
+
+
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -179,10 +184,10 @@ public class ManualFragment extends BaseFragment implements CheckListener {
     long startTime = 0;
 
     private void initList() {
-        if (Constant.CAR_NAME.equals("c229")){
+        if (Constant.CAR_NAME.equals("c229")) {
             list = list.subList(0, 12);
 
-        }else if (Constant.CAR_NAME.equals("e115")){
+        } else if (Constant.CAR_NAME.equals("e115")) {
             list = list.subList(0, 13);
 
         }
@@ -245,7 +250,7 @@ public class ManualFragment extends BaseFragment implements CheckListener {
     private void getFastNewsList() {
 
         CategoryModel categoryModel = list.get(newIndex);
-        DBUtil.getNewsListByCatId(mContext,categoryModel.getCatid(), new TransactionListener() {
+        DBUtil.getNewsListByCatId(mContext, categoryModel.getCatid(), new TransactionListener() {
             @Override
             public void onResultReceived(Object result) {
 
@@ -297,7 +302,7 @@ public class ManualFragment extends BaseFragment implements CheckListener {
         for (int i = 0; i < newsList.size(); i++) {
             NewsListModel newsListModel = newsList.get(i);
             int newsSize = newsListModel.getRECORDS().size();
-            int lineCount = Constant.IS_PHONE ? 4 :4;
+            int lineCount = Constant.IS_PHONE ? 4 : 4;
             int lineNum = 0;
             if (newsSize % lineCount == 0) {
                 lineNum = newsSize / lineCount;

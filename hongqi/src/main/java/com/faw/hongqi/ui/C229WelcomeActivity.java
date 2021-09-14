@@ -106,12 +106,14 @@ public class C229WelcomeActivity extends BaseActivity {
                         LogUtil.logError("error  = 1111111");
                         runOnUiThread(new Runnable() {
                             public void run() {
-                                Constant.GAME_WEB_URL = model.getGame_web_url();//互动程序
+                                if ("C235".equals(model.getCar_name())) {
+                                    Constant.GAME_WEB_URL = model.getGame_web_url();//互动程序
+                                }
                                 Constant.TRIM_WEB_URL = model.getTrim_web_url();//内饰360
                                 Constant.CAR_NAME = model.getCar_name().toLowerCase();//E115 - e115
                                 Constant.ZIP_VERSION = model.getVersion();//36张图版本
                                 Constant.ZIP_URL = model.getZip_url();//36张图
-                                LoadAndUnzipUtil.startDownloadNews(C229WelcomeActivity.this, model.getNews_url(),model);
+                                LoadAndUnzipUtil.startDownloadNews(C229WelcomeActivity.this, model.getNews_url(), model);
                                 LoadAndUnzipUtil.startDownloadCategory(C229WelcomeActivity.this, model.getCategory_url());
                                 rl_load_faile.setVisibility(View.GONE);
                             }

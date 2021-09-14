@@ -60,6 +60,6 @@ public class SharedpreferencesUtil {
     public static String getCarModel(Context context ) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(AppUtil.getPackageName(context)
                 + PREFERENCES_NAME, Activity.MODE_PRIVATE);
-        return sharedPreferences.getString(CAR_MODEL, "C229_2");
+        return sharedPreferences.getString(CAR_MODEL, "C229_1");
     }
 }
