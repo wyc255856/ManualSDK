@@ -37,6 +37,7 @@ import com.faw.hongqi.util.Constant;
 import com.faw.hongqi.util.FileUtil;
 import com.faw.hongqi.util.GlideRoundTransform;
 import com.faw.hongqi.util.LogUtil;
+import com.faw.hongqi.util.SharedpreferencesUtil;
 import com.faw.hongqi.widget.TypesetTextView;
 
 import java.io.ByteArrayInputStream;
@@ -79,11 +80,11 @@ public abstract class BaseContentView extends LinearLayout {
     }
     public void setVLongImage(Context mContext, final SubsamplingScaleImageView imageView, String fileName) {
 
-        String url = (FileUtil.getResPath() + fileName).replace("/E115/standard", "");
-        File file = new File(url);
-        LogUtil.logError("file url = " + url);
+//        String url = (FileUtil.getResPath() + fileName).replace("/E115/standard", "");
+//        File file = new File(url);
+//        LogUtil.logError("file url = " + url);
 ////        if (file.exists()) {
-        LogUtil.logError("file url = " + file.exists());
+//        LogUtil.logError("file url = " + file.exists());
 //            Glide.with(mContext).asBitmap()
 //                    .load(Uri.fromFile(file))
 //                    .into(imageView);
@@ -92,8 +93,8 @@ public abstract class BaseContentView extends LinearLayout {
 
         imageView.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CENTER_CROP);
         imageView.setZoomEnabled(false);
-        imageView.setMinScale(1);//最小显示比例
-        imageView.setMaxScale(1);//最大显示比例（太大了图片显示会失真，因为一般微博长图的宽度不会太宽）
+        imageView.setMinScale(0.98f);//最小显示比例
+        imageView.setMaxScale(10.0f);//最大显示比例（太大了图片显示会失真，因为一般微博长图的宽度不会太宽）
         Glide.with(mContext)
                 .load(fileName).downloadOnly(new SimpleTarget<File>() {
             @Override
