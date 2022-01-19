@@ -31,7 +31,11 @@
             android:screenOrientation="landscape"
             >
         </activity>
-
+        <activity
+            android:name="com.faw.hongqi.ui.WelcomeActivity"
+            android:screenOrientation="portrait"
+            >
+        </activity>
         <activity
             android:name="com.faw.hongqi.ui.C229MainActivity"
             android:screenOrientation="landscape"

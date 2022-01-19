@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.faw.hongqi.R;
 import com.faw.hongqi.adaptar.PtrrvAdapter;
@@ -49,6 +50,7 @@ public class SearchFragment extends BaseFragment {
     List<NewsModel> newsList = new ArrayList<>();
     public static String WORD = "";
     HotWordView hot_word_view;
+    private LinearLayout nothing;
 //    private TagFlowLayout tagFlowLayout;
     @Override
     protected int getLayoutId() {
@@ -69,6 +71,7 @@ public class SearchFragment extends BaseFragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         recyclerView.setAdapter(mAdapter);
         hot_word_view = view.findViewById(R.id.hot_word_view);
+        nothing = view.findViewById(R.id.ll_nonthing);
         hot_word_view.setOnHotWordOnClickListener(new HotWordView.OnHotWordOnClickListener() {
             @Override
             public void onClickItem(String word) {
@@ -81,6 +84,7 @@ public class SearchFragment extends BaseFragment {
 //        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL);
 //        recyclerView.addItemDecoration(dividerItemDecoration);
     }
+
 
 
     @Override
@@ -115,6 +119,7 @@ public class SearchFragment extends BaseFragment {
                     delete_btn.setVisibility(View.GONE);
                     hot_word_view.setVisibility(View.VISIBLE);
                     recyclerView.setVisibility(View.GONE);
+                    nothing.setVisibility(View.GONE);
                 }
             }
         });
@@ -147,6 +152,9 @@ public class SearchFragment extends BaseFragment {
                 ((Activity) mContext).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        if (list.size() == 0) {
+                            nothing.setVisibility(View.VISIBLE);
+                        }
                         mAdapter.refreshData(list);
                     }
                 });

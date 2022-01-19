@@ -19,5 +19,6 @@ public class MainActivity extends AppCompatActivity {
                 C229API.openManual(MainActivity.this);
             }
         });
+
     }
 }

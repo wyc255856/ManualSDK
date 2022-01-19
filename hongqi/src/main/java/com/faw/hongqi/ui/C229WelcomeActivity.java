@@ -93,8 +93,15 @@ public class C229WelcomeActivity extends BaseActivity {
     private void isUpdate() {
         //http://www.haoweisys.com/hongqih9_admin/index.php?m=home&c=index&a=get_car_info&car_name=E115
         //传大写E115 C229
-        final String url = Constant.BASE_URL + "hongqih9_admin/index.php?m=home&c=index&a=get_car_info&car_name=" + Constant.CAR_TYPE;
-//        if ("".equals(SharedpreferencesUtil.getVersionCode(C229WelcomeActivity.this))) {
+        final String url = ("E115".equals(Constant.CAR_TYPE)) ? "http://www.e-guides.faw.cn/e115plus_admin/index.php?m=home&c=index&a=get_car_info&car_name=E115" : Constant.BASE_URL + "hongqih9_admin/index.php?m=home&c=index&a=get_car_info&car_name=" + Constant.CAR_TYPE;
+//        if("E115".equals(Constant.CAR_TYPE)){
+//            final String url = "http://www.e-guides.faw.cn/e115plus_admin/index.php?m=home&c=index&a=get_car_info&car_name=E115";
+//        }else{
+//            url = Constant.BASE_URL + "hongqih9_admin/index.php?m=home&c=index&a=get_car_info&car_name=" + Constant.CAR_TYPE;
+//        }
+
+
+        //        if ("".equals(SharedpreferencesUtil.getVersionCode(C229WelcomeActivity.this))) {
         new Thread() {
             @Override
             public void run() {

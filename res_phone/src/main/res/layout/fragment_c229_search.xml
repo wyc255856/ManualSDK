@@ -56,9 +56,9 @@
         <ScrollView
             android:layout_width="580dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
             android:layout_marginBottom="0dp"
             android:gravity="center_horizontal"
-            android:layout_marginTop="0dp"
             android:scrollbarStyle="outsideOverlay"
             android:scrollbarThumbVertical="@drawable/bg_scroll_bar"
             android:scrollbarTrackVertical="@drawable/seek_blue_bg">
@@ -67,6 +67,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
+                android:layout_marginTop="10dp"
                 android:orientation="vertical">
 
                 <TextView
@@ -75,15 +76,16 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:layout_marginLeft="15dp"
-                    android:visibility="gone"
+                    android:layout_marginTop="0dp"
                     android:layout_marginBottom="10dp"
-                    android:text="@string/search_hot_title_history" />
+                    android:text="@string/search_hot_title_history"
+                    android:visibility="gone" />
 
-<!--                <com.zhy.view.flowlayout.TagFlowLayout-->
-<!--                    android:id="@+id/tagfl"-->
-<!--                    android:layout_width="550dp"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    app:max_select="10" />-->
+                <!--                <com.zhy.view.flowlayout.TagFlowLayout-->
+                <!--                    android:id="@+id/tagfl"-->
+                <!--                    android:layout_width="550dp"-->
+                <!--                    android:layout_height="match_parent"-->
+                <!--                    app:max_select="10" />-->
 
 
                 <com.faw.hongqi.widget.HotWordView
@@ -99,6 +101,33 @@
             </LinearLayout>
 
         </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/ll_nonthing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@mipmap/hs5_result_icon"/>
+
+            <TextView
+                style="@style/text_28_gray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="没有结果"/>
+
+            <TextView
+                style="@style/text_28_gray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="请尝试其他关键字" />
+        </LinearLayout>
 
         <com.lhh.ptrrv.library.PullToRefreshRecyclerView
             android:id="@+id/ptrrv"
