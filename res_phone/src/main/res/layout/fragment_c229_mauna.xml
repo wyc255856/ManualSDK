@@ -22,14 +22,16 @@
                 android:id="@+id/rv_sort"
                 android:layout_width="240dp"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="20dp" />
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="35dp"
+                />
 
             <FrameLayout
                 android:id="@+id/lin_fragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="180dp"
-                android:layout_marginBottom="20dp" />
+                android:layout_marginBottom="35dp" />
         </FrameLayout>
     </LinearLayout>
 
@@ -43,6 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:scaleType="fitXY"
+        android:visibility="gone"
         android:layout_marginTop="50dp"
         android:src="@mipmap/top_fast_listview"/>
 </FrameLayout>

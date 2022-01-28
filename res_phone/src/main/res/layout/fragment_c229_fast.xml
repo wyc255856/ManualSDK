@@ -29,7 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="180dp"
-                android:layout_marginBottom="20dp" />
+                android:layout_marginBottom="35dp" />
         </FrameLayout>
     </LinearLayout>
 
@@ -37,6 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_gravity="bottom"
+        android:visibility="gone"
         android:background="@mipmap/theme1_main_up_bg" />
 
     <ImageView
@@ -44,5 +45,6 @@
         android:layout_height="50dp"
         android:scaleType="fitXY"
         android:layout_marginTop="50dp"
+        android:visibility="gone"
         android:src="@mipmap/top_fast_listview"/>
 </FrameLayout>
