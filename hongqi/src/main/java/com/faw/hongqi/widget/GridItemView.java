@@ -113,7 +113,7 @@ public class GridItemView extends LinearLayout implements View.OnClickListener {
                     .placeholder(R.mipmap.download_error)
                     .dontAnimate()
                     .into(imageView);
-//            Glide.with(mContext)
+//            Glide.with(mContext) 
 //                    .load(Uri.fromFile(file)).apply(options).into(imageView);
         } else {
             String url = "images/2019-04-26/5cc2b440a0ab1.png";
