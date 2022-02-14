@@ -200,10 +200,11 @@ public class DBUtil {
     }
 
     public static void getHotWordList(Context context, TransactionListener transactionListener) {
-        SQLite.select()
+        SQLite.select(HotWord_Table.word).distinct()
                 .from(HotWord.class)
                 .where()
                 .orderBy(HotWord_Table.id, false)
+
                 .limit(4)
                 .async().queryList(transactionListener);
     }

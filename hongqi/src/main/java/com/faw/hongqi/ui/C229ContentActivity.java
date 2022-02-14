@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 public class C229ContentActivity extends BaseActivity {
 
     ViewPager viewPager;
@@ -63,7 +62,13 @@ public class C229ContentActivity extends BaseActivity {
 
     @Override
     protected void initWidgetActions() {
+        if (_dataList.size() == 1) {
+            circleView.setVisibility(View.GONE);
+        } else {
+            circleView.setVisibility(View.VISIBLE);
+        }
         circleView.setViewPager(viewPager);
+
         findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,6 +87,7 @@ public class C229ContentActivity extends BaseActivity {
 
     List<ContentItemModel> data_list = new ArrayList<>();
     NewsModel newsModel;
+
     private void changeModelToList() {
         newsModel = (NewsModel) getIntent().getSerializableExtra("data");
         //第一组
@@ -195,7 +201,7 @@ public class C229ContentActivity extends BaseActivity {
         Intent intent = new Intent(context, C229ContentActivity.class);
         intent.putExtra("data", newsModel);
         context.startActivity(intent);
-        ((Activity)context).overridePendingTransition(R.anim.in,
+        ((Activity) context).overridePendingTransition(R.anim.in,
                 R.anim.out);
 
     }
