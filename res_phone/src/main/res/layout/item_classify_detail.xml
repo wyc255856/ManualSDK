@@ -13,7 +13,7 @@
         <ImageView
             android:id="@+id/ivAvatar"
             android:layout_width="113dp"
-            android:layout_height="72dp"
+            android:layout_height="69dp"
             android:scaleType="fitXY"
             android:layout_marginTop="10dp"
             />
@@ -21,7 +21,7 @@
         <TextView
             android:id="@+id/tvCity"
             style="@style/text_26_white"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="15dp"
             android:gravity="center_horizontal" />
     </LinearLayout>
 
