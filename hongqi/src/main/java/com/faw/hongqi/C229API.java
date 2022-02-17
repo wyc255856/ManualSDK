@@ -15,6 +15,7 @@ public class C229API {
     public static void init(Context context) {
         FlowManager.init(context);
         FileDownloader.setup(context);
+
         FlowManager.initModule(hongqiGeneratedDatabaseHolder.class);
         Constant.initData();
     }
