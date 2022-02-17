@@ -87,6 +87,7 @@ public class C229WelcomeActivity extends BaseActivity {
     private VersionUpdateModel model = null;
 
 
+
 //    String  str = HQExtendsProxy.getInstance(C229WelcomeActivity.this).getVehicleCfg();
 
 
