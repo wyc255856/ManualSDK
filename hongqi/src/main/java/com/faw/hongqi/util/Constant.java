@@ -25,7 +25,7 @@ public class Constant {
     public static String ZIP_VERSION = "";//36张图资源包版本
     public static String ZIP_URL = "";//36张图资源包下载地址
     public static String CAR_NAME = "";//车型名称、
-    
+
     public final static boolean IS_PHONE = true;//判断包是否是手机应用
     public final static boolean DEBUG = true;//是否是调试包
     public final static boolean TEST = true;//是否是不带资源的测试包
