@@ -25,7 +25,7 @@ android {
 //                from components.release
 
                     // You can then customize attributes of the publication as shown below.
-                    groupId = 'com.github.wyc255856.ManualSDK:hongqi'
+                    groupId = 'com.github.wyc255856.ManualSDK'
                     artifactId = 'base'
                     version = '1.0'
                 }
