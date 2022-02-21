@@ -105,12 +105,12 @@
         <item name="android:layout_gravity">bottom</item>
 
     </style>
-    <style name="Theme.AppCompat.Light.NoActionBar.Translucent" parent="Theme.AppCompat.Light.NoActionBar">
-<!--        <item name="android:windowNoTitle">true</item>-->
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowActionBar">false</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-    </style>
+<!--    <style name="Theme.AppCompat.Light.NoActionBar.Translucent" parent="Theme.AppCompat.Light.NoActionBar">-->
+<!--&lt;!&ndash;        <item name="android:windowNoTitle">true</item>&ndash;&gt;-->
+<!--        <item name="android:windowIsTranslucent">true</item>-->
+<!--        <item name="android:windowActionBar">false</item>-->
+<!--        <item name="android:windowBackground">@android:color/transparent</item>-->
+<!--    </style>-->
     <style name="Theme.NoBackgroundAndTitleMain" parent="android:Theme.Translucent">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsTranslucent">false</item>
