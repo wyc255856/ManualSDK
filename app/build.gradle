@@ -1,5 +1,6 @@
-apply plugin: 'com.android.application'
-//apply plugin: 'com.android.library'
+//apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
+group='com.github.wyc255856'
 //apply plugin: 'maven-publish'
 //plugins {
 //    id 'com.android.library'
@@ -9,7 +10,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.haowei.wyc.c229sdk"
+//        applicationId "com.haowei.wyc.c229sdk"
         minSdkVersion 19
         targetSdkVersion 28
         versionCode 2
