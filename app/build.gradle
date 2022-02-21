@@ -28,8 +28,10 @@ android {
 
                     // You can then customize attributes of the publication as shown below.
                     groupId = 'com.github.wyc255856.ManualSDK'
+                    artifactId = 'third_library'
+                    artifactId = 'res_phone'
                     artifactId = 'hongqi'
-                    version = '1.0'
+                    version = 'manual_2.6.4'
                 }
                 // Creates a Maven publication called “debug”.
 //            debug(MavenPublication) {
