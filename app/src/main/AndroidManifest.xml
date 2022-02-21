@@ -51,7 +51,7 @@
         <activity
             android:name="com.faw.hongqi.ui.C229LoadAndUnzipFileActivity"
             android:screenOrientation="landscape"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar.Translucent"></activity>
+            android:theme="@style/Theme.NoBackgroundAndTitleMain"></activity>
         <activity
             android:name="com.faw.hongqi.ui.C229PlayVideoActivity"
             android:screenOrientation="landscape"
