@@ -27,8 +27,8 @@ android {
 //                from components.release
 
                     // You can then customize attributes of the publication as shown below.
-                    groupId = 'com.github.wyc255856.ManualSDK.hongqi'
-                    artifactId = 'base'
+                    groupId = 'com.github.wyc255856.ManualSDK'
+                    artifactId = 'hongqi'
                     version = '1.0'
                 }
                 // Creates a Maven publication called “debug”.
