@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.github.dcendents.android-maven'
-//group='com.github.wyc255856.ManualSDK:hongqi'
+group='com.github.wyc255856.ManualSDK'
 
 android {
     compileSdkVersion 28
