@@ -36,7 +36,7 @@ public class ImageTextContentView extends BaseContentView {
                 this, true);
         image_content = findViewById(R.id.image_content);
         text_content = findViewById(R.id.text_content);
-        
+
     }
 
 
