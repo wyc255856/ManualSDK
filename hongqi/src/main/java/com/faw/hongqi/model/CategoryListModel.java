@@ -1,6 +1,5 @@
 package com.faw.hongqi.model;
 
-import com.raizlabs.android.dbflow.structure.BaseModel;
 
 import java.util.List;
 

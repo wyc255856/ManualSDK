@@ -30,8 +30,6 @@ import com.faw.hongqi.model.NewsModel;
 import com.faw.hongqi.util.LogUtil;
 import com.faw.hongqi.widget.HotWordView;
 import com.lhh.ptrrv.library.PullToRefreshRecyclerView;
-import com.raizlabs.android.dbflow.runtime.transaction.BaseTransaction;
-import com.raizlabs.android.dbflow.runtime.transaction.TransactionListener;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
@@ -130,39 +128,39 @@ public class SearchFragment extends BaseFragment {
     private void search(String word) {
         recyclerView.setVisibility(View.VISIBLE);
         hot_word_view.setVisibility(View.GONE);
-        DBUtil.insertHotWord(word);
+//        DBUtil.insertHotWord(word);
 
         WORD = word;
         list = new ArrayList<>();
-        DBUtil.searchByWord(mContext,word, new TransactionListener() {
-            @Override
-            public void onResultReceived(Object result) {
-
-            }
-
-            @Override
-            public boolean onReady(BaseTransaction transaction) {
-                return false;
-            }
-
-            @Override
-            public boolean hasResult(BaseTransaction transaction, Object result) {
-                if (result != null)
-                    list = (List<CategoryModel>) result;
-                ((Activity) mContext).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (list.size() == 0) {
-                            nothing.setVisibility(View.VISIBLE);
-                        }
-                        mAdapter.refreshData(list);
-                    }
-                });
-
-                LogUtil.logError("list size = " + list.size());
-                return false;
-            }
-        });
+//        DBUtil.searchByWord(mContext,word, new TransactionListener() {
+//            @Override
+//            public void onResultReceived(Object result) {
+//
+//            }
+//
+//            @Override
+//            public boolean onReady(BaseTransaction transaction) {
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean hasResult(BaseTransaction transaction, Object result) {
+//                if (result != null)
+//                    list = (List<CategoryModel>) result;
+//                ((Activity) mContext).runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        if (list.size() == 0) {
+//                            nothing.setVisibility(View.VISIBLE);
+//                        }
+//                        mAdapter.refreshData(list);
+//                    }
+//                });
+//
+//                LogUtil.logError("list size = " + list.size());
+//                return false;
+//            }
+//        });
     }
 
     public void HideKeyboard(View v) {

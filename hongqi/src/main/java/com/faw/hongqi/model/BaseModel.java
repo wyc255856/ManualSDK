@@ -1,32 +1,8 @@
 package com.faw.hongqi.model;
 
 
-import com.raizlabs.android.dbflow.structure.Model;
 
 
-public   class BaseModel  implements Model{
-    @Override
-    public void save() {
+public   class BaseModel{
 
-    }
-
-    @Override
-    public void delete() {
-
-    }
-
-    @Override
-    public void update() {
-
-    }
-
-    @Override
-    public void insert() {
-
-    }
-
-    @Override
-    public boolean exists() {
-        return false;
-    }
 }

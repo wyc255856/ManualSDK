@@ -23,8 +23,6 @@ import com.faw.hongqi.util.PhoneUtil;
 import com.faw.hongqi.widget.CheckListener;
 import com.faw.hongqi.widget.ItemHeaderDecoration;
 import com.faw.hongqi.widget.RvListener;
-import com.raizlabs.android.dbflow.runtime.transaction.BaseTransaction;
-import com.raizlabs.android.dbflow.runtime.transaction.TransactionListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -103,36 +101,23 @@ public class FastFragment extends BaseFragment implements CheckListener {
     protected void initData() {
         EventBus.getDefault().register(this);
 
-        DBUtil.getFastCategoryList(new TransactionListener() {
-            @Override
-            public void onResultReceived(Object result) {
+        list = DBUtil.getInstance().getFastCategoryList(getActivity());
+        LogUtil.logError("查询栏目数据长度 = " + list.size());
+        for (int i = 0; i < list.size(); i++) {
+            list5.add(list.get(i));
+        }
+        startTime = System.currentTimeMillis();
+        //categoryModel =null;
+        for(int i=0;i<list.size();i++){
+            CategoryModel  categoryModel = list.get(i);
+            List<NewsModel> result1List=DBUtil.getInstance().getNewsListByCatId(mContext,categoryModel.getCatid());
+            NewsListModel newsListModel = new NewsListModel();
+            newsListModel.setRECORDS(result1List);
+            newsList.add(newsListModel);
+        }
 
-            }
-
-            @Override
-            public boolean onReady(BaseTransaction transaction) {
-                return false;
-            }
-
-            @Override
-            public boolean hasResult(BaseTransaction transaction, Object result) {
-                if (result != null)
-                    list = (List<CategoryModel>) result;
-                for (int i = 0; i < 5; i++) {
-                    list5.add(list.get(i));
-                }
-
-                LogUtil.logError("list size = " + list.size());
-                ((Activity) mContext).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        initList();
-                    }
-                });
-
-                return false;
-            }
-        });
+        LogUtil.logError("查询栏目数据耗时" + (System.currentTimeMillis() - startTime) + "毫秒");
+        LogUtil.logError("查询栏目数据长度 = " + newsList.size());
 
     }
     private void initData1() {
@@ -275,42 +260,42 @@ public class FastFragment extends BaseFragment implements CheckListener {
      */
     private void getFastNewsList() {
 
-        CategoryModel categoryModel = list.get(newIndex);
-        DBUtil.getNewsListByCatId(mContext,categoryModel.getCatid(), new TransactionListener() {
-            @Override
-            public void onResultReceived(Object result) {
-
-            }
-
-            @Override
-            public boolean onReady(BaseTransaction transaction) {
-                return false;
-            }
-
-            @Override
-            public boolean hasResult(BaseTransaction transaction, Object result) {
-                List<NewsModel> result1List = new ArrayList<>();
-                if (result != null)
-                    result1List = (List<NewsModel>) result;
-                LogUtil.logError("news list size = " + result1List.size());
-                NewsListModel newsListModel = new NewsListModel();
-                newsListModel.setRECORDS(result1List);
-                newsList.add(newsListModel);
-                newIndex++;
-                if (newIndex < list.size()) {
-                    getFastNewsList();
-                } else {
-                    ((Activity) mContext).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            onDone();
-                        }
-                    });
-
-                }
-                return false;
-            }
-        });
+//        CategoryModel categoryModel = list.get(newIndex);
+//        DBUtil.getNewsListByCatId(mContext,categoryModel.getCatid(), new TransactionListener() {
+//            @Override
+//            public void onResultReceived(Object result) {
+//
+//            }
+//
+//            @Override
+//            public boolean onReady(BaseTransaction transaction) {
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean hasResult(BaseTransaction transaction, Object result) {
+//                List<NewsModel> result1List = new ArrayList<>();
+//                if (result != null)
+//                    result1List = (List<NewsModel>) result;
+//                LogUtil.logError("news list size = " + result1List.size());
+//                NewsListModel newsListModel = new NewsListModel();
+//                newsListModel.setRECORDS(result1List);
+//                newsList.add(newsListModel);
+//                newIndex++;
+//                if (newIndex < list.size()) {
+//                    getFastNewsList();
+//                } else {
+//                    ((Activity) mContext).runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            onDone();
+//                        }
+//                    });
+//
+//                }
+//                return false;
+//            }
+//        });
 
 
     }

@@ -7,7 +7,6 @@ import android.view.View;
 
 import com.faw.hongqi.R;
 import com.faw.hongqi.adaptar.GeneralAdapter;
-import com.faw.hongqi.model.NewsModel_Table;
 import com.faw.hongqi.model.VersionUpdateModel;
 import com.faw.hongqi.util.Constant;
 import com.faw.hongqi.util.OnRecyclerItemClickListener;

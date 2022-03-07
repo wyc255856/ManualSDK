@@ -4,11 +4,7 @@ package com.faw.hongqi.model;
  */
 
 import com.faw.hongqi.dbutil.CarDatabase;
-import com.raizlabs.android.dbflow.annotation.Column;
-import com.raizlabs.android.dbflow.annotation.ModelContainer;
-import com.raizlabs.android.dbflow.annotation.PrimaryKey;
-import com.raizlabs.android.dbflow.annotation.Table;
-import com.raizlabs.android.dbflow.structure.BaseModel;
+
 
 import java.io.Serializable;
 
@@ -19,169 +15,90 @@ import java.io.Serializable;
  * @author aTool.org (i@aTool.org)
  * @website http://www.atool9.com/json2javabean.php
  */
-@ModelContainer
-@Table(database = CarDatabase.class)
 public class NewsModel extends BaseModel implements Serializable {
 
-    @PrimaryKey(autoincrement = true)
     private int newsid;
-    @Column
     private String id;
 
-    @Column
     private int catid;
-    @Column
     private String title;
-    @Column
     private String style;
-    @Column
     private String thumb;
-    @Column
     private String keywords;
-    @Column
     private String description;
-    @Column
     private String content;
-    @Column
     private String url;
-    @Column
     private int listorder;
-    @Column
     private int status;
-    @Column
     private int islink;
-    @Column
     private String username;
-    @Column
     private int inputtime;
-    @Column
     private int updatetime;
-    @Column
     private String head_image;
-    @Column
     private String image;
-    @Column
     private String image1;
-    @Column
     private String image2;
-    @Column
     private String image3;
-    @Column
     private String image4;
-    @Column
     private int template;
-    @Column
     private String video;
-    @Column
     private int template1;
 
     public int getTemplate1() {
         return template1;
     }
 
-    @Column
     private int template2;
-    @Column
     private int template3;
-    @Column
     private int template4;
-    @Column
     private String video1;
-    @Column
     private String video2;
-    @Column
     private String video3;
-    @Column
     private String video4;
-    @Column
     private String content1_app;
-    @Column
     private String content2_app;
-    @Column
     private String content3_app;
-    @Column
     private String content4_app;
-    @Column
     private String content5_app;
-    @Column
     private String content6_app;
-    @Column
     private String content7_app;
-    @Column
     private String content8_app;
-    @Column
     private String content9_app;
-    @Column
     private String content10_app;
-    @Column
     private String content1;
-    @Column
     private String content2;
-    @Column
     private String content3;
-    @Column
     private String content4;
-    @Column
     private String image5;
-    @Column
     private String image6;
-    @Column
     private String image7;
-    @Column
     private String image8;
-    @Column
     private String image9;
-    @Column
     private String image10;
-    @Column
     private String content5;
-    @Column
     private String content6;
-    @Column
     private String content7;
-    @Column
     private String content8;
-    @Column
     private String content9;
-    @Column
     private String content10;
-    @Column
     private String video5;
-    @Column
     private String video6;
-    @Column
     private String video7;
-    @Column
     private String video8;
-    @Column
     private String video9;
-    @Column
     private String video10;
-    @Column
     private int template5;
-    @Column
     private int template6;
-    @Column
     private int template7;
-    @Column
     private int template8;
-    @Column
     private int template9;
-    @Column
     private int template10;
-    @Column
     private int sdss;
-    @Column
     private int sdhh;
-    @Column
     private int sdzg;
-    @Column
     private int zdss;
-    @Column
     private int zdhh;
-    @Column
     private int zdzg;
-    @Column
     private int zdqj;
 
     public String getId() {

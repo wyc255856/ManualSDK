@@ -5,11 +5,11 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.faw.hongqi.R;
+import com.faw.hongqi.model.BaseModel;
 import com.faw.hongqi.model.NewsListModel;
 import com.faw.hongqi.model.NewsModel;
 import com.faw.hongqi.util.Constant;
 import com.faw.hongqi.widget.GridItemView;
-import com.raizlabs.android.dbflow.structure.BaseModel;
 
 import java.util.List;
 

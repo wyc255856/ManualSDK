@@ -1,66 +1,40 @@
 package com.faw.hongqi.model;
 
-import com.faw.hongqi.dbutil.CarDatabase;
-import com.raizlabs.android.dbflow.annotation.Column;
-import com.raizlabs.android.dbflow.annotation.ModelContainer;
-import com.raizlabs.android.dbflow.annotation.PrimaryKey;
-import com.raizlabs.android.dbflow.annotation.Table;
-import com.raizlabs.android.dbflow.structure.BaseModel;
 
-@ModelContainer
-@Table(database = CarDatabase.class)
-public class CategoryModel extends BaseModel {
-    @PrimaryKey(autoincrement = false)
-    private int catid;
 
-    @Column
-    private int type;
-    @Column
-    private int parentid;
-    @Column
-    private String catname;
-    @Column
-    private String description;
-    @Column
-    private String url;
-    @Column
-    private String setting;
-    @Column
-    private int listorder;
-    @Column
-    private int ismenu;
-    @Column
-    private String img;
-    @Column
-    private String img_path;
-    @Column
-    private String level;
-    @Column
-    private String template;
-    @Column
-    private int is_benceng_duyou;
-    @Column
-    private int sdss;
-    @Column
-    private int sdhh;
-    @Column
-    private int sdzg;
-    @Column
-    private int zdss;
-    @Column
-    private int zdhh;
-    @Column
-    private int zdzg;
-    @Column
-    private int zdqj;
+public class CategoryModel extends BaseModel implements Comparable<CategoryModel>{
+    private String catid;
 
-    public void setCatid(int catid) {
+    public String getCatid() {
+        return catid;
+    }
+
+    public void setCatid(String catid) {
         this.catid = catid;
     }
 
-    public int getCatid() {
-        return catid;
-    }
+    private int type;
+    private int parentid;
+    private String catname;
+    private String description;
+    private String url;
+    private String setting;
+    private int listorder;
+    private int ismenu;
+    private String img;
+    private String img_path;
+    private String level;
+    private String template;
+    private int is_benceng_duyou;
+    private int sdss;
+    private int sdhh;
+    private int sdzg;
+    private int zdss;
+    private int zdhh;
+    private int zdzg;
+    private int zdqj;
+
+
 
     public void setType(int type) {
         this.type = type;
@@ -223,4 +197,8 @@ public class CategoryModel extends BaseModel {
     }
 
 
+    @Override
+    public int compareTo(CategoryModel o) {
+        return 0;
+    }
 }

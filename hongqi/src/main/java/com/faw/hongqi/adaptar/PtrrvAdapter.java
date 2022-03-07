@@ -5,8 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import com.faw.hongqi.holder.BaseHolder;
+import com.faw.hongqi.model.BaseModel;
 import com.faw.hongqi.util.LogUtil;
-import com.raizlabs.android.dbflow.structure.BaseModel;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.raizlabs.android.dbflow.structure.BaseModel;
+import com.faw.hongqi.model.BaseModel;
 
 
 public abstract class BaseHolder extends RecyclerView.ViewHolder {

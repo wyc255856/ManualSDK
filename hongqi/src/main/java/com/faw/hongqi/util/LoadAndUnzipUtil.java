@@ -115,7 +115,7 @@ public class LoadAndUnzipUtil {
                         context.runOnUiThread(new Runnable() {
                             public void run() {
                                 //下载完成
-                                DBUtil.initData(context,"news");
+                                DBUtil.initData(context);
                                 Intent intent = new Intent(context,C229SelectCarModelActivity.class);
                                 intent.putExtra("data",model);
                                 context.startActivity(intent);
@@ -171,7 +171,7 @@ public class LoadAndUnzipUtil {
                         context.runOnUiThread(new Runnable() {
                             public void run() {
                                 //下载完成
-                                DBUtil.initData(context,"category");
+                                DBUtil.initData(context);
 //                                if (fileIsExists(FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
 //                                        + File.separator + "MyFolder"+File.separator +"zy_news.json")){
                             }
