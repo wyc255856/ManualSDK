@@ -30,7 +30,7 @@ android {
 ////                    groupId = 'com.haowei.wyc.c229sdk'
 ////                    version = 'manual_2.6.6'
 ////                    artifactId = 'C229SDK'
-//
+// 
 //                    // Tell maven to prepare the generated "* .aar" file for publishing
 ////                    artifact("$buildDir/outputs/aar/${project.getName()}.aar")
 //
