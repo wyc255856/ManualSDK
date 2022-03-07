@@ -1,6 +1,5 @@
 package com.faw.hongqi.model;
 
-import com.faw.hongqi.dbutil.CarDatabase;
 
 import java.io.Serializable;
 

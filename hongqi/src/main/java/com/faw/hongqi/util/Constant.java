@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.IntProperty;
 
 import com.faw.hongqi.model.HotWord;
+import com.faw.hongqi.model.NewsModelTable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,41 +30,37 @@ public class Constant {
     public final static boolean IS_PHONE = true;//判断包是否是手机应用
     public final static boolean DEBUG = true;//是否是调试包
     public final static boolean TEST = true;//是否是不带资源的测试包
-    private static Map<String, IntProperty> intPropertyList = new HashMap<>();
+    private static Map<String, String> intPropertyList = new HashMap<>();
 
 
     public static void initData() {
-//        intPropertyList.put("C229_1", NewsModel_Table.sdss);
-//        intPropertyList.put("C229_2", NewsModel_Table.sdhh);
-//        intPropertyList.put("C229_3", NewsModel_Table.sdzg);
-//        intPropertyList.put("C229_4", NewsModel_Table.zdss);
-//        intPropertyList.put("C229_5", NewsModel_Table.zdhh);
-//        intPropertyList.put("C229_6", NewsModel_Table.zdzg);
-//        intPropertyList.put("C229_7", NewsModel_Table.zdqj);
+        intPropertyList.put("C229_1", "sdss");
+        intPropertyList.put("C229_2", "sdhh");
+        intPropertyList.put("C229_3", "sdzg");
+        intPropertyList.put("C229_4", "zdss");
+        intPropertyList.put("C229_5", "zdhh");
+        intPropertyList.put("C229_6", "zdzg");
+        intPropertyList.put("C229_7", "zdqj");
     }
 
-    public static IntProperty getCurrentIntProperty(Context context) {
+    public static String getCurrentIntProperty(Context context) {
         String modle = SharedpreferencesUtil.getCarModel(context);
         return intPropertyList.get(modle);
 
-        
+
     }
 
     public static void initHotWord() {
-//        HotWord hotWord1 = new HotWord();
-//        hotWord1.setWord("爆胎");
-//        hotWord1.save();
-//
-//        HotWord hotWord2 = new HotWord();
-//        hotWord2.setWord("雾灯");
-//        hotWord2.save();
-//
-//        HotWord hotWord3 = new HotWord();
-//        hotWord3.setWord("安全带");
-//        hotWord3.save();
-//
-//        HotWord hotWord4 = new HotWord();
-//        hotWord4.setWord("方向盘");
-//        hotWord4.save();
+        HotWord hotWord1 = new HotWord();
+        hotWord1.setWord("爆胎");
+
+        HotWord hotWord2 = new HotWord();
+        hotWord2.setWord("雾灯");
+
+        HotWord hotWord3 = new HotWord();
+        hotWord3.setWord("安全带");
+
+        HotWord hotWord4 = new HotWord();
+        hotWord4.setWord("方向盘");
     }
 }

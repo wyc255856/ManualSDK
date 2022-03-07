@@ -23,8 +23,8 @@ import java.util.List;
 
 public class DBUtil {
     private static DBUtil instance = new DBUtil();
-    public static List<NewsModel> newsList = new ArrayList<>();
-    public static List<CategoryModel> categoryList = new ArrayList<>();
+    public  List<NewsModel> newsList = new ArrayList<>();
+    public  List<CategoryModel> categoryList = new ArrayList<>();
 
     private DBUtil() {
     }
@@ -33,7 +33,7 @@ public class DBUtil {
         return instance;
     }
 
-    public static void initData(final Context context) {
+    public void initData(final Context context) {
 
 
         Constant.initHotWord();
@@ -100,7 +100,7 @@ public class DBUtil {
         LogUtil.logError("categoryModel 1 = " + categoryList.size());
         for (int i = 0; i < categoryList.size(); i++) {
             CategoryModel categoryModel = categoryList.get(i);
-            if (id == categoryModel.getParentid()){
+            if (id == categoryModel.getParentid()) {
                 resultList.add(categoryModel);
             }
         }
@@ -111,18 +111,17 @@ public class DBUtil {
 
     public List<CategoryModel> getManuaCategoryList(Context context) {
         int id = 0;
-        if (Constant.CAR_NAME.equals("e115")){
+        if (Constant.CAR_NAME.equals("e115")) {
             id = 1;
-        }else if (Constant.CAR_NAME.equals("c229")){
+        } else if (Constant.CAR_NAME.equals("c229")) {
             id = 1855;
-        }
-        else if (Constant.CAR_NAME.equals("c235")){
+        } else if (Constant.CAR_NAME.equals("c235")) {
             id = 1855;
         }
         List<CategoryModel> resultList = new ArrayList<>();
         for (int i = 0; i < categoryList.size(); i++) {
             CategoryModel categoryModel = categoryList.get(i);
-            if (id == categoryModel.getParentid()){
+            if (id == categoryModel.getParentid()) {
                 resultList.add(categoryModel);
             }
 
@@ -158,9 +157,9 @@ public class DBUtil {
             NewsModel newsModel = newsList.get(i);
             LogUtil.logError(" catid = " + catid + "     item catid = " + newsModel.getCatid());
             LogUtil.logError("#######" + (isCurrentModel(context, newsModel)));
-                if (catid.equals(newsModel.getCatid()) && isCurrentModel(context, newsModel)) {
-                    resultList.add(newsModel);
-                }
+            if (catid.equals(newsModel.getCatid()) && isCurrentModel(context, newsModel)) {
+                resultList.add(newsModel);
+            }
 //                if (catid.equals(newsModel.getCatid())) {
 //                    resultList.add(newsModel);
 //                }
@@ -170,31 +169,23 @@ public class DBUtil {
     }
 
     private boolean isCurrentModel(Context context, NewsModel newsModel) {
-//        String currentName = Constant.getCurrentIntProperty(context).getNameAlias().getName();
-//        intPropertyList.put("C229_1", NewsModel_Table.sdss);
-//        intPropertyList.put("C229_2", NewsModel_Table.sdhh);
-//        intPropertyList.put("C229_3", NewsModel_Table.sdzg);
-//        intPropertyList.put("C229_4", NewsModel_Table.zdss);
-//
-//        intPropertyList.put("C229_5", NewsModel_Table.zdhh);
-//        intPropertyList.put("C229_6", NewsModel_Table.zdzg);
-//        intPropertyList.put("C229_7", NewsModel_Table.zdqj);
+
         int code = -1;
-//        if (Constant.getCurrentIntProperty(context).equals(NewsModel_Table.sdss)) {
-//            code = newsModel.getSdss();
-//        } else if (Constant.getCurrentIntProperty(context).equals(NewsModel_Table.sdhh)) {
-//            code = newsModel.getSdhh();
-//        } else if (Constant.getCurrentIntProperty(context).equals(NewsModel_Table.sdzg)) {
-//            code = newsModel.getSdzg();
-//        } else if (Constant.getCurrentIntProperty(context).equals(NewsModel_Table.zdss)) {
-//            code = newsModel.getZdss();
-//        } else if (Constant.getCurrentIntProperty(context).equals(NewsModel_Table.zdhh)) {
-//            code = newsModel.getZdhh();
-//        } else if (Constant.getCurrentIntProperty(context).equals(NewsModel_Table.zdzg)) {
-//            code = newsModel.getZdzg();
-//        } else if (Constant.getCurrentIntProperty(context).equals(NewsModel_Table.zdqj)) {
-//            code = newsModel.getZdqj();
-//        }
+        if (Constant.getCurrentIntProperty(context).equals("sdss")) {
+            code = newsModel.getSdss();
+        } else if (Constant.getCurrentIntProperty(context).equals("sdhh")) {
+            code = newsModel.getSdhh();
+        } else if (Constant.getCurrentIntProperty(context).equals("sdzg")) {
+            code = newsModel.getSdzg();
+        } else if (Constant.getCurrentIntProperty(context).equals("zdss")) {
+            code = newsModel.getZdss();
+        } else if (Constant.getCurrentIntProperty(context).equals("zdhh")) {
+            code = newsModel.getZdhh();
+        } else if (Constant.getCurrentIntProperty(context).equals("zdzg")) {
+            code = newsModel.getZdzg();
+        } else if (Constant.getCurrentIntProperty(context).equals("zdqj")) {
+            code = newsModel.getZdqj();
+        }
         return code == 1;
     }
 //    private String getName(IntProperty intProperty){
@@ -217,9 +208,9 @@ public class DBUtil {
         }
         for (int i = 0; i < newsList.size(); i++) {
             NewsModel newsModel = newsList.get(i);
-                if (newsModel.getTitle().contains(word) && isCurrentModel(context, newsModel)) {
-                    resultList.add(newsModel);
-                }
+            if (newsModel.getTitle().contains(word) && isCurrentModel(context, newsModel)) {
+                resultList.add(newsModel);
+            }
 //                if (newsModel.getTitle().contains(word)) {
 //                    resultList.add(newsModel);
 //                }
