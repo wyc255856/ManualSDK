@@ -20,6 +20,9 @@ import com.faw.hongqi.util.LogUtil;
 import com.faw.hongqi.util.NetWorkCallBack;
 import com.faw.hongqi.util.PhoneUtil;
 import com.google.gson.Gson;
+import com.liulishuo.filedownloader.util.FileDownloadUtils;
+
+import java.io.File;
 
 
 /**
@@ -58,9 +61,28 @@ public class C229WelcomeActivity extends BaseActivity {
                 != PackageManager.PERMISSION_GRANTED) {
             requestWritePermission();
         } else {
+//            testThread();
             isUpdate();
         }
 
+    }
+    class MyThread extends Thread {
+        @Override
+        public void run() {
+            super.run();
+//            File path = new File(FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
+//                    + File.separator + "MyFolder");
+//            if (!path.exists()) {// 目录存在返回false
+//                path.mkdirs();// 创建一个目录
+//            }
+//            isUpdate();
+
+        }
+    }
+
+    private void testThread(){
+        Thread thread = new MyThread();
+        thread.start();
     }
 
     @Override
@@ -121,8 +143,11 @@ public class C229WelcomeActivity extends BaseActivity {
                                 Constant.CAR_NAME = model.getCar_name().toLowerCase();//E115 - e115
                                 Constant.ZIP_VERSION = model.getVersion();//36张图版本
                                 Constant.ZIP_URL = model.getZip_url();//36张图
-                                LoadAndUnzipUtil.startDownloadNews(C229WelcomeActivity.this, model.getNews_url(), model);
-                                LoadAndUnzipUtil.startDownloadCategory(C229WelcomeActivity.this, model.getCategory_url());
+
+                                    LoadAndUnzipUtil.startDownloadNews(C229WelcomeActivity.this, model.getNews_url(), model);
+                                    LoadAndUnzipUtil.startDownloadCategory(C229WelcomeActivity.this, model.getCategory_url());
+
+
                                 rl_load_faile.setVisibility(View.GONE);
                             }
                         });

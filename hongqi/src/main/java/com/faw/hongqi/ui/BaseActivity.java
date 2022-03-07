@@ -12,9 +12,12 @@ import android.view.WindowManager;
 import com.faw.hongqi.R;
 import com.faw.hongqi.dbutil.DBUtil;
 import com.faw.hongqi.util.Constant;
+import com.liulishuo.filedownloader.util.FileDownloadUtils;
 
 import org.xutils.x;
 
+import java.io.File;
+import java.io.IOException;
 
 
 public abstract class BaseActivity extends FragmentActivity {
@@ -43,7 +46,8 @@ public abstract class BaseActivity extends FragmentActivity {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(getResources().getColor(R.color.theme1_text_color_black));
         }
-//        DBUtil.initData(this);
+//        DBUtil.getInstance().initData(this);
+
         initData();
         initViews();
         initWidgetActions();

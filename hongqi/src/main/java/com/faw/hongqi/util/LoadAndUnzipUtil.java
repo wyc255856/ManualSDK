@@ -16,7 +16,7 @@ import java.io.File;
 public class LoadAndUnzipUtil {
     static BaseDownloadTask singleTask;
     public static int singleTaskId = 0;
-    String saveZipFilePath = FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
+    public  static  String saveZipFilePath = FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
             + File.separator + "MyFolder";
     private static String TAG = LoadAndUnzipUtil.class.getSimpleName();
     private static String fileName;

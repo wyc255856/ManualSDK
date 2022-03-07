@@ -3,6 +3,7 @@ package com.faw.hongqi.dbutil;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.faw.hongqi.R;
 import com.faw.hongqi.model.CategoryListModel;
 import com.faw.hongqi.model.CategoryModel;
 import com.faw.hongqi.model.NewsListModel;
@@ -37,9 +38,15 @@ public class DBUtil {
 
 
         Constant.initHotWord();
+//        try {
+            newsList = getList(context);
+            categoryList = getCategoryList(context);
+//        }catch (Exception e){
+//            LogUtil.logError("使用工程里的news数据");
+//            newsList=getList1(context);
+//            categoryList=getCategoryList1(context);
+//        }
 
-        newsList = getList(context);
-        categoryList = getCategoryList(context);
 
     }
 
