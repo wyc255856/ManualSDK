@@ -36,7 +36,7 @@ public class TextContentView extends BaseContentView {
 
     @Override
     public void setContent(ContentItemModel data) {
-        String str = data.getContent().replaceAll("#","");
+        String str = data.getContent();
         setHtmlText(text_content, str);
     }
 }
