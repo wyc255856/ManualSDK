@@ -45,6 +45,8 @@ public class Constant {
     public static IntProperty getCurrentIntProperty(Context context) {
         String modle = SharedpreferencesUtil.getCarModel(context);
         return intPropertyList.get(modle);
+
+        
     }
 
     public static void initHotWord() {
