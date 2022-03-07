@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 group='com.github.wyc255856.ManualSDK'
-//def dbflow_version = "3.0.0-beta2"
+def dbflow_version = "3.0.0-beta2"
 android {
     compileSdkVersion 28
 
@@ -36,7 +36,6 @@ dependencies {
     implementation 'com.android.support:support-v4:28.0.0'
     implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
     testImplementation 'junit:junit:4.12'
-    annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:3.0.0-beta2"
     api project(path: ':res_phone')
 
     implementation 'com.wang.avi:library:2.1.3'
@@ -52,10 +51,10 @@ dependencies {
     //事件框架
     implementation 'org.greenrobot:eventbus:3.1.1'
     //数据库框架
-    implementation "com.github.Raizlabs.DBFlow:dbflow-sqlcipher:3.0.0-beta2"
-    implementation "com.github.Raizlabs.DBFlow:dbflow-core:3.0.0-beta2"
-//    implementation "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
-    implementation "com.github.Raizlabs.DBFlow:dbflow:3.0.0-beta2"
+    annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
+    implementation "com.github.Raizlabs.DBFlow:dbflow-sqlcipher:${dbflow_version}"
+    implementation "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
+    implementation "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
     implementation 'homhomlin.lib:ptrrv-library:1.3.1'
     implementation 'com.liulishuo.filedownloader:library:1.7.7'
     implementation 'com.hyman:flowlayout-lib:1.1.2'
