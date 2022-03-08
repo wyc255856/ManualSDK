@@ -291,7 +291,6 @@ public class FastFragment extends BaseFragment implements CheckListener {
     private void getFastNewsList() {
 
         CategoryModel categoryModel = list.get(newIndex);
-
         SQLite.select().from(NewsModel.class).where(NewsModel_Table.catid.eq(categoryModel.getCatid()))
                 .and(Constant.getCurrentIntProperty(mContext).eq(1))
                 .async().queryResultCallback(
