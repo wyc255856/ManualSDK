@@ -1,6 +1,7 @@
 package com.faw.hongqi.fragment;
 
 import android.app.Activity;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 
@@ -16,14 +17,19 @@ import com.faw.hongqi.event.BaseEvent;
 import com.faw.hongqi.event.SecondaryOnclickEvent;
 import com.faw.hongqi.event.SecondaryOnscollerEvent;
 import com.faw.hongqi.model.CategoryModel;
+import com.faw.hongqi.model.CategoryModel_Table;
 import com.faw.hongqi.model.NewsListModel;
 import com.faw.hongqi.model.NewsModel;
+import com.faw.hongqi.model.NewsModel_Table;
 import com.faw.hongqi.util.Constant;
 import com.faw.hongqi.util.LogUtil;
 import com.faw.hongqi.util.PhoneUtil;
 import com.faw.hongqi.widget.CheckListener;
 import com.faw.hongqi.widget.ItemHeaderDecoration;
 import com.faw.hongqi.widget.RvListener;
+import com.raizlabs.android.dbflow.sql.language.CursorResult;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
+import com.raizlabs.android.dbflow.structure.database.transaction.QueryTransaction;
 
 
 import org.greenrobot.eventbus.EventBus;
@@ -106,19 +112,40 @@ public class FastFragment extends BaseFragment implements CheckListener {
     protected void initData() {
         EventBus.getDefault().register(this);
 
-        list = DBUtil.getFastCategoryList();
-        LogUtil.logError("list size = " + list.size());
-        for (int i = 0; i < 5; i++) {
-            list5.add(list.get(i));
+        int id = 0;
+        if (Constant.CAR_NAME.equals("e115")) {
+            id = 17;
+        } else if (Constant.CAR_NAME.equals("c229")) {
+            id = 1869;
+        } else if (Constant.CAR_NAME.equals("c235")) {
+            id = 1869;
         }
 
-        LogUtil.logError("list size = " + list.size());
-        ((Activity) mContext).runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                initList();
-            }
-        });
+        SQLite.select().from(CategoryModel.class).where(CategoryModel_Table.parentid.eq(id))
+                .async().queryResultCallback(
+                new QueryTransaction.QueryResultCallback<CategoryModel>() {
+                    @Override
+                    public void onQueryResult(@NonNull QueryTransaction<CategoryModel> transaction,
+                                              @NonNull CursorResult<CategoryModel> tResult) {
+                        //这里可以是返回集合：tResult.toList()
+                        if (tResult != null)
+                            list = tResult.toList();
+                        for (int i = 0; i < 5; i++) {
+                            list5.add(list.get(i));
+                        }
+
+                        LogUtil.logError("list size = " + list.size());
+                        ((Activity) mContext).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                initList();
+                            }
+                        });
+
+                        tResult.close();//关闭资源
+                    }
+                }).execute();
+
 
     }
 
@@ -128,7 +155,6 @@ public class FastFragment extends BaseFragment implements CheckListener {
         for (int i = 0; i < list5.size(); i++) {
             lists.add(list5.get(i).getCatname());
         }
-        LogUtil.logError("点击了 = " + lists.size());
         mSortAdapter = new SortFastAdapter(mContext, lists, new RvListener() {
             @Override
             public void onItemClick(int id, int position) {
@@ -148,6 +174,7 @@ public class FastFragment extends BaseFragment implements CheckListener {
         rvSort = view.findViewById(R.id.rv_sort);
         mLinearLayoutManager = new LinearLayoutManager(getActivity());
         rvSort.setLayoutManager(mLinearLayoutManager);
+
 
 //        recyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
 //            @Override
@@ -265,23 +292,34 @@ public class FastFragment extends BaseFragment implements CheckListener {
 
         CategoryModel categoryModel = list.get(newIndex);
 
-//                LogUtil.logError("news list size = " + result1List.size());
-        NewsListModel newsListModel = new NewsListModel();
-        newsListModel.setRECORDS(DBUtil.getNewsListByCatId(mContext, categoryModel.getCatid()));
-        newsList.add(newsListModel);
-        LogUtil.logError("查询栏目数据长度 = " + newsList.size());
-        newIndex++;
-        if (newIndex < list.size()) {
-            getFastNewsList();
-        } else {
-            ((Activity) mContext).runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    onDone();
-                }
-            });
+        SQLite.select().from(NewsModel.class).where(NewsModel_Table.catid.eq(categoryModel.getCatid()))
+                .and(Constant.getCurrentIntProperty(mContext).eq(1))
+                .async().queryResultCallback(
+                new QueryTransaction.QueryResultCallback<NewsModel>() {
+                    @Override
+                    public void onQueryResult(@NonNull QueryTransaction<NewsModel> transaction,
+                                              @NonNull CursorResult<NewsModel> tResult) {
+                        //这里可以是返回集合：tResult.toList()
+                        NewsListModel newsListModel = new NewsListModel();
+                        newsListModel.setRECORDS(tResult.toList());
+                        newsList.add(newsListModel);
+                        newIndex++;
+                        if (newIndex < list.size()) {
+                            getFastNewsList();
+                        } else {
+                    ((Activity) mContext).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            onDone();
+                        }
+                    });
 
-        }
+                        }
+
+
+                        tResult.close();//关闭资源
+                    }
+                }).execute();
 
 
     }

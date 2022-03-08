@@ -2,6 +2,7 @@ package com.faw.hongqi.fragment;
 
 import android.app.Activity;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,14 +16,19 @@ import com.faw.hongqi.dbutil.DBUtil;
 import com.faw.hongqi.event.BaseEvent;
 import com.faw.hongqi.event.SecondaryOnclickEvent;
 import com.faw.hongqi.model.CategoryModel;
+import com.faw.hongqi.model.CategoryModel_Table;
 import com.faw.hongqi.model.NewsListModel;
 import com.faw.hongqi.model.NewsModel;
+import com.faw.hongqi.model.NewsModel_Table;
 import com.faw.hongqi.util.Constant;
 import com.faw.hongqi.util.LogUtil;
 import com.faw.hongqi.util.PhoneUtil;
 import com.faw.hongqi.widget.CheckListener;
 import com.faw.hongqi.widget.ItemHeaderDecoration;
 import com.faw.hongqi.widget.RvListener;
+import com.raizlabs.android.dbflow.sql.language.CursorResult;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
+import com.raizlabs.android.dbflow.structure.database.transaction.QueryTransaction;
 
 
 import org.greenrobot.eventbus.EventBus;
@@ -56,6 +62,7 @@ public class ManualFragment extends BaseFragment implements CheckListener {
         fragmentTransaction.add(R.id.lin_fragment, mSortDetailFragment);
         fragmentTransaction.commit();
     }
+
     private void initData1() {
         createFragment();
         List<String> lists = new ArrayList<>();
@@ -76,6 +83,7 @@ public class ManualFragment extends BaseFragment implements CheckListener {
         rvSort.setAdapter(mSortAdapter);
 
     }
+
     private void setChecked(int position, boolean isLeft) {
         Log.d("p-------->", String.valueOf(position));
         if (isLeft) {
@@ -125,21 +133,33 @@ public class ManualFragment extends BaseFragment implements CheckListener {
     @Override
     protected void initData() {
         EventBus.getDefault().register(this);
-
-
-                    list = DBUtil.getManuaCategoryList();
-                LogUtil.logError("list size = " + list.size());
-                ((Activity) mContext).runOnUiThread(new Runnable() {
+        int id = 0;
+        if (Constant.CAR_NAME.equals("e115")) {
+            id = 1;
+        } else if (Constant.CAR_NAME.equals("c229")) {
+            id = 1855;
+        } else if (Constant.CAR_NAME.equals("c235")) {
+            id = 1855;
+        }
+        SQLite.select().from(CategoryModel.class).where(CategoryModel_Table.parentid.eq(id))
+                .async().queryResultCallback(
+                new QueryTransaction.QueryResultCallback<CategoryModel>() {
                     @Override
-                    public void run() {
-                        initList();
+                    public void onQueryResult(@NonNull QueryTransaction<CategoryModel> transaction,
+                                              @NonNull CursorResult<CategoryModel> tResult) {
+                        list = tResult.toList();
+                        LogUtil.logError("list size = " + list.size());
+                        ((Activity) mContext).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                initList();
+                            }
+                        });
+
+                        tResult.close();//关闭资源
                     }
-                });
-
-
-
+                }).execute();
     }
-
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -233,27 +253,36 @@ public class ManualFragment extends BaseFragment implements CheckListener {
      */
     private void getFastNewsList() {
 
+
         CategoryModel categoryModel = list.get(newIndex);
 
-                List<NewsModel> result1List = new ArrayList<>();
-                    result1List =  DBUtil.getNewsListByCatId(mContext, categoryModel.getCatid());
-                LogUtil.logError("news list size = " + result1List.size());
-                NewsListModel newsListModel = new NewsListModel();
-                newsListModel.setRECORDS(result1List);
-                newsList.add(newsListModel);
-                newIndex++;
-                if (newIndex < list.size()) {
-                    getFastNewsList();
-                } else {
-                    ((Activity) mContext).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            onDone();
+        SQLite.select().from(NewsModel.class).where(NewsModel_Table.catid.eq(categoryModel.getCatid()))
+                .and(Constant.getCurrentIntProperty(mContext).eq(1))
+                .async().queryResultCallback(
+                new QueryTransaction.QueryResultCallback<NewsModel>() {
+                    @Override
+                    public void onQueryResult(@NonNull QueryTransaction<NewsModel> transaction,
+                                              @NonNull CursorResult<NewsModel> tResult) {
+                        NewsListModel newsListModel = new NewsListModel();
+                        newsListModel.setRECORDS(tResult.toList());
+                        newsList.add(newsListModel);
+                        newIndex++;
+                        if (newIndex < list.size()) {
+                            getFastNewsList();
+                        } else {
+                            ((Activity) mContext).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    onDone();
+                                }
+                            });
+
                         }
-                    });
 
-                }
 
+                        tResult.close();//关闭资源
+                    }
+                }).execute();
 
 
     }

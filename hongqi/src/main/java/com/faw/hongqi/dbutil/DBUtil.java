@@ -1,6 +1,8 @@
 package com.faw.hongqi.dbutil;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.faw.hongqi.R;
 import com.faw.hongqi.model.CategoryListModel;
@@ -17,13 +19,16 @@ import com.faw.hongqi.util.SharedpreferencesUtil;
 import com.faw.hongqi.util.TestUtil;
 import com.google.gson.Gson;
 import com.liulishuo.filedownloader.util.FileDownloadUtils;
+import com.raizlabs.android.dbflow.sql.language.CursorResult;
 import com.raizlabs.android.dbflow.sql.language.Delete;
 import com.raizlabs.android.dbflow.sql.language.Join;
 import com.raizlabs.android.dbflow.sql.language.NameAlias;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.sql.language.Select;
+import com.raizlabs.android.dbflow.structure.database.transaction.QueryTransaction;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DBUtil {
@@ -141,7 +146,7 @@ public class DBUtil {
         return list;
     }
 
-    public static List<CategoryModel> getFastCategoryList() {
+    public static void getFastCategoryList(QueryTransaction.QueryResultCallback queryResultCallback) {
         int id = 0;
         if (Constant.CAR_NAME.equals("e115")){
             id = 17;
@@ -155,12 +160,25 @@ public class DBUtil {
 //                .where(CategoryModel_Table.parentid.eq(id))
 ////                .where()
 //                .async().queryList(transactionListener);
-        List<CategoryModel> list = SQLite.select()
-                .from(CategoryModel.class)
-                .where(CategoryModel_Table.parentid.eq(id))
-                .queryList();
+        SQLite.select().from(CategoryModel.class).where(CategoryModel_Table.parentid.eq(id))
+                .async().queryResultCallback(
+                new QueryTransaction.QueryResultCallback<CategoryModel>() {
+                    @Override
+                    public void onQueryResult(@NonNull QueryTransaction<CategoryModel> transaction,
+                                              @NonNull CursorResult<CategoryModel> tResult) {
+                        //这里可以是返回集合：tResult.toList()
+
+
+
+                        tResult.close();//关闭资源
+                    }
+                }).execute();
+//        List<CategoryModel> list = SQLite.select()
+//                .from(CategoryModel.class)
+//                .where(CategoryModel_Table.parentid.eq(id))
+//                .queryList();
 //        printData(list);
-        return list;
+//        return list;
     }
 
     public static List<CategoryModel> getManuaCategoryList() {
@@ -173,6 +191,19 @@ public class DBUtil {
         else if (Constant.CAR_NAME.equals("c235")){
             id = 1855;
         }
+        SQLite.select().from(CategoryModel.class).where(CategoryModel_Table.parentid.eq(id))
+                .async().queryResultCallback(
+                new QueryTransaction.QueryResultCallback<CategoryModel>() {
+                    @Override
+                    public void onQueryResult(@NonNull QueryTransaction<CategoryModel> transaction,
+                                              @NonNull CursorResult<CategoryModel> tResult) {
+                        //这里可以是返回集合：tResult.toList()
+
+
+
+                        tResult.close();//关闭资源
+                    }
+                }).execute();
         List<CategoryModel> list = SQLite.select()
                 .from(CategoryModel.class)
                 .where(CategoryModel_Table.parentid.eq(id))
@@ -181,20 +212,34 @@ public class DBUtil {
         return list;
     }
 
-    public static List<NewsModel> getNewsListByCatId(Context context, int catid) {
+    public static void getNewsListByCatId(Context context, int catid,QueryTransaction.QueryResultCallback queryResultCallback) {
         LogUtil.logError("fast catid = " + catid);
 //        SQLite.select()
 //                .from(NewsModel.class)
 //                .where(NewsModel_Table.catid.eq(catid))
 //                .and(Constant.getCurrentIntProperty(context).eq(1))
 //                .async().queryList(transactionListener);
-        List<NewsModel> list = SQLite.select()
-                .from(NewsModel.class)
-                .where(NewsModel_Table.catid.eq(catid))
+        SQLite.select().from(NewsModel.class).where(NewsModel_Table.catid.eq(catid))
                 .and(Constant.getCurrentIntProperty(context).eq(1))
-                .queryList();
+                .async().queryResultCallback(
+                new QueryTransaction.QueryResultCallback<NewsModel>() {
+                    @Override
+                    public void onQueryResult(@NonNull QueryTransaction<NewsModel> transaction,
+                                              @NonNull CursorResult<NewsModel> tResult) {
+                        //这里可以是返回集合：tResult.toList()
+
+
+
+                        tResult.close();//关闭资源
+                    }
+                }).execute();
+//        List<NewsModel> list = SQLite.select()
+//                .from(NewsModel.class)
+//                .where(NewsModel_Table.catid.eq(catid))
+//                .and(Constant.getCurrentIntProperty(context).eq(1))
+//                .queryList();
 //        printData(list);
-        return list;
+//        return list;
     }
 
     public static List<NewsModel> searchByWord(Context context, String word) {
