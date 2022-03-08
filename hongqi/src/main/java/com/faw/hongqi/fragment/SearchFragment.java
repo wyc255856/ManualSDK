@@ -19,6 +19,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.faw.hongqi.R;
 import com.faw.hongqi.adaptar.PtrrvAdapter;
 import com.faw.hongqi.dbutil.DBUtil;
@@ -30,16 +31,16 @@ import com.faw.hongqi.model.NewsModel;
 import com.faw.hongqi.util.LogUtil;
 import com.faw.hongqi.widget.HotWordView;
 import com.lhh.ptrrv.library.PullToRefreshRecyclerView;
-import com.raizlabs.android.dbflow.runtime.transaction.BaseTransaction;
-import com.raizlabs.android.dbflow.runtime.transaction.TransactionListener;
+
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
 import java.util.ArrayList;
 import java.util.List;
-
 
 
 public class SearchFragment extends BaseFragment {
@@ -51,7 +52,8 @@ public class SearchFragment extends BaseFragment {
     public static String WORD = "";
     HotWordView hot_word_view;
     private LinearLayout nothing;
-//    private TagFlowLayout tagFlowLayout;
+
+    //    private TagFlowLayout tagFlowLayout;
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_c229_search;
@@ -84,7 +86,6 @@ public class SearchFragment extends BaseFragment {
 //        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL);
 //        recyclerView.addItemDecoration(dividerItemDecoration);
     }
-
 
 
     @Override
@@ -125,7 +126,7 @@ public class SearchFragment extends BaseFragment {
         });
     }
 
-    List<CategoryModel> list;
+    List<NewsModel> list;
 
     private void search(String word) {
         recyclerView.setVisibility(View.VISIBLE);
@@ -134,35 +135,20 @@ public class SearchFragment extends BaseFragment {
 
         WORD = word;
         list = new ArrayList<>();
-        DBUtil.searchByWord(mContext,word, new TransactionListener() {
+
+        list = DBUtil.searchByWord(mContext, word);
+        ((Activity) mContext).runOnUiThread(new Runnable() {
             @Override
-            public void onResultReceived(Object result) {
-
-            }
-
-            @Override
-            public boolean onReady(BaseTransaction transaction) {
-                return false;
-            }
-
-            @Override
-            public boolean hasResult(BaseTransaction transaction, Object result) {
-                if (result != null)
-                    list = (List<CategoryModel>) result;
-                ((Activity) mContext).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (list.size() == 0) {
-                            nothing.setVisibility(View.VISIBLE);
-                        }
-                        mAdapter.refreshData(list);
-                    }
-                });
-
-                LogUtil.logError("list size = " + list.size());
-                return false;
+            public void run() {
+                if (list.size() == 0) {
+                    nothing.setVisibility(View.VISIBLE);
+                }
+                mAdapter.refreshData(list);
             }
         });
+
+        LogUtil.logError("list size = " + list.size());
+
     }
 
     public void HideKeyboard(View v) {

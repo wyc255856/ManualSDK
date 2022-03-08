@@ -11,8 +11,7 @@ import android.widget.LinearLayout;
 import com.faw.hongqi.R;
 import com.faw.hongqi.dbutil.DBUtil;
 import com.faw.hongqi.model.HotWord;
-import com.raizlabs.android.dbflow.runtime.transaction.BaseTransaction;
-import com.raizlabs.android.dbflow.runtime.transaction.TransactionListener;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,43 +45,22 @@ public class HotSearchView extends LinearLayout {
 
     public void initWord() {
         hot_word_layout.removeAllViews();
-        DBUtil.getHotWordList(mContext, new TransactionListener() {
-            @Override
-            public void onResultReceived(Object result) {
+        list = DBUtil.getHotWordList(mContext);
 
-            }
-
-            @Override
-            public boolean onReady(BaseTransaction transaction) {
-                return false;
-            }
-
-            @Override
-            public boolean hasResult(BaseTransaction transaction, Object result) {
-                if (result != null)
-                    list = (List<HotWord>) result;
-
-                mContext.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        for (final HotWord hotWord : list) {
-                            HotWordItemView hotWordItemView = new HotWordItemView(mContext);
-                            hotWordItemView.setText(hotWord.getWord());
-                            hotWordItemView.setOnClickListener(new OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    if (onHotWordOnClickListener != null) {
-                                        onHotWordOnClickListener.onClickItem(hotWord.getWord());
-                                    }
-                                }
-                            });
-                            hot_word_layout.addView(hotWordItemView);
-                        }
+        for (final HotWord hotWord : list) {
+            HotWordItemView hotWordItemView = new HotWordItemView(mContext);
+            hotWordItemView.setText(hotWord.getWord());
+            hotWordItemView.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onHotWordOnClickListener != null) {
+                        onHotWordOnClickListener.onClickItem(hotWord.getWord());
                     }
-                });
-                return false;
-            }
-        });
+                }
+            });
+            hot_word_layout.addView(hotWordItemView);
+        }
+
     }
 
     private HotWordView.OnHotWordOnClickListener onHotWordOnClickListener;

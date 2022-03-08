@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+
 import com.faw.hongqi.R;
 
 import com.faw.hongqi.adaptar.SortFastAdapter;
@@ -23,8 +24,7 @@ import com.faw.hongqi.util.PhoneUtil;
 import com.faw.hongqi.widget.CheckListener;
 import com.faw.hongqi.widget.ItemHeaderDecoration;
 import com.faw.hongqi.widget.RvListener;
-import com.raizlabs.android.dbflow.runtime.transaction.BaseTransaction;
-import com.raizlabs.android.dbflow.runtime.transaction.TransactionListener;
+
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -50,10 +50,11 @@ public class FastFragment extends BaseFragment implements CheckListener {
     }
 
     private List<CategoryModel> list5 = new ArrayList<>();
+
     public void createFragment() {
         if (getActivity().getSupportFragmentManager() != null) {
             FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-            mSortDetailFragment = new SortFastDetailFragment(newsList,list5);
+            mSortDetailFragment = new SortFastDetailFragment(newsList, list5);
             mSortDetailFragment.setListener(this);
             fragmentTransaction.add(R.id.lin_fragment_fast, mSortDetailFragment);
             fragmentTransaction.commit();
@@ -84,6 +85,7 @@ public class FastFragment extends BaseFragment implements CheckListener {
 
 
     }
+
     @Override
     public void check(int position, boolean isScroll) {
         setChecked(position, isScroll);
@@ -94,53 +96,39 @@ public class FastFragment extends BaseFragment implements CheckListener {
         //将点击的position转换为当前屏幕上可见的item的位置以便于计算距离顶部的高度，从而进行移动居中
         View childAt = rvSort.getChildAt(position - mLinearLayoutManager.findFirstVisibleItemPosition());
         if (childAt != null) {
-            int y = (childAt.getTop() - (rvSort.getHeight() / 2)+PhoneUtil.dip2px(getActivity(),30f));
+            int y = (childAt.getTop() - (rvSort.getHeight() / 2) + PhoneUtil.dip2px(getActivity(), 30f));
             rvSort.smoothScrollBy(0, y);
         }
 
     }
+
     @Override
     protected void initData() {
         EventBus.getDefault().register(this);
 
-        DBUtil.getFastCategoryList(new TransactionListener() {
+        list = DBUtil.getFastCategoryList();
+        LogUtil.logError("list size = " + list.size());
+        for (int i = 0; i < 5; i++) {
+            list5.add(list.get(i));
+        }
+
+        LogUtil.logError("list size = " + list.size());
+        ((Activity) mContext).runOnUiThread(new Runnable() {
             @Override
-            public void onResultReceived(Object result) {
-
-            }
-
-            @Override
-            public boolean onReady(BaseTransaction transaction) {
-                return false;
-            }
-
-            @Override
-            public boolean hasResult(BaseTransaction transaction, Object result) {
-                if (result != null)
-                    list = (List<CategoryModel>) result;
-                for (int i = 0; i < 5; i++) {
-                    list5.add(list.get(i));
-                }
-
-                LogUtil.logError("list size = " + list.size());
-                ((Activity) mContext).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        initList();
-                    }
-                });
-
-                return false;
+            public void run() {
+                initList();
             }
         });
 
     }
+
     private void initData1() {
         List<String> lists = new ArrayList<>();
         //初始化左侧列表数据
         for (int i = 0; i < list5.size(); i++) {
             lists.add(list5.get(i).getCatname());
         }
+        LogUtil.logError("点击了 = " + lists.size());
         mSortAdapter = new SortFastAdapter(mContext, lists, new RvListener() {
             @Override
             public void onItemClick(int id, int position) {
@@ -154,12 +142,12 @@ public class FastFragment extends BaseFragment implements CheckListener {
         rvSort.setAdapter(mSortAdapter);
         createFragment();
     }
+
     @Override
     protected void initView(View view) {
         rvSort = view.findViewById(R.id.rv_sort);
         mLinearLayoutManager = new LinearLayoutManager(getActivity());
         rvSort.setLayoutManager(mLinearLayoutManager);
-
 
 //        recyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
 //            @Override
@@ -276,41 +264,24 @@ public class FastFragment extends BaseFragment implements CheckListener {
     private void getFastNewsList() {
 
         CategoryModel categoryModel = list.get(newIndex);
-        DBUtil.getNewsListByCatId(mContext,categoryModel.getCatid(), new TransactionListener() {
-            @Override
-            public void onResultReceived(Object result) {
 
-            }
-
-            @Override
-            public boolean onReady(BaseTransaction transaction) {
-                return false;
-            }
-
-            @Override
-            public boolean hasResult(BaseTransaction transaction, Object result) {
-                List<NewsModel> result1List = new ArrayList<>();
-                if (result != null)
-                    result1List = (List<NewsModel>) result;
-                LogUtil.logError("news list size = " + result1List.size());
-                NewsListModel newsListModel = new NewsListModel();
-                newsListModel.setRECORDS(result1List);
-                newsList.add(newsListModel);
-                newIndex++;
-                if (newIndex < list.size()) {
-                    getFastNewsList();
-                } else {
-                    ((Activity) mContext).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            onDone();
-                        }
-                    });
-
+//                LogUtil.logError("news list size = " + result1List.size());
+        NewsListModel newsListModel = new NewsListModel();
+        newsListModel.setRECORDS(DBUtil.getNewsListByCatId(mContext, categoryModel.getCatid()));
+        newsList.add(newsListModel);
+        LogUtil.logError("查询栏目数据长度 = " + newsList.size());
+        newIndex++;
+        if (newIndex < list.size()) {
+            getFastNewsList();
+        } else {
+            ((Activity) mContext).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    onDone();
                 }
-                return false;
-            }
-        });
+            });
+
+        }
 
 
     }

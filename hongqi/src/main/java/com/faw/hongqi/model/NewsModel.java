@@ -5,7 +5,6 @@ package com.faw.hongqi.model;
 
 import com.faw.hongqi.dbutil.CarDatabase;
 import com.raizlabs.android.dbflow.annotation.Column;
-import com.raizlabs.android.dbflow.annotation.ModelContainer;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
@@ -19,7 +18,6 @@ import java.io.Serializable;
  * @author aTool.org (i@aTool.org)
  * @website http://www.atool9.com/json2javabean.php
  */
-@ModelContainer
 @Table(database = CarDatabase.class)
 public class NewsModel extends BaseModel implements Serializable {
 

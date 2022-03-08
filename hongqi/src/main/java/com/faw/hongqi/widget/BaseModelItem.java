@@ -29,8 +29,7 @@ import com.faw.hongqi.ui.C229ContentActivity;
 import com.faw.hongqi.util.Constant;
 import com.faw.hongqi.util.LogUtil;
 import com.faw.hongqi.util.PhoneUtil;
-import com.raizlabs.android.dbflow.runtime.transaction.BaseTransaction;
-import com.raizlabs.android.dbflow.runtime.transaction.TransactionListener;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,32 +44,14 @@ public class BaseModelItem extends LinearLayout {
     int resID;
     private NewsModel model;
     private void getFastNewsList(String id) {
-        DBUtil.getNewsListById(mContext,id, new TransactionListener() {
-            @Override
-            public void onResultReceived(Object result) {
 
-            }
-
-            @Override
-            public boolean onReady(BaseTransaction transaction) {
-                return false;
-            }
-
-            @Override
-            public boolean hasResult(BaseTransaction transaction, Object result) {
                 List<NewsModel> result1List = new ArrayList<>();
-                if (result != null)
-                    result1List = (List<NewsModel>) result;
+                    result1List = DBUtil.getNewsListById(mContext,id);
                 final List<NewsModel> finalResult1List = result1List;
-                mContext.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
+
                         C229ContentActivity.goContentActivity(mContext, finalResult1List.get(0));
-                    }
-                });
-                return false;
-            }
-        });
+
+
     }
     public BaseModelItem(Context context) {
         super(context);

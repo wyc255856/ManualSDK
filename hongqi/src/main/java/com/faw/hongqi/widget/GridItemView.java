@@ -31,7 +31,7 @@ import com.faw.hongqi.util.Constant;
 import com.faw.hongqi.util.FileUtil;
 import com.faw.hongqi.util.GlideRoundTransform;
 import com.faw.hongqi.util.LogUtil;
-import com.raizlabs.android.dbflow.sql.language.Condition;
+
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

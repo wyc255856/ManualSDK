@@ -17,11 +17,6 @@ import com.faw.hongqi.util.SharedpreferencesUtil;
 import com.faw.hongqi.util.TestUtil;
 import com.google.gson.Gson;
 import com.liulishuo.filedownloader.util.FileDownloadUtils;
-import com.raizlabs.android.dbflow.runtime.TransactionManager;
-import com.raizlabs.android.dbflow.runtime.transaction.BaseTransaction;
-import com.raizlabs.android.dbflow.runtime.transaction.TransactionListener;
-import com.raizlabs.android.dbflow.runtime.transaction.process.ProcessModelInfo;
-import com.raizlabs.android.dbflow.runtime.transaction.process.SaveModelTransaction;
 import com.raizlabs.android.dbflow.sql.language.Delete;
 import com.raizlabs.android.dbflow.sql.language.Join;
 import com.raizlabs.android.dbflow.sql.language.NameAlias;
@@ -107,7 +102,10 @@ public class DBUtil {
     private static void insertNews(Context context) {
         long startTime = System.currentTimeMillis();
         LogUtil.logError("开始入库news表");
-        TransactionManager.getInstance().addTransaction(new SaveModelTransaction<>(ProcessModelInfo.withModels(getList(context).getRECORDS())));
+        List<NewsModel> menuListModel = getList(context).getRECORDS();
+        for (int i =0;i<menuListModel.size();i++){
+            menuListModel.get(i).save();
+        }
         LogUtil.logError("news表入库结束");
         LogUtil.logError("消耗了" + (System.currentTimeMillis() - startTime) + "毫秒");
     }
@@ -115,30 +113,35 @@ public class DBUtil {
     private static void insertCategory(Context context) {
         long startTime = System.currentTimeMillis();
         LogUtil.logError("开始入库Category表");
-        TransactionManager.getInstance().addTransaction(new SaveModelTransaction<>(ProcessModelInfo.withModels(getCategoryList(context).getRECORDS())));
-        LogUtil.logError("Category表入库结束");
+        for (int i = 0;i<getCategoryList(context).getRECORDS().size();i++){
+
+        }
+        List<CategoryModel> menuListModel = getCategoryList(context).getRECORDS();
+        for (int i =0;i<menuListModel.size();i++){
+            menuListModel.get(i).save();
+        }
+
+        LogUtil.logError("Category表入库结束"+getCategoryList(context).getRECORDS());
         LogUtil.logError("消耗了" + (System.currentTimeMillis() - startTime) + "毫秒");
     }
 
-    public static void getAllNews(TransactionListener transactionListener) {
-        SQLite.select()
-                .from(NewsModel.class)
-                .where()
-                .async().queryList(transactionListener);
-    }
 
-    public static void getNewsListById(Context context, String id, TransactionListener transactionListener) {
+
+    public static List<NewsModel> getNewsListById(Context context, String id) {
         LogUtil.logError("fast id = " + id);
-        SQLite.select()
+//        SQLite.select()
+//                .from(NewsModel.class)
+//                .where(NewsModel_Table.id.eq(id))
+//                .and(Constant.getCurrentIntProperty(context).eq(1))
+//                .async().queryList(transactionListener);
+        List<NewsModel> list = SQLite.select()
                 .from(NewsModel.class)
-
                 .where(NewsModel_Table.id.eq(id))
-                .and(Constant.getCurrentIntProperty(context).eq(1))
-
-                .async().queryList(transactionListener);
+                .queryList();
+        return list;
     }
 
-    public static void getFastCategoryList(TransactionListener transactionListener) {
+    public static List<CategoryModel> getFastCategoryList() {
         int id = 0;
         if (Constant.CAR_NAME.equals("e115")){
             id = 17;
@@ -147,14 +150,20 @@ public class DBUtil {
         }else if (Constant.CAR_NAME.equals("c235")){
             id = 1869;
         }
-        SQLite.select()
+//        SQLite.select()
+//                .from(CategoryModel.class)
+//                .where(CategoryModel_Table.parentid.eq(id))
+////                .where()
+//                .async().queryList(transactionListener);
+        List<CategoryModel> list = SQLite.select()
                 .from(CategoryModel.class)
                 .where(CategoryModel_Table.parentid.eq(id))
-//                .where()
-                .async().queryList(transactionListener);
+                .queryList();
+//        printData(list);
+        return list;
     }
 
-    public static void getManuaCategoryList(TransactionListener transactionListener) {
+    public static List<CategoryModel> getManuaCategoryList() {
         int id = 0;
         if (Constant.CAR_NAME.equals("e115")){
             id = 1;
@@ -164,33 +173,45 @@ public class DBUtil {
         else if (Constant.CAR_NAME.equals("c235")){
             id = 1855;
         }
-        SQLite.select()
+        List<CategoryModel> list = SQLite.select()
                 .from(CategoryModel.class)
                 .where(CategoryModel_Table.parentid.eq(id))
-//                .where()
-                .async().queryList(transactionListener);
+                .queryList();
+//        printData(list);
+        return list;
     }
 
-    public static void getNewsListByCatId(Context context, int catid, TransactionListener transactionListener) {
+    public static List<NewsModel> getNewsListByCatId(Context context, int catid) {
         LogUtil.logError("fast catid = " + catid);
-        SQLite.select()
+//        SQLite.select()
+//                .from(NewsModel.class)
+//                .where(NewsModel_Table.catid.eq(catid))
+//                .and(Constant.getCurrentIntProperty(context).eq(1))
+//                .async().queryList(transactionListener);
+        List<NewsModel> list = SQLite.select()
                 .from(NewsModel.class)
                 .where(NewsModel_Table.catid.eq(catid))
-//                .where()
                 .and(Constant.getCurrentIntProperty(context).eq(1))
-
-                .async().queryList(transactionListener);
+                .queryList();
+//        printData(list);
+        return list;
     }
 
-    public static void searchByWord(Context context, String word, TransactionListener transactionListener) {
-        SQLite.select()
+    public static List<NewsModel> searchByWord(Context context, String word) {
+//        SQLite.select()
+//                .from(NewsModel.class)
+//                .where(NewsModel_Table.title.like("%" + word + "%"))
+//                .and(Constant.getCurrentIntProperty(context).eq(1))
+//
+//                .async().queryList(transactionListener);
+
+        List<NewsModel> list = SQLite.select()
                 .from(NewsModel.class)
                 .where(NewsModel_Table.title.like("%" + word + "%"))
                 .and(Constant.getCurrentIntProperty(context).eq(1))
-
-                .async().queryList(transactionListener);
-
-
+                .queryList();
+//        printData(list);
+        return list;
 
         //        SQLite.select(NewsModel_Table.caid, CategoryModel_Table.catid)
 //                .from(NewsModel.class)
@@ -199,14 +220,21 @@ public class DBUtil {
 //                .async().queryList(transactionListener);
     }
 
-    public static void getHotWordList(Context context, TransactionListener transactionListener) {
-        SQLite.select(HotWord_Table.word).distinct()
+    public static List<HotWord> getHotWordList(Context context) {
+//        SQLite.select(HotWord_Table.word).distinct()
+//                .from(HotWord.class)
+//                .where()
+//                .orderBy(HotWord_Table.id, false)
+//                .limit(4)
+//                .async().queryList(transactionListener);
+        List<HotWord> list = SQLite.select(HotWord_Table.word).distinct()
                 .from(HotWord.class)
                 .where()
                 .orderBy(HotWord_Table.id, false)
-
                 .limit(4)
-                .async().queryList(transactionListener);
+                .queryList();
+//        printData(list);
+        return list;
     }
 
 //    public static NewsModel getTestModel(Context context) {

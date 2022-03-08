@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.faw.hongqi.model.HotWord;
 import com.faw.hongqi.model.NewsModel_Table;
-import com.raizlabs.android.dbflow.sql.language.property.IntProperty;
+import com.raizlabs.android.dbflow.sql.language.property.Property;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,7 +30,7 @@ public class Constant {
     public final static boolean IS_PHONE = true;//判断包是否是手机应用
     public final static boolean DEBUG = true;//是否是调试包
     public final static boolean TEST = true;//是否是不带资源的测试包
-    private static Map<String, IntProperty> intPropertyList = new HashMap<>();
+    private static Map<String, Property<Integer>> intPropertyList = new HashMap<String, Property<Integer>>();
 
 
     public static void initData() {
@@ -43,7 +43,7 @@ public class Constant {
         intPropertyList.put("C229_7", NewsModel_Table.zdqj);
     }
 
-    public static IntProperty getCurrentIntProperty(Context context) {
+    public static Property<Integer> getCurrentIntProperty(Context context) {
         String modle = SharedpreferencesUtil.getCarModel(context);
         return intPropertyList.get(modle);
     }

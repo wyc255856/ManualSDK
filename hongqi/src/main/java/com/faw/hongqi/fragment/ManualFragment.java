@@ -23,8 +23,7 @@ import com.faw.hongqi.util.PhoneUtil;
 import com.faw.hongqi.widget.CheckListener;
 import com.faw.hongqi.widget.ItemHeaderDecoration;
 import com.faw.hongqi.widget.RvListener;
-import com.raizlabs.android.dbflow.runtime.transaction.BaseTransaction;
-import com.raizlabs.android.dbflow.runtime.transaction.TransactionListener;
+
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -127,21 +126,8 @@ public class ManualFragment extends BaseFragment implements CheckListener {
     protected void initData() {
         EventBus.getDefault().register(this);
 
-        DBUtil.getManuaCategoryList(new TransactionListener() {
-            @Override
-            public void onResultReceived(Object result) {
 
-            }
-
-            @Override
-            public boolean onReady(BaseTransaction transaction) {
-                return false;
-            }
-
-            @Override
-            public boolean hasResult(BaseTransaction transaction, Object result) {
-                if (result != null)
-                    list = (List<CategoryModel>) result;
+                    list = DBUtil.getManuaCategoryList();
                 LogUtil.logError("list size = " + list.size());
                 ((Activity) mContext).runOnUiThread(new Runnable() {
                     @Override
@@ -150,9 +136,7 @@ public class ManualFragment extends BaseFragment implements CheckListener {
                     }
                 });
 
-                return false;
-            }
-        });
+
 
     }
 
@@ -250,22 +234,9 @@ public class ManualFragment extends BaseFragment implements CheckListener {
     private void getFastNewsList() {
 
         CategoryModel categoryModel = list.get(newIndex);
-        DBUtil.getNewsListByCatId(mContext, categoryModel.getCatid(), new TransactionListener() {
-            @Override
-            public void onResultReceived(Object result) {
 
-            }
-
-            @Override
-            public boolean onReady(BaseTransaction transaction) {
-                return false;
-            }
-
-            @Override
-            public boolean hasResult(BaseTransaction transaction, Object result) {
                 List<NewsModel> result1List = new ArrayList<>();
-                if (result != null)
-                    result1List = (List<NewsModel>) result;
+                    result1List =  DBUtil.getNewsListByCatId(mContext, categoryModel.getCatid());
                 LogUtil.logError("news list size = " + result1List.size());
                 NewsListModel newsListModel = new NewsListModel();
                 newsListModel.setRECORDS(result1List);
@@ -282,9 +253,7 @@ public class ManualFragment extends BaseFragment implements CheckListener {
                     });
 
                 }
-                return false;
-            }
-        });
+
 
 
     }

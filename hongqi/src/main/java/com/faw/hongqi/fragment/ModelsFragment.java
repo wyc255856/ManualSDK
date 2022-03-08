@@ -16,7 +16,6 @@ import com.faw.hongqi.util.LogUtil;
 import com.faw.hongqi.util.PhoneUtil;
 import com.faw.hongqi.widget.HomeModelHotPointView;
 import com.liulishuo.filedownloader.util.FileDownloadUtils;
-import com.raizlabs.android.dbflow.sql.language.Condition;
 
 import java.io.File;
 import java.util.ArrayList;
