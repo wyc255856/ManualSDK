@@ -133,32 +133,22 @@ public class ManualFragment extends BaseFragment implements CheckListener {
     @Override
     protected void initData() {
         EventBus.getDefault().register(this);
-        int id = 0;
-        if (Constant.CAR_NAME.equals("e115")) {
-            id = 1;
-        } else if (Constant.CAR_NAME.equals("c229")) {
-            id = 1855;
-        } else if (Constant.CAR_NAME.equals("c235")) {
-            id = 1855;
-        }
-        SQLite.select().from(CategoryModel.class).where(CategoryModel_Table.parentid.eq(id))
-                .async().queryResultCallback(
-                new QueryTransaction.QueryResultCallback<CategoryModel>() {
-                    @Override
-                    public void onQueryResult(@NonNull QueryTransaction<CategoryModel> transaction,
-                                              @NonNull CursorResult<CategoryModel> tResult) {
-                        list = tResult.toList();
-                        LogUtil.logError("list size = " + list.size());
-                        ((Activity) mContext).runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                initList();
-                            }
-                        });
 
-                        tResult.close();//关闭资源
+        DBUtil.getManuaCategoryList(new QueryTransaction.QueryResultCallback() {
+            @Override
+            public void onQueryResult(@NonNull QueryTransaction transaction, @NonNull CursorResult tResult) {
+                list = tResult.toList();
+                LogUtil.logError("list size = " + list.size());
+                ((Activity) mContext).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        initList();
                     }
-                }).execute();
+                });
+
+                tResult.close();//关闭资源
+            }
+        });
     }
 
 

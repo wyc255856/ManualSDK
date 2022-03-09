@@ -181,7 +181,7 @@ public class DBUtil {
 //        return list;
     }
 
-    public static List<CategoryModel> getManuaCategoryList() {
+    public static void getManuaCategoryList(QueryTransaction.QueryResultCallback queryResultCallback) {
         int id = 0;
         if (Constant.CAR_NAME.equals("e115")){
             id = 1;
@@ -192,24 +192,13 @@ public class DBUtil {
             id = 1855;
         }
         SQLite.select().from(CategoryModel.class).where(CategoryModel_Table.parentid.eq(id))
-                .async().queryResultCallback(
-                new QueryTransaction.QueryResultCallback<CategoryModel>() {
-                    @Override
-                    public void onQueryResult(@NonNull QueryTransaction<CategoryModel> transaction,
-                                              @NonNull CursorResult<CategoryModel> tResult) {
-                        //这里可以是返回集合：tResult.toList()
-
-
-
-                        tResult.close();//关闭资源
-                    }
-                }).execute();
-        List<CategoryModel> list = SQLite.select()
-                .from(CategoryModel.class)
-                .where(CategoryModel_Table.parentid.eq(id))
-                .queryList();
+                .async().queryResultCallback(queryResultCallback).execute();
+//        List<CategoryModel> list = SQLite.select()
+//                .from(CategoryModel.class)
+//                .where(CategoryModel_Table.parentid.eq(id))
+//                .queryList();
 //        printData(list);
-        return list;
+//        return list;
     }
 
     public static void getNewsListByCatId(Context context, int catid,QueryTransaction.QueryResultCallback queryResultCallback) {

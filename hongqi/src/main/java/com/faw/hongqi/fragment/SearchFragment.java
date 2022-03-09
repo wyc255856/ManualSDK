@@ -111,7 +111,7 @@ public class SearchFragment extends BaseFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s != null && !"".equals(s.toString())) {
+                if (s != null) {
                     delete_btn.setVisibility(View.VISIBLE);
                     search(s.toString());
                     recyclerView.setVisibility(View.VISIBLE);
@@ -131,21 +131,24 @@ public class SearchFragment extends BaseFragment {
     private void search(String word) {
         recyclerView.setVisibility(View.VISIBLE);
         hot_word_view.setVisibility(View.GONE);
-        DBUtil.insertHotWord(word);
+        if (!"".equals(word)) {
+            DBUtil.insertHotWord(word);
+            WORD = word;
+            list = new ArrayList<>();
 
-        WORD = word;
-        list = new ArrayList<>();
-
-        list = DBUtil.searchByWord(mContext, word);
-        ((Activity) mContext).runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (list.size() == 0) {
-                    nothing.setVisibility(View.VISIBLE);
+            list = DBUtil.searchByWord(mContext, word);
+            ((Activity) mContext).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (list.size() == 0) {
+                        nothing.setVisibility(View.VISIBLE);
+                    }
+                    mAdapter.refreshData(list);
                 }
-                mAdapter.refreshData(list);
-            }
-        });
+            });
+        }
+
+
 
         LogUtil.logError("list size = " + list.size());
 
