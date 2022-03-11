@@ -87,8 +87,8 @@ public class C229PlayVideoActivity extends BaseActivity implements SurfaceHolder
         findViewById(R.id.main_back_icon).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
                 stop();
+                finish();
             }
         });
         spreadView.setOnClickListener(new View.OnClickListener() {
@@ -193,7 +193,7 @@ public class C229PlayVideoActivity extends BaseActivity implements SurfaceHolder
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         mPlayer.setDisplay(holder);
-        mPlayer.prepareAsync();
+//        mPlayer.prepareAsync();
     }
 
     @Override
@@ -477,11 +477,15 @@ public class C229PlayVideoActivity extends BaseActivity implements SurfaceHolder
 
     };
 
-    private void stop() {
+    private void stop(){
 
         if (mPlayer != null) {
+            try {
+                mPlayer.stop();
 
-            mPlayer.stop();
+            }catch (Exception e){
+
+            }
 
         }
 
@@ -490,6 +494,12 @@ public class C229PlayVideoActivity extends BaseActivity implements SurfaceHolder
     @Override
     protected void onStop() {
         super.onStop();
+        stop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
         stop();
     }
 }

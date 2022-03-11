@@ -37,6 +37,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_toRightOf="@id/search_icon"
                 android:background="@null"
+                android:imeOptions="actionSearch"
                 android:gravity="center_vertical"
                 android:singleLine="true" />
 

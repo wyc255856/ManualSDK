@@ -112,7 +112,7 @@ public class ClassifyDetailAdapter extends RvAdapter<RightBean> {
                                 .placeholder(R.mipmap.down_error_content) //预加载图片
                                 .error(R.mipmap.down_error_content) //加载失败图片
                                 .priority(Priority.HIGH) //优先级
-                                .diskCacheStrategy(DiskCacheStrategy.NONE) //缓存
+                                .diskCacheStrategy(DiskCacheStrategy.ALL) //缓存
                                 .transform(new GlideRoundTransform(8)); //圆角
                         Glide.with(mContext).load(url).apply(options).into(avatar);
 

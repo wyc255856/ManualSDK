@@ -12,9 +12,11 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -96,6 +98,7 @@ public class SearchFragment extends BaseFragment {
                 search_edit.setText("");
                 recyclerView.setVisibility(View.GONE);
                 hot_word_view.setVisibility(View.VISIBLE);
+                nothing.setVisibility(View.GONE);
                 hot_word_view.initWord();
             }
         });
@@ -111,19 +114,46 @@ public class SearchFragment extends BaseFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s != null) {
-                    delete_btn.setVisibility(View.VISIBLE);
-                    search(s.toString());
-                    recyclerView.setVisibility(View.VISIBLE);
-                    hot_word_view.setVisibility(View.GONE);
-                } else {
-                    delete_btn.setVisibility(View.GONE);
-                    hot_word_view.setVisibility(View.VISIBLE);
-                    recyclerView.setVisibility(View.GONE);
-                    nothing.setVisibility(View.GONE);
-                }
+//                if (s != null) {
+//                    delete_btn.setVisibility(View.VISIBLE);
+//                    search(s.toString());
+//                    recyclerView.setVisibility(View.VISIBLE);
+//                    hot_word_view.setVisibility(View.GONE);
+//                } else {
+//                    delete_btn.setVisibility(View.GONE);
+//                    hot_word_view.setVisibility(View.VISIBLE);
+//                    recyclerView.setVisibility(View.GONE);
+//                    nothing.setVisibility(View.GONE);
+//                }
             }
         });
+        search_edit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    ((InputMethodManager) search_edit.getContext()
+                            .getSystemService(Context.INPUT_METHOD_SERVICE))
+                            .hideSoftInputFromWindow(getActivity()
+                                            .getCurrentFocus().getWindowToken(),
+                                    InputMethodManager.HIDE_NOT_ALWAYS);
+                    if (v != null) {
+                        delete_btn.setVisibility(View.VISIBLE);
+                        search(v.getText().toString());
+                        recyclerView.setVisibility(View.VISIBLE);
+                        hot_word_view.setVisibility(View.GONE);
+                    } else {
+                        delete_btn.setVisibility(View.GONE);
+                        hot_word_view.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.GONE);
+                        nothing.setVisibility(View.GONE);
+                    }
+                    return true;
+                }
+                return false;
+
+            }
+        });
+
     }
 
     List<NewsModel> list;
@@ -142,6 +172,8 @@ public class SearchFragment extends BaseFragment {
                 public void run() {
                     if (list.size() == 0) {
                         nothing.setVisibility(View.VISIBLE);
+                    }else{
+                        nothing.setVisibility(View.GONE);
                     }
                     mAdapter.refreshData(list);
                 }

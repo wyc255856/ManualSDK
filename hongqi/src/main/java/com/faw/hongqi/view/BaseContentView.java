@@ -96,7 +96,9 @@ public abstract class BaseContentView extends LinearLayout {
         imageView.setMinScale(0.98f);//最小显示比例
         imageView.setMaxScale(10.0f);//最大显示比例（太大了图片显示会失真，因为一般微博长图的宽度不会太宽）
         Glide.with(mContext)
-                .load(fileName).downloadOnly(new SimpleTarget<File>() {
+                .load(fileName)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .downloadOnly(new SimpleTarget<File>() {
             @Override
             public void onResourceReady(@NonNull File resource, @Nullable Transition<? super File> transition) {
                 imageView.setImage(ImageSource.uri(Uri.fromFile(resource)), new ImageViewState(0.5f, new PointF(0, 0), 0));
@@ -135,7 +137,7 @@ public abstract class BaseContentView extends LinearLayout {
                 .placeholder(R.mipmap.down_error_content)
                 .error(R.mipmap.down_error_content)
                 .priority(Priority.HIGH)
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .transform(new GlideRoundTransform(8));
         Glide.with(mContext).load(fileName).apply(options).into(imageView);
 
