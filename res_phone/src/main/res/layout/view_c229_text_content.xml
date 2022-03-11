@@ -8,6 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="65dp"
+        android:scrollbars="vertical"
         android:scrollbarTrackVertical="@drawable/seek_blue_bg"
         android:scrollbarThumbVertical="@drawable/bg_scroll_bar"
         android:layout_marginRight="50dp"
