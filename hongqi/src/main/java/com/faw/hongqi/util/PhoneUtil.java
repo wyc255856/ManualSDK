@@ -237,6 +237,7 @@ public class PhoneUtil {
             URL url = new URL(requestUrl);
             HttpURLConnection urlConn = (HttpURLConnection) url.openConnection();
             urlConn.setConnectTimeout(5 * 1000);
+            urlConn.setRequestProperty("","");
             urlConn.setReadTimeout(5 * 1000);
             urlConn.setUseCaches(true);
             urlConn.setRequestMethod("GET");
