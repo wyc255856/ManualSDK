@@ -168,7 +168,7 @@ public class DBUtil {
                                               @NonNull CursorResult<CategoryModel> tResult) {
                         //这里可以是返回集合：tResult.toList()
 
-
+ 
 
                         tResult.close();//关闭资源
                     }
