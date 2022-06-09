@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="55dp"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <include layout="@layout/act_base" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/fragment_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/rounded_corners_white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/rela_gl"
+                style="@style/xk_rela">
+
+                <LinearLayout style="@style/xk_linear">
+
+                    <TextView
+                        android:id="@+id/text_gl"
+                        style="@style/xk_text"
+                        android:text="车型概览" />
+
+                    <View
+                        android:id="@+id/view_gl"
+                        style="@style/xk_blue" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rela_ld"
+                style="@style/xk_rela">
+
+                <LinearLayout style="@style/xk_linear">
+
+                    <TextView
+                        android:id="@+id/text_ld"
+                        style="@style/xk_text"
+                        android:text="车型亮点" />
+
+                    <View
+                        android:id="@+id/view_ld"
+                        style="@style/xk_blue"
+                        android:visibility="gone"/>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rela_rm"
+                style="@style/xk_rela">
+
+                <LinearLayout style="@style/xk_linear">
+
+                    <TextView
+                        android:id="@+id/text_rm"
+                        style="@style/xk_text"
+                        android:text="快速入门" />
+
+                    <View
+                        android:id="@+id/view_rm"
+                        style="@style/xk_blue"
+                        android:visibility="gone"/>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rela_sc"
+                style="@style/xk_rela">
+
+                <LinearLayout style="@style/xk_linear">
+
+                    <TextView
+                        android:id="@+id/text_sc"
+                        style="@style/xk_text"
+                        android:text="电子手册" />
+
+                    <View
+                        android:id="@+id/view_sc"
+                        style="@style/xk_blue"
+                        android:visibility="gone"/>
+                </LinearLayout>
+            </RelativeLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>

@@ -133,4 +133,28 @@
         <!--扩散延迟间隔-->
         <attr name="spread_delay_milliseconds" format="integer" />
     </declare-styleable>
+    <style name="xk_blue">
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">4dp</item>
+        <item name="android:background">@drawable/rounded_corners_blue</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:layout_marginTop">8dp</item>
+    </style>
+    <style name="xk_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:textColor">@color/text_d</item>
+    </style>
+    <style name="xk_linear">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+    <style name="xk_rela">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+    </style>
 </resources>

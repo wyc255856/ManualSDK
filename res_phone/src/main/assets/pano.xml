@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tour apprev="17336" appversion="6.0.6" start="node6">
+  <panorama id="node6">
+    <input width="1500" overlap="1" leveltilesize="510" levelbiashidpi="0.400" leveltileurl="tiles/C100内饰360/cf_%c/l_%l/c_%x/tile_%y.jpg" levelingroll="0" levelingpitch="0" levelbias="0.400" height="1500">
+      <level width="1500" preload="0" predecode="0" height="1500"/>
+      <level width="750" preload="0" predecode="0" height="750"/>
+      <level width="375" preload="1" predecode="1" height="375"/>
+      <preview strip="1" color="0x808080"/>
+    </input>
+    <view fovmode="0" pannorth="0">
+      <start pan="0.45" tilt="5.19" fov="48.71" projection="4"/>
+      <flyin pan="0" tilt="-90" fov="170" projection="9"/>
+      <min pan="0" fovpixel="2" tilt="-90"/>
+      <max pan="360" tilt="90" fov="120" scaletofit="1" fovfisheye="360" fovstereographic="270"/>
+    </view>
+    <userdata comment="" title="" tags="Pano2VR6|C100内饰、外饰360" datetime="" latitude="" customnodeid="" author="" copyright="" source="" description="" longitude="" info=""/>
+    <hotspots width="180" height="20" wordwrap="1">
+      <label enabled="1" width="180" bordercolor="0x000000" borderradius="1" backgroundcolor="0xffffff" textalpha="1" borderalpha="1" background="1" height="20" border="1" wordwrap="1" textcolor="0x000000" backgroundalpha="1"/>
+      <polystyle bordercolor="0x0000ff" backgroundcolor="0x0000ff" mode="0" borderalpha="1" handcursor="1" backgroundalpha="0.25098"/>
+      <hotspot pan="-324.9" id="Point01" title="" tilt="-1.38" url="" target="_blank" skinid="Hotspot_2" description=""/>
+      <hotspot pan="-311.46" id="Point02" title="" tilt="-9.83" url="" target="_blank" skinid="Hotspot_1" description=""/>
+      <hotspot pan="-359.88" id="Point03" title="" tilt="-6.01" url="" target="_blank" skinid="Hotspot_4" description=""/>
+      <hotspot pan="-714.06" id="Point04" title="" tilt="-22.18" url="" target="_blank" skinid="Hotspot_6" description=""/>
+      <hotspot pan="-335.81" id="Point05" title="" tilt="9.81" url="" target="_blank" skinid="Hotspot_5" description=""/>
+      <hotspot pan="-328.28" id="Point06" title="" tilt="-26.55" url="" target="_blank" skinid="Hotspot_3" description=""/>
+    </hotspots>
+    <media/>
+    <transition enabled="0" zoomfov="20" zoomoutpause="1" zoomspeed="2" softedge="0" blendtime="1" zoomin="0" blendcolor="0x000000" type="crossdissolve" zoomout="0"/>
+    <flyintransition enabled="1" speed="3.01"/>
+    <animation useinautorotation="0" syncanimationwithvideo="0" animsequence="Animation01"/>
+    <control lockedwheel="1" speedwheel="1" contextprojections="0" lockedkeyboard="1" lockedmouse="0" invertwheel="1" invertcontrol="1" hideabout="0" contextfullscreen="0" simulatemass="1" sensitivity="1" dblclickfullscreen="0" rubberband="0" lockedkeyboardzoom="1"/>
+  </panorama>
+  <masternode>
+    <userdata comment="" title="" tags="" datetime="" latitude="" customnodeid="" author="" copyright="" source="" description="" longitude="" info=""/>
+  </masternode>
+</tour>

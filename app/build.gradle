@@ -19,6 +19,7 @@ android {
             abiFilters 'arm64-v8a', 'x86_64'
         }
     }
+
 //    afterEvaluate {
 //        publishing {
 //            publications {
@@ -68,4 +69,6 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     implementation project(path: ':hongqi')
     androidTestImplementation 'junit:junit:4.12'
+    implementation 'com.squareup.okhttp3:okhttp:3.4.1'
+
 }
