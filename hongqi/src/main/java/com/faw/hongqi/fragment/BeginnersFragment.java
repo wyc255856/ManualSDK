@@ -107,8 +107,9 @@ public class BeginnersFragment extends Fragment implements View.OnClickListener{
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
 //                .url(HTTP_Adss.HUIXINGURL + "/api/Account/Login?userName="+edit_name.getText().toString()+"&password="+edit_password.getText().toString())
-//                .url("http://10.10.0.135:10088/car/model/listModelByPhone?productId=5d27d49c-6aff-4cba-9aa4-d73af83a3a4c")
-                .url("https://fawivi-gw-public-uat.faw.cn:63443/car/model/listModelByPhone?productId=87fd7829-e449-48f1-93f7-63a92b76bc84")
+//                .url("http://10.10.0.135:10088/car/model/listModelByPhone?productId=87fd7829-e449-48f1-93f7-63a92b76bc84")
+                .url("http://115.28.72.235:10088/car/model/listModelByPhone?productId=87fd7829-e449-48f1-93f7-63a92b76bc84")
+//                .url("https://fawivi-gw-public-uat.faw.cn:63443/car/model/listModelByPhone?productId=87fd7829-e449-48f1-93f7-63a92b76bc84")
                 .build();
         client.newCall(request).enqueue(new Callback() {
             @Override

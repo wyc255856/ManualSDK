@@ -10,10 +10,23 @@
         android:orientation="vertical"
         android:layout_marginTop="10dp"
         android:layout_gravity="center_horizontal">
-        <WebView
-            android:id="@+id/webview_"
-            android:layout_width="330dp"
-            android:layout_height="258dp" />
+
+        <ImageView
+            android:id="@+id/image_title"
+            android:layout_width="match_parent"
+            android:layout_height="186dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recy_over"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"/>
+        </RelativeLayout>
+
+
     </LinearLayout>
 
     <TextView

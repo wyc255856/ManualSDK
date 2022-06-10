@@ -15,6 +15,7 @@
     <color name="light_blue">#18b5ee</color>
     <color name="text_d">#63597c</color>
     <color name="search_push">#dedede</color>
+    <color name="search_hui">#205c87ec</color>
     <color name="rumen_cards">#e5f9fa</color>
     <color name="text_rumen_cards">#36a8bd</color>
 </resources>
