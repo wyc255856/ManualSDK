@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 //                C229API.openManual(MainActivity.this);
-                C229API.openManualVertical(MainActivity.this);
+                C229API.openManual(MainActivity.this);
             }
         });
 

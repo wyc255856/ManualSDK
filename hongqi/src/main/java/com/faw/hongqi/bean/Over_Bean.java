@@ -4,6 +4,24 @@ public class Over_Bean {
     String name;
     String image_o;
     String image_u;
+    boolean isup;
+    String info;
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+
+    public boolean isIsup() {
+        return isup;
+    }
+
+    public void setIsup(boolean isup) {
+        this.isup = isup;
+    }
 
     public String getName() {
         return name;

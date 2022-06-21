@@ -43,8 +43,9 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="40dp"
                     android:background="@null"
-                    android:imeOptions="actionSearch"
                     android:hint="请输入搜索内容"
+                    android:imeOptions="actionSearch"
+                    android:singleLine="true"
                     android:textSize="20dp" />
             </RelativeLayout>
         </LinearLayout>

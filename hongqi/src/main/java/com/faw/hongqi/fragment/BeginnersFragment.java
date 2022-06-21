@@ -1,22 +1,35 @@
 package com.faw.hongqi.fragment;
+
+import static com.faw.hongqi.fragment.OverviewFragment.Loge;
+
+import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.faw.hongqi.R;
+import com.faw.hongqi.adaptar.BeginnersAdapter;
+import com.faw.hongqi.bean.BeginnersBean;
+import com.faw.hongqi.ui.InfoActivity;
 
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,16 +43,40 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class BeginnersFragment extends Fragment implements View.OnClickListener{
-    RelativeLayout rela_jrqd_,rela_cz_,rela_js_,rela_gn_,rela_zc_;
-    TextView text_jrqd,text_cz,text_js,text_gn,text_zc;
+public class BeginnersFragment extends Fragment implements View.OnClickListener {
+    RelativeLayout rela_jrqd_, rela_cz_, rela_js_, rela_gn_, rela_zc_;
+    TextView text_jrqd, text_cz, text_js, text_gn, text_zc;
     GridView gridView;
     private SimpleAdapter adapter;
-    List<Map<String,String>> list;
-    String[] s = {"安全须知","仪表组","组合仪表","防盗系统","多功能显示屏","废气注意事项","智能进入和启动","全景天窗"};
+    List<Map<String, String>> list;
+    List<BeginnersBean> beginnersBeanList;
+    String[] s = {"安全须知", "仪表组", "组合仪表", "防盗系统", "多功能显示屏", "废气注意事项", "智能进入和启动", "全景天窗"};
+    String beginnersary;
+    JSONArray jsonArray;
+    BeginnersAdapter beginnersAdapter;
+    int n = 0;
+    public static final BeginnersFragment newInstance_geginners(String jsonArray) {
+        BeginnersFragment fragment = new BeginnersFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("jsonArray", jsonArray);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_beginners, container, false);
+        Log.e("length----", "----");
+        beginnersBeanList = new ArrayList<>();
+        beginnersAdapter = new BeginnersAdapter(getContext(),beginnersBeanList);
+        beginnersary = getArguments().getString("jsonArray");
+        try {
+            jsonArray = new JSONArray(beginnersary);
+            Log.e("length----", String.valueOf(jsonArray.length()));
+            jsonArray.getJSONObject(0).getJSONArray("sonContentlist");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         view.findViewById(R.id.rela_jrqd).setOnClickListener(this);
         view.findViewById(R.id.rela_cz).setOnClickListener(this);
         view.findViewById(R.id.rela_js).setOnClickListener(this);
@@ -57,38 +94,95 @@ public class BeginnersFragment extends Fragment implements View.OnClickListener{
         text_zc = view.findViewById(R.id.text_zc);
         gridView = view.findViewById(R.id.gridview_item_beginners);
         list = new ArrayList<>();
-        for (int k = 0 ; k < s.length;k++){
-            Map<String,String> map = new HashMap<>();
-            map.put("text",s[k]);
-            list.add(map);
+
+        try {
+            set_list(jsonArray.getJSONObject(0).getJSONArray("sonContentlist"));
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        adapter = new SimpleAdapter(getContext(),list,R.layout.item_beginners
-                ,new String[]{"text"}
-                ,new int[]{R.id.text_item_beginners});
-        gridView.setAdapter(adapter);
-        getHttp();
+        gridView.setAdapter(beginnersAdapter);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                String ss = "";
+                try {
+                    ss = jsonArray.getJSONObject(n).getJSONArray("sonContentlist").getJSONObject(position).getJSONArray("carContentTemplate").toString();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), InfoActivity.class);
+                Bundle bundle = new Bundle();        //创建bundle对象
+                bundle.putString("info",ss); //(String型)
+                intent.putExtras(bundle);        //通过intent绑定Bundle
+                startActivity(intent);
+            }
+        });
         return view;
     }
+
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.rela_jrqd) {
-            setGoo(rela_jrqd_,text_jrqd);
+            n = 0;
+            beginnersBeanList.clear();
+            setGoo(rela_jrqd_, text_jrqd);
+            try {
+                set_list(jsonArray.getJSONObject(0).getJSONArray("sonContentlist"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            beginnersAdapter.notifyDataSetChanged();
         }
         if (v.getId() == R.id.rela_cz) {
-            setGoo(rela_cz_,text_cz);
+            n = 1;
+            beginnersBeanList.clear();
+            setGoo(rela_cz_, text_cz);
+            try {
+                set_list(jsonArray.getJSONObject(1).getJSONArray("sonContentlist"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            beginnersAdapter.notifyDataSetChanged();
         }
         if (v.getId() == R.id.rela_js) {
-            setGoo(rela_js_,text_js);
+            n = 2;
+            beginnersBeanList.clear();
+            setGoo(rela_js_, text_js);
+            try {
+                set_list(jsonArray.getJSONObject(2).getJSONArray("sonContentlist"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            beginnersAdapter.notifyDataSetChanged();
         }
         if (v.getId() == R.id.rela_gn) {
-            setGoo(rela_gn_,text_gn);
+            n = 3;
+            beginnersBeanList.clear();
+            setGoo(rela_gn_, text_gn);
+            try {
+                set_list(jsonArray.getJSONObject(3).getJSONArray("sonContentlist"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            beginnersAdapter.notifyDataSetChanged();
         }
         if (v.getId() == R.id.rela_zc) {
-            setGoo(rela_zc_,text_zc);
+            n = 4;
+            beginnersBeanList.clear();
+            setGoo(rela_zc_, text_zc);
+            try {
+                set_list(jsonArray.getJSONObject(4).getJSONArray("sonContentlist"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            beginnersAdapter.notifyDataSetChanged();
         }
     }
-    public void setGoo(RelativeLayout rela,TextView text){
-        if (rela.getVisibility() != View.VISIBLE){
+
+    public void setGoo(RelativeLayout rela, TextView text) {
+        if (rela.getVisibility() != View.VISIBLE) {
             rela_jrqd_.setVisibility(View.GONE);
             rela_cz_.setVisibility(View.GONE);
             rela_js_.setVisibility(View.GONE);
@@ -103,26 +197,17 @@ public class BeginnersFragment extends Fragment implements View.OnClickListener{
             text.setVisibility(View.GONE);
         }
     }
-    public void getHttp(){
-        OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder()
-//                .url(HTTP_Adss.HUIXINGURL + "/api/Account/Login?userName="+edit_name.getText().toString()+"&password="+edit_password.getText().toString())
-//                .url("http://10.10.0.135:10088/car/model/listModelByPhone?productId=87fd7829-e449-48f1-93f7-63a92b76bc84")
-                .url("http://115.28.72.235:10088/car/model/listModelByPhone?productId=87fd7829-e449-48f1-93f7-63a92b76bc84")
-//                .url("https://fawivi-gw-public-uat.faw.cn:63443/car/model/listModelByPhone?productId=87fd7829-e449-48f1-93f7-63a92b76bc84")
-                .build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.e("报错----", e.toString());
+
+    public void set_list(JSONArray jsonArray){
+        for (int k = 0 ; k < jsonArray.length() ; k++){
+            BeginnersBean beginnersBean = new BeginnersBean();
+            try {
+                beginnersBean.setName(jsonArray.getJSONObject(k).getString("title"));
+                beginnersBean.setImageurl(jsonArray.getJSONObject(k).getString("picturePath"));
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()) {//回调的方法执行在子线程。
-                    String str = response.body().string();
-                    Log.e("str----", str);
-                }
-            }
-        });
+            beginnersBeanList.add(beginnersBean);
+        }
     }
 }

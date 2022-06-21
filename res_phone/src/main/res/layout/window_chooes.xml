@@ -1,29 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="100dp"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@color/search_push">
-    <LinearLayout
+    android:background="@drawable/round_choosecartype">
+    <View
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="选择车型" />
-        <ImageView
-            android:layout_width="16dp"
-            android:layout_height="8dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="5dp"
-            android:background="@mipmap/back_down" />
-    </LinearLayout>
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"/>
     <ListView
         android:id="@+id/list_choose"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"/>
+        android:layout_width="100dp"
+        android:layout_height="200dp"
+        android:layout_marginLeft="140dp"
+        android:background="@color/search_hui"
+        android:scrollbars="none"/>
 </LinearLayout>

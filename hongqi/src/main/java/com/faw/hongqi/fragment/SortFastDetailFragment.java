@@ -22,7 +22,7 @@ import com.faw.hongqi.widget.SortDetailPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
-
+//快速入门内容列表
 @SuppressLint("ValidFragment")
 public class SortFastDetailFragment extends BaseListFragment<SortDetailPresenter, String> implements CheckListener {
     private RecyclerView mRv;

@@ -328,7 +328,7 @@
 				window.location.href = "objc://JsTest=" + id;
 			} else {
 				// 安卓
-				window.parent.postMessage(JSON.stringify(json))
+				window.Android.JsTest(id,text)
 			}
 		}
 

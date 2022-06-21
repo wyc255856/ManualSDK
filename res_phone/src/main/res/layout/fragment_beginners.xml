@@ -23,9 +23,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:text="进入启动"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
+                    android:text="进入"
                     android:textColor="@color/text_rumen_cards" />
             </RelativeLayout>
             <TextView
@@ -33,7 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="进入启动"
+                android:text="进入"
                 android:visibility="gone"/>
         </RelativeLayout>
         <RelativeLayout
@@ -108,17 +108,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/text_rumen_cards"
-                    android:text="功能"
+                    android:text="驻车"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_centerInParent="true"/>
             </RelativeLayout>
+
             <TextView
                 android:id="@+id/text_gn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="功能"/>
+                android:text="驻车" />
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/rela_zc"
@@ -136,17 +137,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/text_rumen_cards"
-                    android:text="驻车"
+                    android:text="锁车"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_centerInParent="true"/>
             </RelativeLayout>
+
             <TextView
                 android:id="@+id/text_zc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="驻车"/>
+                android:text="锁车" />
         </RelativeLayout>
     </LinearLayout>
     <GridView

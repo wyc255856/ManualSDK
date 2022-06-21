@@ -6,15 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
 import com.faw.hongqi.R;
 import com.faw.hongqi.bean.Over_Bean;
-
 import java.util.List;
-
-public class OverAdapter  extends RecyclerView.Adapter<OverAdapter.ViewHolder>{
+public class OverAdapter extends RecyclerView.Adapter<OverAdapter.ViewHolder>{
     Context context;
     List<Over_Bean> list;
     Over_onclick over_onclick;
@@ -33,26 +29,27 @@ public class OverAdapter  extends RecyclerView.Adapter<OverAdapter.ViewHolder>{
         super.onViewRecycled(holder);
     }
     @Override
-    public void onBindViewHolder(final OverAdapter.ViewHolder viewHolder, int i) {
-        viewHolder.text_name.setText(list.get(i).getName());
-        Glide.with(context).load(list.get(i).getImage_o()).into(viewHolder.image_oice);
-//        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                dianjian_onclick.onItemClick(i);
-//            }
-//        });
+    public void onBindViewHolder(final OverAdapter.ViewHolder viewHolder, final int i) {
+        if (list.get(i).isIsup()){
+            Glide.with(context).load(list.get(i).getImage_u()).into(viewHolder.image_oice);
+        }else {
+            Glide.with(context).load(list.get(i).getImage_o()).into(viewHolder.image_oice);
+        }
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                over_onclick.onItemClick(i);
+            }
+        });
     }
     @Override
     public int getItemCount() {
         return list.size();
     }
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView text_name;
         private ImageView image_oice;
         public ViewHolder(View itemView) {
             super(itemView);
-            text_name = (TextView) itemView.findViewById(R.id.text_item_over);
             image_oice = (ImageView) itemView.findViewById(R.id.image_item_over);
         }
     }

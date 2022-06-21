@@ -68,6 +68,9 @@
         </activity>
         <activity android:name="com.faw.hongqi.ui.HomeActivity"/>
         <activity android:name="com.faw.hongqi.ui.SearchActivity"/>
+        <activity android:name="com.faw.hongqi.ui.InfoActivity"/>
+        <activity android:name="com.faw.hongqi.ui.ShouCeChooseAct"/>
+        <activity android:name="com.faw.hongqi.ui.SearchResultAct"/>
     </application>
 
 </manifest>

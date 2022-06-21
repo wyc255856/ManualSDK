@@ -32,7 +32,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import java.io.File;
 import static com.faw.hongqi.ui.C229LoadAndUnzipFileActivity.goC229LoadAndUnzipFileActivity;
-
+//229的主界面
 public class C229MainActivity extends BaseActivity {
 
     private BaseFragment currentFragment;
@@ -99,6 +99,7 @@ public class C229MainActivity extends BaseActivity {
     @Override
     protected void initViews() {
         setContentView(R.layout.activity_c229_main);
+        // tabview固定写死的标签栏
         tabView = findViewById(R.id.tab_view);
         rl_load_faile = findViewById(R.id.rl_load_faile);
         rl_ok = findViewById(R.id.rl_ok);
@@ -169,6 +170,8 @@ public class C229MainActivity extends BaseActivity {
                 currentTag = tag;
                 currentFragment = subViewFragment;
             } else {
+
+                //加载不同的fragment  FragmentUtil
                 subViewFragment = FragmentUtil.getFragment(Integer.valueOf(tag));
 
                 if (subViewFragment != null) {

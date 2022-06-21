@@ -1,10 +1,13 @@
 package com.faw.hongqi.ui;
 
+import static com.faw.hongqi.fragment.OverviewFragment.Loge;
+
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -109,12 +112,19 @@ public class C229WelcomeActivity extends BaseActivity {
                 PhoneUtil.requestGet(url, new NetWorkCallBack() {
                     @Override
                     public void onSuccess(Object data) {
-
                         model = new Gson().fromJson((String) data, VersionUpdateModel.class);
+                        Loge("下载数据----",model.toString());
                         LogUtil.logError("error  = 1111111");
                         runOnUiThread(new Runnable() {
                             public void run() {
                                 if ("C235".equals(model.getCar_name())) {
+                                    /*
+                                     category_url = 'http://www.e-guides.faw.cn/hongqih9_admin/category.json',
+	                                 news_url = 'http://www.e-guides.faw.cn/hongqih9_admin/news.json',
+	                                 zip_url = 'http://www.e-guides.faw.cn/HONGQIH9/standard/c229-36images.zip',
+	                                 game_web_url = 'http://www.e-guides.faw.cn/HONGQIH9/standard/web_mobile',
+	                                 trim_web_url = 'http://www.e-guides.faw.cn/HONGQIH9/standard/pano_2',
+                                    * */
                                     Constant.GAME_WEB_URL = model.getGame_web_url();//互动程序
                                 }
                                 Constant.TRIM_WEB_URL = model.getTrim_web_url();//内饰360
@@ -131,7 +141,17 @@ public class C229WelcomeActivity extends BaseActivity {
                     @Override
                     public void onFail(Object error) {
                         LogUtil.logError("error  = " + error);
-                        rl_load_faile.setVisibility(View.VISIBLE);
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        rl_load_faile.setVisibility(View.VISIBLE);
+                                    }
+                                });
+                            }
+                        }).start();
                     }
                 });
             }

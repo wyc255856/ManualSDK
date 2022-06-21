@@ -2,8 +2,6 @@ package com.faw.hongqi.fragment;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.Build;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;

@@ -8,26 +8,31 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="29dp"
-                android:text="C100"/>
+                android:text="C100"
+                android:textColor="#000000"
+                android:textSize="29dp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="The Electronic Manua"/>
+                android:text="The Electronic Manua" />
         </LinearLayout>
 
         <RelativeLayout
             android:id="@+id/rela_chooes_type"
             android:layout_width="100dp"
             android:layout_height="29dp"
-            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="122dp"
             android:background="@drawable/rounded_hui">
 
             <LinearLayout
@@ -39,6 +44,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:text="选择车型" />
 
                 <ImageView
@@ -49,6 +55,15 @@
                     android:background="@mipmap/back_down" />
             </LinearLayout>
         </RelativeLayout>
+
+<!--        <Spinner-->
+<!--            android:id="@+id/spinner_cartype"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_centerInParent="true"-->
+<!--            android:background="@drawable/rounded_hui"-->
+<!--            android:spinnerMode="dropdown" />-->
+
         <ImageView
             android:id="@+id/image_search"
             android:layout_width="25dp"

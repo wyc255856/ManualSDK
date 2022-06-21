@@ -1,5 +1,7 @@
 package com.faw.hongqi.ui;
 
+import static com.faw.hongqi.fragment.OverviewFragment.Loge;
+
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -37,6 +39,7 @@ public class C229SelectCarModelActivity extends BaseActivity {
             list.add(model.getType_list().get(i).getContent_desc());
             list_id.add(model.getType_list().get(i).getContent_id());
         }
+        Loge("获取----",model.toString());
         recyclerView.setAdapter(adapter);
         String url = FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
                 + File.separator + "MyFolder" + File.separator + Constant.CAR_NAME + "-36images";

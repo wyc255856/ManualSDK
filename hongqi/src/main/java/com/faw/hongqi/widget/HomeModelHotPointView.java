@@ -17,7 +17,7 @@ import com.faw.hongqi.util.Constant;
 
 import java.util.ArrayList;
 import java.util.List;
-
+//标记位置自定义view
 public class HomeModelHotPointView extends LinearLayout implements View.OnClickListener {
 
     FrameLayout view_layout;

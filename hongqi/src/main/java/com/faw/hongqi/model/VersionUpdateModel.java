@@ -98,6 +98,28 @@ public class VersionUpdateModel extends BaseModel implements Serializable {
         public void setContent_desc(String content_desc) {
             this.content_desc = content_desc;
         }
+
+        @Override
+        public String toString() {
+            return "TypeList{" +
+                    "content_id='" + content_id + '\'' +
+                    ", content_desc='" + content_desc + '\'' +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "VersionUpdateModel{" +
+                "car_name='" + car_name + '\'' +
+                ", category_url='" + category_url + '\'' +
+                ", news_url='" + news_url + '\'' +
+                ", zip_url='" + zip_url + '\'' +
+                ", version='" + version + '\'' +
+                ", game_web_url='" + game_web_url + '\'' +
+                ", trim_web_url='" + trim_web_url + '\'' +
+                ", type_list=" + type_list +
+                '}';
     }
 }
 
