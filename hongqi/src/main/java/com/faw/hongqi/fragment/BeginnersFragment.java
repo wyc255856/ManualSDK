@@ -1,59 +1,41 @@
 package com.faw.hongqi.fragment;
-
-import static com.faw.hongqi.fragment.OverviewFragment.Loge;
-
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
-
 import com.faw.hongqi.R;
 import com.faw.hongqi.adaptar.BeginnersAdapter;
+import com.faw.hongqi.adaptar.Rm_Tab_Adapter;
 import com.faw.hongqi.bean.BeginnersBean;
+import com.faw.hongqi.bean.RmTabBean;
 import com.faw.hongqi.ui.InfoActivity;
-
-
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-
-public class BeginnersFragment extends Fragment implements View.OnClickListener {
+public class BeginnersFragment extends Fragment implements View.OnClickListener, Rm_Tab_Adapter.RmTab_onclick1 {
     RelativeLayout rela_jrqd_, rela_cz_, rela_js_, rela_gn_, rela_zc_;
     TextView text_jrqd, text_cz, text_js, text_gn, text_zc;
     GridView gridView;
-    private SimpleAdapter adapter;
     List<Map<String, String>> list;
     List<BeginnersBean> beginnersBeanList;
-    String[] s = {"安全须知", "仪表组", "组合仪表", "防盗系统", "多功能显示屏", "废气注意事项", "智能进入和启动", "全景天窗"};
     String beginnersary;
     JSONArray jsonArray;
     BeginnersAdapter beginnersAdapter;
+    RecyclerView recyclerView;
+    Rm_Tab_Adapter rm_tab_adapter;
+    List<RmTabBean> list_tab;
+    String[] s = {"进入","操作","驾驶","驻车","锁车"};
     int n = 0;
     public static final BeginnersFragment newInstance_geginners(String jsonArray) {
         BeginnersFragment fragment = new BeginnersFragment();
@@ -67,6 +49,9 @@ public class BeginnersFragment extends Fragment implements View.OnClickListener 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_beginners, container, false);
         Log.e("length----", "----");
+        list_tab = new ArrayList<>();
+        rm_tab_adapter = new Rm_Tab_Adapter(getContext(),list_tab,this);
+        recyclerView = (RecyclerView)view.findViewById(R.id.recy_rm);
         beginnersBeanList = new ArrayList<>();
         beginnersAdapter = new BeginnersAdapter(getContext(),beginnersBeanList);
         beginnersary = getArguments().getString("jsonArray");
@@ -77,21 +62,41 @@ public class BeginnersFragment extends Fragment implements View.OnClickListener 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        view.findViewById(R.id.rela_jrqd).setOnClickListener(this);
-        view.findViewById(R.id.rela_cz).setOnClickListener(this);
-        view.findViewById(R.id.rela_js).setOnClickListener(this);
-        view.findViewById(R.id.rela_gn).setOnClickListener(this);
-        view.findViewById(R.id.rela_zc).setOnClickListener(this);
-        rela_jrqd_ = view.findViewById(R.id.rela_jrqd_);
-        rela_cz_ = view.findViewById(R.id.rela_cz_);
-        rela_js_ = view.findViewById(R.id.rela_js_);
-        rela_gn_ = view.findViewById(R.id.rela_gn_);
-        rela_zc_ = view.findViewById(R.id.rela_zc_);
-        text_jrqd = view.findViewById(R.id.text_jrqd);
-        text_cz = view.findViewById(R.id.text_cz);
-        text_js = view.findViewById(R.id.text_js);
-        text_gn = view.findViewById(R.id.text_gn);
-        text_zc = view.findViewById(R.id.text_zc);
+
+        for (int k = 0 ; k < s.length ; k++){
+            RmTabBean rmTabBean = new RmTabBean();
+            if (k == 0){
+                rmTabBean.setClick(true);
+            }else {
+                rmTabBean.setClick(false);
+            }
+            rmTabBean.setTab(s[k]);
+            list_tab.add(rmTabBean);
+        }
+
+
+        //layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        LinearLayoutManager layoutManager1 = new LinearLayoutManager(getContext());
+        layoutManager1.setOrientation(LinearLayoutManager.HORIZONTAL);
+        //设置布局管理器
+        recyclerView.setLayoutManager(layoutManager1);
+        recyclerView.setAdapter(rm_tab_adapter);
+
+//        view.findViewById(R.id.rela_jrqd).setOnClickListener(this);
+//        view.findViewById(R.id.rela_cz).setOnClickListener(this);
+//        view.findViewById(R.id.rela_js).setOnClickListener(this);
+//        view.findViewById(R.id.rela_gn).setOnClickListener(this);
+//        view.findViewById(R.id.rela_zc).setOnClickListener(this);
+//        rela_jrqd_ = view.findViewById(R.id.rela_jrqd_);
+//        rela_cz_ = view.findViewById(R.id.rela_cz_);
+//        rela_js_ = view.findViewById(R.id.rela_js_);
+//        rela_gn_ = view.findViewById(R.id.rela_gn_);
+//        rela_zc_ = view.findViewById(R.id.rela_zc_);
+//        text_jrqd = view.findViewById(R.id.text_jrqd);
+//        text_cz = view.findViewById(R.id.text_cz);
+//        text_js = view.findViewById(R.id.text_js);
+//        text_gn = view.findViewById(R.id.text_gn);
+//        text_zc = view.findViewById(R.id.text_zc);
         gridView = view.findViewById(R.id.gridview_item_beginners);
         list = new ArrayList<>();
 
@@ -124,61 +129,61 @@ public class BeginnersFragment extends Fragment implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.rela_jrqd) {
-            n = 0;
-            beginnersBeanList.clear();
-            setGoo(rela_jrqd_, text_jrqd);
-            try {
-                set_list(jsonArray.getJSONObject(0).getJSONArray("sonContentlist"));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            beginnersAdapter.notifyDataSetChanged();
-        }
-        if (v.getId() == R.id.rela_cz) {
-            n = 1;
-            beginnersBeanList.clear();
-            setGoo(rela_cz_, text_cz);
-            try {
-                set_list(jsonArray.getJSONObject(1).getJSONArray("sonContentlist"));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            beginnersAdapter.notifyDataSetChanged();
-        }
-        if (v.getId() == R.id.rela_js) {
-            n = 2;
-            beginnersBeanList.clear();
-            setGoo(rela_js_, text_js);
-            try {
-                set_list(jsonArray.getJSONObject(2).getJSONArray("sonContentlist"));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            beginnersAdapter.notifyDataSetChanged();
-        }
-        if (v.getId() == R.id.rela_gn) {
-            n = 3;
-            beginnersBeanList.clear();
-            setGoo(rela_gn_, text_gn);
-            try {
-                set_list(jsonArray.getJSONObject(3).getJSONArray("sonContentlist"));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            beginnersAdapter.notifyDataSetChanged();
-        }
-        if (v.getId() == R.id.rela_zc) {
-            n = 4;
-            beginnersBeanList.clear();
-            setGoo(rela_zc_, text_zc);
-            try {
-                set_list(jsonArray.getJSONObject(4).getJSONArray("sonContentlist"));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            beginnersAdapter.notifyDataSetChanged();
-        }
+//        if (v.getId() == R.id.rela_jrqd) {
+//            n = 0;
+//            beginnersBeanList.clear();
+//            setGoo(rela_jrqd_, text_jrqd);
+//            try {
+//                set_list(jsonArray.getJSONObject(0).getJSONArray("sonContentlist"));
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//            beginnersAdapter.notifyDataSetChanged();
+//        }
+//        if (v.getId() == R.id.rela_cz) {
+//            n = 1;
+//            beginnersBeanList.clear();
+//            setGoo(rela_cz_, text_cz);
+//            try {
+//                set_list(jsonArray.getJSONObject(1).getJSONArray("sonContentlist"));
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//            beginnersAdapter.notifyDataSetChanged();
+//        }
+//        if (v.getId() == R.id.rela_js) {
+//            n = 2;
+//            beginnersBeanList.clear();
+//            setGoo(rela_js_, text_js);
+//            try {
+//                set_list(jsonArray.getJSONObject(2).getJSONArray("sonContentlist"));
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//            beginnersAdapter.notifyDataSetChanged();
+//        }
+//        if (v.getId() == R.id.rela_gn) {
+//            n = 3;
+//            beginnersBeanList.clear();
+//            setGoo(rela_gn_, text_gn);
+//            try {
+//                set_list(jsonArray.getJSONObject(3).getJSONArray("sonContentlist"));
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//            beginnersAdapter.notifyDataSetChanged();
+//        }
+//        if (v.getId() == R.id.rela_zc) {
+//            n = 4;
+//            beginnersBeanList.clear();
+//            setGoo(rela_zc_, text_zc);
+//            try {
+//                set_list(jsonArray.getJSONObject(4).getJSONArray("sonContentlist"));
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//            beginnersAdapter.notifyDataSetChanged();
+//        }
     }
 
     public void setGoo(RelativeLayout rela, TextView text) {
@@ -210,4 +215,37 @@ public class BeginnersFragment extends Fragment implements View.OnClickListener 
             beginnersBeanList.add(beginnersBean);
         }
     }
+
+    @Override
+    public void rmtabItemClick1(int position) {
+        Log.e("----",String.valueOf(position));
+        list_tab.clear();
+        for (int k = 0 ; k < s.length ; k++){
+            RmTabBean rmTabBean = new RmTabBean();
+            if (k == position){
+                rmTabBean.setClick(true);
+            }else {
+                rmTabBean.setClick(false);
+            }
+            rmTabBean.setTab(s[k]);
+            list_tab.add(rmTabBean);
+        }
+        rm_tab_adapter.notifyDataSetChanged();
+
+
+        n = position;
+        beginnersBeanList.clear();
+//        setGoo(rela_gn_, text_gn);
+        try {
+            set_list(jsonArray.getJSONObject(position).getJSONArray("sonContentlist"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        beginnersAdapter.notifyDataSetChanged();
+
+    }
+
+
+
+
 }

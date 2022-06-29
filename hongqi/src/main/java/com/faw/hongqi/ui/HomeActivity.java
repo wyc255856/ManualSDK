@@ -241,7 +241,7 @@ public class HomeActivity extends Base_Act implements View.OnClickListener {
         }
         return list;
     }
-
+//115.28.72.235
     public void getHttp(String modelId) {
 //        String modelId = "dd75bfe0-f0e2-4010-95e4-c7e304c98b00";
 //        String modelId = "216b4583-bf69-4cdc-b8cd-5c07e74b2a3f";
@@ -249,7 +249,8 @@ public class HomeActivity extends Base_Act implements View.OnClickListener {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
 //                .url(HTTP_Adss.HUIXINGURL + "/api/Account/Login?userName="+edit_name.getText().toString()+"&password="+edit_password.getText().toString())
-                .url("http://10.10.0.134:10088/car/column/listAllPhone?productId=87fd7829-e449-48f1-93f7-63a92b76bc84&modelId=" + modelId)
+//                .url("http://115.28.72.235:10088/car/column/listAllPhone?productId=87fd7829-e449-48f1-93f7-63a92b76bc84&modelId=" + modelId)// C100
+                .url("http://115.28.72.235:10088/car/column/listAllPhone?productId=309b716a-704d-42cc-8566-f77f0de9ca8c&modelId=" + modelId)// C095
 //                .url("http://fawivi-gw-public-uat.faw.cn:63443/car/column/listAllPhone?productId=87fd7829-e449-48f1-93f7-63a92b76bc84&modelId="+modelId)
 //                .url("https://fawivi-gw-public-uat.faw.cn:63443/car/model/listModelByPhone?productId=87fd7829-e449-48f1-93f7-63a92b76bc84")
                 .build();
@@ -281,6 +282,9 @@ public class HomeActivity extends Base_Act implements View.OnClickListener {
     }
 
 
+    // C095   309b716a-704d-42cc-8566-f77f0de9ca8c;
+
+
     public void getHttpChoose() {
 //        String modelId = "dd75bfe0-f0e2-4010-95e4-c7e304c98b00";
         String modelId = "216b4583-bf69-4cdc-b8cd-5c07e74b2a3f";
@@ -290,7 +294,8 @@ public class HomeActivity extends Base_Act implements View.OnClickListener {
 //                .url("http://10.10.0.135:10088/car/column/listAllPhone?productId=87fd7829-e449-48f1-93f7-63a92b76bc84&modelId="+modelId)
 //                .url("http://115.28.72.235:10088/car/column/listAllPhone?productId=87fd7829-e449-48f1-93f7-63a92b76bc84&modelId="+modelId)
 //                .url("https://fawivi-gw-public-uat.faw.cn:63443/car/model/listModelByPhone?productId=87fd7829-e449-48f1-93f7-63a92b76bc84")
-                .url("http://10.10.0.134:10088/car/model/listModelByPhone?productId=87fd7829-e449-48f1-93f7-63a92b76bc84")
+//                .url("http://115.28.72.235:10088/car/model/listModelByPhone?productId=87fd7829-e449-48f1-93f7-63a92b76bc84")// C100
+                .url("http://115.28.72.235:10088/car/model/listModelByPhone?productId=309b716a-704d-42cc-8566-f77f0de9ca8c")// C095
                 .build();
         client.newCall(request).enqueue(new Callback() {
             @Override

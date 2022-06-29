@@ -16,8 +16,8 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.start_c229).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                C229API.openManualVertical("C100",MainActivity.this);
 //                C229API.openManual(MainActivity.this);
-                C229API.openManual(MainActivity.this);
             }
         });
 
