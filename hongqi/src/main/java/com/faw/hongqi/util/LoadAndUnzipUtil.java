@@ -92,6 +92,7 @@ public class LoadAndUnzipUtil {
         singleTaskId = singleTask.start();
     }
     public static void startDownloadNews(final Activity context, String downloadUrl, final VersionUpdateModel model) {
+        Log.e("new----",downloadUrl);
         singleTask = FileDownloader.getImpl().create(downloadUrl)
                 .setPath(saveZipFilePath, true)
                 .setCallbackProgressTimes(300)
@@ -114,6 +115,7 @@ public class LoadAndUnzipUtil {
                         fileName = task.getFilename();
                         context.runOnUiThread(new Runnable() {
                             public void run() {
+                                Log.e("modle----",model.toString());
                                 //下载完成
                                 DBUtil.initData(context,"news");
                                 Intent intent = new Intent(context,C229SelectCarModelActivity.class);

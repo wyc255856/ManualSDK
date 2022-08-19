@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import com.faw.hongqi.R;
 import com.faw.hongqi.event.BaseEvent;
@@ -45,6 +46,8 @@ public class C229MainActivity extends BaseActivity {
     @Override
     protected void initData() {
         EventBus.getDefault().register(this);
+        Log.e("获取newjson----",FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
+                + File.separator + "MyFolder"+"/news.json");
         deleteDir(new File(FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
                 + File.separator + "MyFolder"+"/news.json"));
         deleteDir(new File(FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"

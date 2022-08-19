@@ -10,8 +10,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -32,6 +34,8 @@ import com.faw.hongqi.fragment.BeginnersFragment;
 import com.faw.hongqi.fragment.BrightFragment;
 import com.faw.hongqi.fragment.OverviewFragment;
 import com.faw.hongqi.fragment.ShouCeFragment;
+import com.faw.hongqi.util.Constant;
+import com.faw.hongqi.util.HmacSHA256Util;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,10 +43,23 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.security.SecureRandom;
+import java.security.cert.X509Certificate;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -50,6 +67,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class HomeActivity extends Base_Act implements View.OnClickListener {
     View view_gl, view_ld, view_rm, view_sc;
     TextView text_gl, text_ld, text_rm, text_sc;
@@ -69,9 +87,23 @@ public class HomeActivity extends Base_Act implements View.OnClickListener {
     List<String> list_s;
     private SimpleAdapter adapter;
     JSONArray jsonArray;
-    WindowManager windowManager;
-    View view1;
-//    Spinner spinner;
+    String productId;
+
+    String str_url1 = "https://fawivi-gw-public-uat.faw.cn:63443/car/column/listAllPhone";
+//    String str_url1 = "http://10.10.0.132:10088/car/column/listAllPhone";
+    ///car/model/listModelByPhone
+//    String str_url = "http://10.10.0.132:10088/car/model/listModelByPhone";
+    String str_url = "https://fawivi-gw-public-uat.faw.cn:63443/car/model/listModelByPhone";
+//    String str_url = "http://www.e-guides.faw.cn/c229plus_admin/index.php?m=home&c=index&a=get_car_info&car_name=C229";
+
+
+//    String url = "http://115.28.72.235:10088/car/column/listAllPhone";
+    String clientId = Constant.IS_PRO?Constant.CLIENT_ID_PRO:Constant.CLIENT_ID_UAT;
+    String timeStamp = String.valueOf(System.currentTimeMillis());
+    String quretStr = "productId=87fd7829-e449-48f1-93f7-63a92b76bc84";
+    String str = clientId + quretStr + timeStamp;
+    String key = Constant.IS_PRO?Constant.KEY_PRO:Constant.KEY_UAT;
+    String base64str = Base64.getEncoder().encodeToString(str.getBytes(StandardCharsets.UTF_8));
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,8 +111,14 @@ public class HomeActivity extends Base_Act implements View.OnClickListener {
         setContentView(R.layout.activity_home);
         init();
     }
-
     public void init() {
+
+        if (Constant.CAR_TYPE.equals("C095")){
+            productId = productIdc095;
+        }else {
+            productId = productIdc100;
+        }
+
         list_choose = new ArrayList<>();
         list = new ArrayList<>();
         list_str = new ArrayList<>();
@@ -101,24 +139,9 @@ public class HomeActivity extends Base_Act implements View.OnClickListener {
         text_rm = findViewById(R.id.text_rm);
         text_sc = findViewById(R.id.text_sc);
         text_gl.setTextColor(getResources().getColor(R.color.light_blue));
-//        spinner = findViewById(R.id.spinner_cartype);
         listView = findViewById(R.id.list_choose);
-        getHttpChoose();
+        getAllNetWorkString();
 //        setww();
-//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                try {
-//                    getHttp(jsonArray.getJSONObject(position).getString("modelId"));
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
     }
 
 
@@ -242,33 +265,54 @@ public class HomeActivity extends Base_Act implements View.OnClickListener {
         return list;
     }
 //115.28.72.235
-    public void getHttp(String modelId) {
-//        String modelId = "dd75bfe0-f0e2-4010-95e4-c7e304c98b00";
-//        String modelId = "216b4583-bf69-4cdc-b8cd-5c07e74b2a3f";
-        Loge("请求地址----", "http://fawivi-gw-public-uat.faw.cn:63443/car/column/listAllPhone?productId=87fd7829-e449-48f1-93f7-63a92b76bc84&modelId=" + modelId);
-        OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder()
-//                .url(HTTP_Adss.HUIXINGURL + "/api/Account/Login?userName="+edit_name.getText().toString()+"&password="+edit_password.getText().toString())
-//                .url("http://115.28.72.235:10088/car/column/listAllPhone?productId=87fd7829-e449-48f1-93f7-63a92b76bc84&modelId=" + modelId)// C100
-                .url("http://115.28.72.235:10088/car/column/listAllPhone?productId=309b716a-704d-42cc-8566-f77f0de9ca8c&modelId=" + modelId)// C095
-//                .url("http://fawivi-gw-public-uat.faw.cn:63443/car/column/listAllPhone?productId=87fd7829-e449-48f1-93f7-63a92b76bc84&modelId="+modelId)
-//                .url("https://fawivi-gw-public-uat.faw.cn:63443/car/model/listModelByPhone?productId=87fd7829-e449-48f1-93f7-63a92b76bc84")
-                .build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Loge("报错----", e.toString());
-            }
+    String productIdc095 = "309b716a-704d-42cc-8566-f77f0de9ca8c";
+    String productIdc100 = "87fd7829-e449-48f1-93f7-63a92b76bc84";
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()) {//回调的方法执行在子线程。
-                    String str = response.body().string();
-                    Loge("str----", str);
+
+    public void getHttp(String modelId) {
+//        Log.e("modelID----",modelId);
+//    //                .url(HTTP_Adss.HUIXINGURL + "/api/Account/Login?userName="+edit_name.getText().toString()+"&password="+edit_password.getText().toString())
+//    //                .url("http://115.28.72.235:10088/car/column/listAllPhone?productId=87fd7829-e449-48f1-93f7-63a92b76bc84&modelId=" + modelId)// C100
+//                    .url("http://115.28.72.235:10088/car/column/listAllPhone?productId="+productId+"&modelId=" + modelId)// C095
+////                    .url("http://fawivi-gw-public-uat.faw.cn:63443/car/column/listAllPhone?productId=87fd7829-e449-48f1-93f7-63a92b76bc84&modelId="+modelId)
+//    //                .url("https://fawivi-gw-public-uat.faw.cn:63443/car/model/listModelByPhone?productId=87fd7829-e449-48f1-93f7-63a92b76bc84")
+
+        String url_info = str_url1+"?productId=87fd7829-e449-48f1-93f7-63a92b76bc84&modelId="+modelId;
+        String quretStr_info = "modelId="+modelId+"&productId=87fd7829-e449-48f1-93f7-63a92b76bc84";
+        String str_info = clientId + quretStr_info + timeStamp;
+        String base64str_info = Base64.getEncoder().encodeToString(str_info.getBytes(StandardCharsets.UTF_8));
+
+//        Log.e("str_info----",str_info);
+        OkHttpClient build = new OkHttpClient.Builder()
+                .sslSocketFactory(createSSLSocketFactory())
+                .hostnameVerifier(new TrustAllHostnameVerifier())
+                .build();
+        final Request request;
+        try {
+            request = new Request.Builder()
+                    .get()
+                    .addHeader("timeStamp", timeStamp)
+                    .addHeader("clientId", clientId)
+                    .addHeader("sign", (HmacSHA256Util.HmacSHA256(base64str_info, key)).toUpperCase())
+                    .addHeader("content-Type", "application/json;charset=UTF-8")
+                    .addHeader("Connection", "Keep-Alive")
+                    .url(url_info).build();
+            Call call = build.newCall(request);
+            call.enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+//                    Log.e("报错----",e.toString());
+                }
+
+                @Override
+                public void onResponse(Call call, Response response)
+                        throws IOException {
+                    String res = response.body().string();
+//                    Log.e("info----",res + "success");
                     JSONObject json;
                     JSONArray jsonArra;
                     try {
-                        json = new JSONObject(str);
+                        json = new JSONObject(res);
                         jsonArra = json.getJSONArray("rows");
                         if (jsonArra != null && jsonArra.length() != 0) {
                             getArray(jsonArra);
@@ -277,52 +321,16 @@ public class HomeActivity extends Base_Act implements View.OnClickListener {
                         e.printStackTrace();
                     }
                 }
-            }
-        });
-    }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+//            Log.e("Exception----",e.toString());
+        }
 
+
+    }
 
     // C095   309b716a-704d-42cc-8566-f77f0de9ca8c;
-
-
-    public void getHttpChoose() {
-//        String modelId = "dd75bfe0-f0e2-4010-95e4-c7e304c98b00";
-        String modelId = "216b4583-bf69-4cdc-b8cd-5c07e74b2a3f";
-        OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder()
-//                .url(HTTP_Adss.HUIXINGURL + "/api/Account/Login?userName="+edit_name.getText().toString()+"&password="+edit_password.getText().toString())
-//                .url("http://10.10.0.135:10088/car/column/listAllPhone?productId=87fd7829-e449-48f1-93f7-63a92b76bc84&modelId="+modelId)
-//                .url("http://115.28.72.235:10088/car/column/listAllPhone?productId=87fd7829-e449-48f1-93f7-63a92b76bc84&modelId="+modelId)
-//                .url("https://fawivi-gw-public-uat.faw.cn:63443/car/model/listModelByPhone?productId=87fd7829-e449-48f1-93f7-63a92b76bc84")
-//                .url("http://115.28.72.235:10088/car/model/listModelByPhone?productId=87fd7829-e449-48f1-93f7-63a92b76bc84")// C100
-                .url("http://115.28.72.235:10088/car/model/listModelByPhone?productId=309b716a-704d-42cc-8566-f77f0de9ca8c")// C095
-                .build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Loge("选择车型报错----",e.toString());
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()) {//回调的方法执行在子线程。
-                    String str = response.body().string();
-                    JSONObject json;
-                    Loge("选择车型----",str);
-                    try {
-                        json = new JSONObject(str);
-                        jsonArray = json.getJSONArray("rows");
-                        if (jsonArray != null && jsonArray.length() != 0) {
-                            getHttp(jsonArray.getJSONObject(0).getString("modelId"));
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-//                    setSpinner();
-                }
-            }
-        });
-    }
 
     //  /car/model/listModelByPhone
 
@@ -334,8 +342,6 @@ public class HomeActivity extends Base_Act implements View.OnClickListener {
                 e.printStackTrace();
             }
         }
-//        view1 = View.inflate(this, R.layout.window_chooes, null);
-//        ListView listView = view1.findViewById(R.id.list_choose);
 
         for (int k = 0; k < list_s.size(); k++) {
             Map<String, String> map = new HashMap<>();
@@ -346,15 +352,6 @@ public class HomeActivity extends Base_Act implements View.OnClickListener {
                 , new String[]{"text"}
                 , new int[]{R.id.text_choosecartype});
         listView.setAdapter(adapter);
-
-//        final WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams(
-//                WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT, 0, 0, PixelFormat.TRANSPARENT);
-//        layoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION;
-//        layoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
-//        layoutParams.gravity = Gravity.LEFT | Gravity.TOP;
-//        windowManager = this.getWindowManager();
-//        windowManager.addView(view1, layoutParams);
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -363,9 +360,6 @@ public class HomeActivity extends Base_Act implements View.OnClickListener {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-//                if (windowManager != null) {
-//                    windowManager.removeView(view1);
-//                }
                 listView.setVisibility(View.GONE);
             }
         });
@@ -417,6 +411,8 @@ public class HomeActivity extends Base_Act implements View.OnClickListener {
                 String s;
                 for (int k = 0; k < jsonArray.length(); k++) {
                     js = jsonArray.getJSONObject(k);
+
+//                    Loge("jsonarray----"+k+"----",js.toString());
                     s = js.getString("columnName");
                     jsonArray1 = js.getJSONArray("sonList");
                     if (s != null && s.equals("车型概览")) {
@@ -444,5 +440,97 @@ public class HomeActivity extends Base_Act implements View.OnClickListener {
             }
         }
     }
+
+//    String base64str = Base64.getEncoder().encodeToString(str.getBytes(Charset.forName("UTF-8")));
+    String url1 = str_url+"?productId=87fd7829-e449-48f1-93f7-63a92b76bc84";
+
+    public void getAllNetWorkString() {
+        Loge("选择车型拼接str----",str);
+        OkHttpClient build = new OkHttpClient.Builder()
+                .sslSocketFactory(createSSLSocketFactory())
+                .hostnameVerifier(new TrustAllHostnameVerifier())
+                .build();
+        final Request request;
+        try {
+            request = new Request.Builder()
+                    .get()
+                    .addHeader("timeStamp", timeStamp)
+                    .addHeader("clientId", clientId)
+                    .addHeader("sign", (HmacSHA256Util.HmacSHA256(base64str, key)).toUpperCase())
+                    .addHeader("content-Type", "application/json;charset=UTF-8")
+                    .addHeader("Connection", "Keep-Alive")
+                    .url(url1).build();
+//            Log.e("url1----",url1);
+            Call call = build.newCall(request);
+            call.enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+//                    Log.e("----",e.getMessage());
+                }
+
+                @Override
+                public void onResponse(Call call, Response response)
+                        throws IOException {
+                    String res = response.body().string();
+
+                    JSONObject json;
+                    try {
+                        json = new JSONObject(res);
+                        jsonArray = json.getJSONArray("rows");
+                        if (jsonArray != null && jsonArray.length() != 0) {
+                            getHttp(jsonArray.getJSONObject(0).getString("modelId"));
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+//                    Log.e("----",res + "success");
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+//            Log.e("----",e.toString() + "Exception");
+        }
+    }
+
+    private static class TrustAllHostnameVerifier implements HostnameVerifier {
+        @Override
+        public boolean verify(String hostname, SSLSession session) {
+            return true;
+        }
+
+    }
+
+    private static class TrustAllCerts implements X509TrustManager {
+
+        @Override
+        public void checkServerTrusted(X509Certificate[] chain, String authType) {
+        }
+
+        @Override
+        public void checkClientTrusted(X509Certificate[] chain, String authType) {
+
+        }
+
+        @Override
+        public X509Certificate[] getAcceptedIssuers() {
+            return new X509Certificate[0];
+        }
+    }
+
+    private static SSLSocketFactory createSSLSocketFactory() {
+        SSLSocketFactory ssfFactory = null;
+        try {
+            SSLContext sc = SSLContext.getInstance("TLS");
+            sc.init(null, new TrustManager[]{new TrustAllCerts()}, new SecureRandom());
+            ssfFactory = sc.getSocketFactory();
+        } catch (Exception e) {
+        }
+
+        return ssfFactory;
+    }
+
+
 
 }

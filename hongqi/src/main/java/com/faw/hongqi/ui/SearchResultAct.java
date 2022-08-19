@@ -1,37 +1,63 @@
 package com.faw.hongqi.ui;
 import static com.faw.hongqi.fragment.OverviewFragment.Loge;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 import com.faw.hongqi.R;
+import com.faw.hongqi.util.Constant;
+import com.faw.hongqi.util.HmacSHA256Util;
+import com.faw.hongqi.util.LogUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.security.SecureRandom;
+import java.security.cert.X509Certificate;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class SearchResultAct extends Base_Act{
     String searchresult;
     SimpleAdapter simpleAdapter;
     List<Map<String,String>> lists;
     ListView listView;
     JSONArray jsonArray;
+    String clientId = Constant.IS_PRO?Constant.CLIENT_ID_PRO:Constant.CLIENT_ID_UAT;
+    String timeStamp = String.valueOf(System.currentTimeMillis());
+    String quretStr = "productId=87fd7829-e449-48f1-93f7-63a92b76bc84";
+    String str = clientId + quretStr + timeStamp;
+//    String key = Constant.IS_PRO?Constant.KEY_PRO:Constant.KEY_UAT;
+    String key = Constant.KEY_UAT;
+//    String base64str = Base64.getEncoder().encodeToString(str.getBytes(StandardCharsets.UTF_8));
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,37 +66,78 @@ public class SearchResultAct extends Base_Act{
         Intent intent = getIntent();
         searchresult = intent.getStringExtra("searchresult");
         if (searchresult != null){
-            post_1(searchresult);
+            Log.e("searchresult----",searchresult);
+            post_search(searchresult);
+
         }
     }
-    private void post_1(String s) {
-        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-        RequestBody body = RequestBody.create(JSON, s);
-        OkHttpClient client = new OkHttpClient();
-        final Request request = new Request.Builder()
-                .url("https://fawivi-gw-public-uat.faw.cn:63443/car/content/selectByTitle")
-//                .url("https://10.10.0.135:10088/car/content/selectByTitle")
-                .post(body)
+
+    public void post_search(String s) {
+        String quretStr_info = "title="+s+"&productId=87fd7829-e449-48f1-93f7-63a92b76bc84";
+        String str_info = clientId + timeStamp;
+        Log.e("str_info----",str_info);
+        String base64str_info = Base64.getEncoder().encodeToString(str_info.getBytes(StandardCharsets.UTF_8));
+        OkHttpClient build = new OkHttpClient.Builder()
+                .sslSocketFactory(createSSLSocketFactory())
+                .hostnameVerifier(new TrustAllHostnameVerifier())
                 .build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Loge("搜索报错----",e.toString());
-            }
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                String responseString = response.body().string();
-                try {
-                    jsonArray = new JSONObject(responseString).getJSONArray("rows");
-                    Loge("搜索----",String.valueOf(jsonArray.length()));
-                    Loge("搜索----",jsonArray.toString());
-                    setLists(jsonArray);
-                } catch (JSONException e) {
-                    e.printStackTrace();
+        final Request request;
+//        RequestBody formBody = new FormBody.Builder()
+//                .add("productId", "309b716a-704d-42cc-8566-f77f0de9ca8c")
+////                .add("productId", "5d27d49c-6aff-4cba-9aa4-d73af83a3a4c")//车型
+//                .build();
+        RequestBody requestBody = new FormBody.Builder()
+                .add("title",s)
+                .add("productId","87fd7829-e449-48f1-93f7-63a92b76bc84").build();
+//        LogUtil.logError(url1);
+//        LogUtil.logError(url2);
+        try {
+            request = new Request.Builder()
+                    .post(requestBody)
+                    .addHeader("timeStamp", timeStamp)
+                    .addHeader("clientId", clientId)
+                    .addHeader("sign", (HmacSHA256Util.HmacSHA256(base64str_info, key)).toUpperCase())
+                    .addHeader("content-Type", "application/json;charset=UTF-8")
+                    .addHeader("Connection", "Keep-Alive")
+                    .url("https://fawivi-gw-public-uat.faw.cn:63443/car/content/selectByTitle").build();
+            Call call = build.newCall(request);
+            call.enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    LogUtil.logError(e.getMessage());
                 }
-            }
-        });
+
+                @Override
+                public void onResponse(Call call, Response response)
+                        throws IOException {
+                    String res = response.body().string();
+                    Log.e("str_info----",res);
+//                    CategoryListModel menuListModel = new Gson().fromJson(res, CategoryListModel.class);
+//                    if (menuListModel != null) {
+//                        categoryList = menuListModel.getRECORDS();
+//                        LogUtil.logError("数据长度" + menuListModel.getRECORDS().size());
+//
+//                    }
+//                    LogUtil.logError(res + "success");
+                    Loge("搜索内容----",res);
+                    try {
+                        jsonArray = new JSONObject(res).getJSONArray("rows");
+                        Loge("搜索条数----",String.valueOf(jsonArray.length()));
+                        Loge("搜索----",jsonArray.toString());
+                        setLists(jsonArray);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            LogUtil.logError(e.toString() + "Exception");
+        }
     }
+
+
+
     public void setLists(final JSONArray jsonArray){
         lists = new ArrayList<>();
         for(int i = 0;i < jsonArray.length();i++){
@@ -114,5 +181,42 @@ public class SearchResultAct extends Base_Act{
             }
         }).start();
 
+    }
+
+    private static class TrustAllHostnameVerifier implements HostnameVerifier {
+        @Override
+        public boolean verify(String hostname, SSLSession session) {
+            return true;
+        }
+
+    }
+
+    private static class TrustAllCerts implements X509TrustManager {
+
+        @Override
+        public void checkServerTrusted(X509Certificate[] chain, String authType) {
+        }
+
+        @Override
+        public void checkClientTrusted(X509Certificate[] chain, String authType) {
+
+        }
+
+        @Override
+        public X509Certificate[] getAcceptedIssuers() {
+            return new X509Certificate[0];
+        }
+    }
+
+    private static SSLSocketFactory createSSLSocketFactory() {
+        SSLSocketFactory ssfFactory = null;
+        try {
+            SSLContext sc = SSLContext.getInstance("TLS");
+            sc.init(null, new TrustManager[]{new TrustAllCerts()}, new SecureRandom());
+            ssfFactory = sc.getSocketFactory();
+        } catch (Exception e) {
+        }
+
+        return ssfFactory;
     }
 }

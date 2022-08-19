@@ -730,4 +730,86 @@ public class NewsModel extends BaseModel implements Serializable {
         return zdqj;
     }
 
+    @Override
+    public String toString() {
+        return "NewsModel{" +
+                "newsid=" + newsid +
+                ", id='" + id + '\'' +
+                ", catid=" + catid +
+                ", title='" + title + '\'' +
+                ", style='" + style + '\'' +
+                ", thumb='" + thumb + '\'' +
+                ", keywords='" + keywords + '\'' +
+                ", description='" + description + '\'' +
+                ", content='" + content + '\'' +
+                ", url='" + url + '\'' +
+                ", listorder=" + listorder +
+                ", status=" + status +
+                ", islink=" + islink +
+                ", username='" + username + '\'' +
+                ", inputtime=" + inputtime +
+                ", updatetime=" + updatetime +
+                ", head_image='" + head_image + '\'' +
+                ", image='" + image + '\'' +
+                ", image1='" + image1 + '\'' +
+                ", image2='" + image2 + '\'' +
+                ", image3='" + image3 + '\'' +
+                ", image4='" + image4 + '\'' +
+                ", template=" + template +
+                ", video='" + video + '\'' +
+                ", template1=" + template1 +
+                ", template2=" + template2 +
+                ", template3=" + template3 +
+                ", template4=" + template4 +
+                ", video1='" + video1 + '\'' +
+                ", video2='" + video2 + '\'' +
+                ", video3='" + video3 + '\'' +
+                ", video4='" + video4 + '\'' +
+                ", content1_app='" + content1_app + '\'' +
+                ", content2_app='" + content2_app + '\'' +
+                ", content3_app='" + content3_app + '\'' +
+                ", content4_app='" + content4_app + '\'' +
+                ", content5_app='" + content5_app + '\'' +
+                ", content6_app='" + content6_app + '\'' +
+                ", content7_app='" + content7_app + '\'' +
+                ", content8_app='" + content8_app + '\'' +
+                ", content9_app='" + content9_app + '\'' +
+                ", content10_app='" + content10_app + '\'' +
+                ", content1='" + content1 + '\'' +
+                ", content2='" + content2 + '\'' +
+                ", content3='" + content3 + '\'' +
+                ", content4='" + content4 + '\'' +
+                ", image5='" + image5 + '\'' +
+                ", image6='" + image6 + '\'' +
+                ", image7='" + image7 + '\'' +
+                ", image8='" + image8 + '\'' +
+                ", image9='" + image9 + '\'' +
+                ", image10='" + image10 + '\'' +
+                ", content5='" + content5 + '\'' +
+                ", content6='" + content6 + '\'' +
+                ", content7='" + content7 + '\'' +
+                ", content8='" + content8 + '\'' +
+                ", content9='" + content9 + '\'' +
+                ", content10='" + content10 + '\'' +
+                ", video5='" + video5 + '\'' +
+                ", video6='" + video6 + '\'' +
+                ", video7='" + video7 + '\'' +
+                ", video8='" + video8 + '\'' +
+                ", video9='" + video9 + '\'' +
+                ", video10='" + video10 + '\'' +
+                ", template5=" + template5 +
+                ", template6=" + template6 +
+                ", template7=" + template7 +
+                ", template8=" + template8 +
+                ", template9=" + template9 +
+                ", template10=" + template10 +
+                ", sdss=" + sdss +
+                ", sdhh=" + sdhh +
+                ", sdzg=" + sdzg +
+                ", zdss=" + zdss +
+                ", zdhh=" + zdhh +
+                ", zdzg=" + zdzg +
+                ", zdqj=" + zdqj +
+                '}';
+    }
 }

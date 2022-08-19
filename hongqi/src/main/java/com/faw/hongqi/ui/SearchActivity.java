@@ -105,7 +105,8 @@ public class SearchActivity extends Base_Act{
                             }
                             Intent intent = new Intent();
                             intent.setClass(SearchActivity.this,SearchResultAct.class);
-                            intent.putExtra("searchresult",jsonObject.toString());
+//                            intent.putExtra("searchresult",jsonObject.toString());
+                            intent.putExtra("searchresult",edit_search.getText().toString());
                             startActivity(intent);
                         }
                     }

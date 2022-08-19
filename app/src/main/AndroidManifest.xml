@@ -9,6 +9,8 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+<!--    TranslucentTheme-->
+<!--    android:theme="@style/AppTheme"-->
     <application
         android:name=".MyApplication"
         android:allowBackup="false"
@@ -17,7 +19,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
-        android:theme="@style/AppTheme"
+        android:theme="@style/TranslucentTheme"
         android:appComponentFactory="android.support.v4.app.CoreComponentFactory"
         tools:replace="android:appComponentFactory">
         <activity android:name=".MainActivity">

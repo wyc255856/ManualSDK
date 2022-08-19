@@ -223,4 +223,31 @@ public class CategoryModel extends BaseModel {
 
     public void setting(String setting) {
     }
+
+    @Override
+    public String toString() {
+        return "CategoryModel{" +
+                "catid=" + catid +
+                ", type=" + type +
+                ", parentid=" + parentid +
+                ", catname='" + catname + '\'' +
+                ", description='" + description + '\'' +
+                ", url='" + url + '\'' +
+                ", setting='" + setting + '\'' +
+                ", listorder=" + listorder +
+                ", ismenu=" + ismenu +
+                ", img='" + img + '\'' +
+                ", img_path='" + img_path + '\'' +
+                ", level='" + level + '\'' +
+                ", template='" + template + '\'' +
+                ", is_benceng_duyou=" + is_benceng_duyou +
+                ", sdss=" + sdss +
+                ", sdhh=" + sdhh +
+                ", sdzg=" + sdzg +
+                ", zdss=" + zdss +
+                ", zdhh=" + zdhh +
+                ", zdzg=" + zdzg +
+                ", zdqj=" + zdqj +
+                '}';
+    }
 }

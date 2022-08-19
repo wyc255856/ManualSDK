@@ -111,6 +111,7 @@ public class DBUtil {
         for (int i =0;i<menuListModel.size();i++){
             menuListModel.get(i).save();
         }
+        seeList(0);
         LogUtil.logError("news表入库结束");
         LogUtil.logError("消耗了" + (System.currentTimeMillis() - startTime) + "毫秒");
     }
@@ -119,13 +120,12 @@ public class DBUtil {
         long startTime = System.currentTimeMillis();
         LogUtil.logError("开始入库Category表");
         for (int i = 0;i<getCategoryList(context).getRECORDS().size();i++){
-
         }
         List<CategoryModel> menuListModel = getCategoryList(context).getRECORDS();
         for (int i =0;i<menuListModel.size();i++){
             menuListModel.get(i).save();
         }
-
+        seeList(1);
         LogUtil.logError("Category表入库结束"+getCategoryList(context).getRECORDS());
         LogUtil.logError("消耗了" + (System.currentTimeMillis() - startTime) + "毫秒");
     }
@@ -285,4 +285,30 @@ public class DBUtil {
         hotWord.setWord(word);
         hotWord.save();
     }
+
+    public static void seeList(int l){
+        if (l == 0){
+            List<NewsModel> user2Models=SQLite.select().from(NewsModel.class).queryList();
+//            Log.e("user2Models----",String.valueOf(user2Models.size()));
+//            if (user2Models.size() != 0){
+//                for (int k = 0 ; k < user2Models.size() ; k++){
+//                    Log.e("user2Models----"+k,user2Models.get(k).toString());
+//                }
+//            }
+        }else {
+            List<CategoryModel> user2Models=SQLite.select().from(CategoryModel.class).queryList();
+//            Log.e("Category2Models----",String.valueOf(user2Models.size()));
+//            if (user2Models.size() != 0){
+//                for (int k = 0 ; k < user2Models.size() ; k++){
+//                    Log.e("Category2Models----"+k,user2Models.get(k).toString());
+//                }
+//            }
+        }
+
+    }
+    public static List<CategoryModel> getlist(){
+        List<CategoryModel> user2Models=SQLite.select().from(CategoryModel.class).queryList();
+        return user2Models;
+    }
+
 }

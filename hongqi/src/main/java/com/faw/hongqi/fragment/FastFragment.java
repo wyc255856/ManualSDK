@@ -108,6 +108,12 @@ public class FastFragment extends BaseFragment implements CheckListener {
 
     }
 
+
+
+
+
+
+
     @Override
     protected void initData() {
         EventBus.getDefault().register(this);
@@ -120,31 +126,35 @@ public class FastFragment extends BaseFragment implements CheckListener {
         } else if (Constant.CAR_NAME.equals("c235")) {
             id = 1869;
         }
-
         SQLite.select().from(CategoryModel.class).where(CategoryModel_Table.parentid.eq(id))
                 .async().queryResultCallback(
-                new QueryTransaction.QueryResultCallback<CategoryModel>() {
-                    @Override
-                    public void onQueryResult(@NonNull QueryTransaction<CategoryModel> transaction,
-                                              @NonNull CursorResult<CategoryModel> tResult) {
-                        //这里可以是返回集合：tResult.toList()
-                        if (tResult != null)
-                            list = tResult.toList();
-                        for (int i = 0; i < 5; i++) {
-                            list5.add(list.get(i));
-                        }
-
-                        LogUtil.logError("list size = " + list.size());
-                        ((Activity) mContext).runOnUiThread(new Runnable() {
+                        new QueryTransaction.QueryResultCallback<CategoryModel>() {
                             @Override
-                            public void run() {
-                                initList();
-                            }
-                        });
+                            public void onQueryResult(@NonNull QueryTransaction<CategoryModel> transaction,
+                                                      @NonNull CursorResult<CategoryModel> tResult) {
+                                //这里可以是返回集合：tResult.toList()
+                                if (tResult != null) {
+                                    list = tResult.toList();
+                                }
+                                //2022.7.28
+                                if (list.size() == 0) {
+                                    list.addAll(DBUtil.getlist());
+                                }
+                                Log.e("----", "----");
+                                for (int i = 0; i < 5; i++) {
+                                    list5.add(list.get(i));
+                                }
+                                LogUtil.logError("list size = " + list.size());
+                                ((Activity) mContext).runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        initList();
+                                    }
+                                });
 
-                        tResult.close();//关闭资源
-                    }
-                }).execute();
+                                tResult.close();//关闭资源
+                            }
+                        }).execute();
 
 
     }
@@ -294,31 +304,31 @@ public class FastFragment extends BaseFragment implements CheckListener {
         SQLite.select().from(NewsModel.class).where(NewsModel_Table.catid.eq(categoryModel.getCatid()))
                 .and(Constant.getCurrentIntProperty(mContext).eq(1))
                 .async().queryResultCallback(
-                new QueryTransaction.QueryResultCallback<NewsModel>() {
-                    @Override
-                    public void onQueryResult(@NonNull QueryTransaction<NewsModel> transaction,
-                                              @NonNull CursorResult<NewsModel> tResult) {
-                        //这里可以是返回集合：tResult.toList()
-                        NewsListModel newsListModel = new NewsListModel();
-                        newsListModel.setRECORDS(tResult.toList());
-                        newsList.add(newsListModel);
-                        newIndex++;
-                        if (newIndex < list.size()) {
-                            getFastNewsList();
-                        } else {
-                    ((Activity) mContext).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            onDone();
-                        }
-                    });
+                        new QueryTransaction.QueryResultCallback<NewsModel>() {
+                            @Override
+                            public void onQueryResult(@NonNull QueryTransaction<NewsModel> transaction,
+                                                      @NonNull CursorResult<NewsModel> tResult) {
+                                //这里可以是返回集合：tResult.toList()
+                                NewsListModel newsListModel = new NewsListModel();
+                                newsListModel.setRECORDS(tResult.toList());
+                                newsList.add(newsListModel);
+                                newIndex++;
+                                if (newIndex < list.size()) {
+                                    getFastNewsList();
+                                } else {
+                                    ((Activity) mContext).runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            onDone();
+                                        }
+                                    });
 
-                        }
+                                }
 
 
-                        tResult.close();//关闭资源
-                    }
-                }).execute();
+                                tResult.close();//关闭资源
+                            }
+                        }).execute();
 
 
     }

@@ -179,8 +179,12 @@ public class ManualFragment extends BaseFragment implements CheckListener {
 
     private void initList() {
         if (Constant.CAR_NAME.equals("c229")) {
-            list = list.subList(0, 12);
+            //2022.7.28
+            if (list.size() == 0){
+                list.addAll(DBUtil.getlist());
+            }
 
+            list = list.subList(0, 12);
         } else if (Constant.CAR_NAME.equals("e115")) {
             list = list.subList(0, 13);
 

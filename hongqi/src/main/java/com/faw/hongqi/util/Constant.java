@@ -19,7 +19,15 @@ public class Constant {
         public static String CAR_TYPE = "C229";//车型
 //    public static String CAR_TYPE = "E115";//车型
 //    public static String CAR_TYPE = "C235";//车型
-     
+
+
+    public static boolean IS_PRO = false;
+    public static String CLIENT_ID_PRO = "ivi-client";
+    public static String CLIENT_ID_UAT = "ivi-uat-client";
+    public static String KEY_PRO = "fc939aa276852a4f101c544ddc9d101c";
+    public static String KEY_UAT = "e06560ba5f9190253de2e39a094fc8a9";
+
+
     public static String INTPROPERTY_TYPE = "c229_1";//车型配置
     public static String TRIM_WEB_URL = "";//内饰360webview地址
     public static String GAME_WEB_URL = "";//互动游戏webview地址

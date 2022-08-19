@@ -35,6 +35,9 @@ public class C229WelcomeActivity extends BaseActivity {
     int time = 6;
     TextView next;
 
+
+
+    String str_url = "http://www.e-guides.faw.cn/c229plus_admin/index.php?m=home&c=index&a=get_car_info&car_name=C229";
     private RelativeLayout rl_load_faile;
     private RelativeLayout rl_re;
     private RelativeLayout rl_can;
@@ -97,8 +100,14 @@ public class C229WelcomeActivity extends BaseActivity {
     private void isUpdate() {
         //http://www.haoweisys.com/hongqih9_admin/index.php?m=home&c=index&a=get_car_info&car_name=E115
         //传大写E115 C229
-        final String url = ("E115".equals(Constant.CAR_TYPE)) ? "http://www.e-guides.faw.cn/e115plus_admin/index.php?m=home&c=index&a=get_car_info&car_name=E115" : Constant.BASE_URL + "hongqih9_admin/index.php?m=home&c=index&a=get_car_info&car_name=" + Constant.CAR_TYPE;
-//        if("E115".equals(Constant.CAR_TYPE)){
+        final String url;
+        if ("C229".equals(Constant.CAR_TYPE)){
+            url = str_url;
+        }else {
+            url = ("E115".equals(Constant.CAR_TYPE)) ? "http://www.e-guides.faw.cn/e115plus_admin/index.php?m=home&c=index&a=get_car_info&car_name=E115" : Constant.BASE_URL + "hongqih9_admin/index.php?m=home&c=index&a=get_car_info&car_name=" + Constant.CAR_TYPE;
+        }
+//                                                                                                                                                              http://www.e-guides.faw.cn/c229plus_admin/index.php?m=home&c=index&a=get_car_info&car_name=C229
+        //        if("E115".equals(Constant.CAR_TYPE)){
 //            final String url = "http://www.e-guides.faw.cn/e115plus_admin/index.php?m=home&c=index&a=get_car_info&car_name=E115";
 //        }else{
 //            url = Constant.BASE_URL + "hongqih9_admin/index.php?m=home&c=index&a=get_car_info&car_name=" + Constant.CAR_TYPE;

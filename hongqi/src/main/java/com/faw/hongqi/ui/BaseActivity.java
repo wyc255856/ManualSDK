@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -27,6 +28,7 @@ public abstract class BaseActivity extends FragmentActivity {
             requestWindowFeature(Window.FEATURE_NO_TITLE);
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
+        Log.e("is-phone----",String.valueOf(Constant.IS_PHONE));
         if (Constant.IS_PHONE) {
             // 隐藏状态栏
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
