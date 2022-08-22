@@ -9,6 +9,7 @@ import com.faw.hongqi.C229API;
 
 public class MainActivity extends AppCompatActivity {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -16,7 +17,8 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.start_c229).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                C229API.openManualVertical("C095",MainActivity.this);
+//                C229API.openManualVertical(MainActivity.this,"C095");
+                C229API.openManualVertical(MainActivity.this,"C100");
 //                C229API.openManual(MainActivity.this);
             }
         });

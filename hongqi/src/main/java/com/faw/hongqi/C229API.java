@@ -26,7 +26,7 @@ public class C229API {
         context.startActivity(intent);
 
     }
-    public static void openManualVertical(String carType,Context context) {
+    public static void openManualVertical(Context context,String carType) {
         Constant.CAR_TYPE = carType;
         Intent intent = new Intent(context, WelcomeActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
