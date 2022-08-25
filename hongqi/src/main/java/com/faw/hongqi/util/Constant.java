@@ -19,9 +19,11 @@ public class Constant {
         public static String CAR_TYPE = "C229";//车型
 //    public static String CAR_TYPE = "E115";//车型
 //    public static String CAR_TYPE = "C235";//车型
+//    public static String CAR_TYPE = "C095";//车型
 
 
-    public static boolean IS_PRO = false;
+//    public static boolean IS_PRO = false;
+    public static boolean IS_PRO = true;
     public static String CLIENT_ID_PRO = "ivi-client";
     public static String CLIENT_ID_UAT = "ivi-uat-client";
     public static String KEY_PRO = "fc939aa276852a4f101c544ddc9d101c";

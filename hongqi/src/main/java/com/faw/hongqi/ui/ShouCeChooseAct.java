@@ -1,12 +1,15 @@
 package com.faw.hongqi.ui;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 import com.faw.hongqi.R;
+import com.faw.hongqi.fragment.ShouCeFragment;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import java.util.ArrayList;
@@ -24,12 +27,13 @@ public class ShouCeChooseAct extends Base_Act{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shoucechoose);
         listView = findViewById(R.id.list_dialog_shouce);
-//        findViewById(R.id.rela_chooes_type).setVisibility(View.GONE);
-        findViewById(R.id.image_search).setVisibility(View.GONE);
         listn = new ArrayList<>();
         Bundle bundle = this.getIntent().getExtras();
         //通过key得到value
         jsonary = bundle.getString("info");
+        if (jsonary == null || jsonary.length() == 0){
+            jsonary = ShouCeFragment.jsonary;
+        }
         n = bundle.getInt("position");
         JSONArray jsonArr = null;
         try {
@@ -46,7 +50,6 @@ public class ShouCeChooseAct extends Base_Act{
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Toast.makeText(ShouCeChooseAct.this, n+"----"+position, Toast.LENGTH_SHORT).show();
                     String ss = "";
                     try {
                         ss = new JSONArray(jsonary).getJSONObject(n).getJSONArray("sonContentlist").getJSONObject(position).getJSONArray("carContentTemplate").toString();

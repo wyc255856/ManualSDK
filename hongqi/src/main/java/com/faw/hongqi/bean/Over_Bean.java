@@ -46,4 +46,15 @@ public class Over_Bean {
     public void setImage_u(String image_u) {
         this.image_u = image_u;
     }
+
+    @Override
+    public String toString() {
+        return "Over_Bean{" +
+                "name='" + name + '\'' +
+                ", image_o='" + image_o + '\'' +
+                ", image_u='" + image_u + '\'' +
+                ", isup=" + isup +
+                ", info='" + info + '\'' +
+                '}';
+    }
 }

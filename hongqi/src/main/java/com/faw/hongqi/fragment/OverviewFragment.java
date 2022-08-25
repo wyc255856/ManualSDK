@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -42,7 +43,8 @@ public class OverviewFragment extends Fragment implements OverAdapter.Over_oncli
         , PagingScrollHelper.onPageChangeListener, Over_Adapter.Over_onclick1 {
     RecyclerView recyclerView;
     OverAdapter overAdapter;
-    List<Over_Bean> list;
+    List<Over_Bean> list_overbean;
+    List<Over_Bean> list_overBean;
     ImageView image_title;
     JSONArray jsonary;
     RecyclerView recy_text;
@@ -55,6 +57,7 @@ public class OverviewFragment extends Fragment implements OverAdapter.Over_oncli
     String ary;
     List<Map<String,String>> lists;
     List<String> list_str;
+    TextView text_over_title;
     public static final OverviewFragment newInstance_over(String jsonArray) {
         OverviewFragment fragment = new OverviewFragment();
         Bundle bundle = new Bundle();
@@ -73,14 +76,16 @@ public class OverviewFragment extends Fragment implements OverAdapter.Over_oncli
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        list = new ArrayList<>();
+        list_overbean = new ArrayList<>();
+        list_overBean = new ArrayList<>();
         list_info = new ArrayList<>();
         lists = new ArrayList<>();
         list_str = new ArrayList<>();
+        text_over_title = (TextView)view.findViewById(R.id.text_over_title);
         recyclerView = view.findViewById(R.id.recy_over);
         recy_text = view.findViewById(R.id.recy_over_text);
         image_title = view.findViewById(R.id.image_title);
-        overAdapter = new OverAdapter(getContext(), list, this);
+        overAdapter = new OverAdapter(getContext(), list_overbean, this);
         over_adapter = new Over_Adapter(getContext(), list_info, this);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -119,6 +124,9 @@ public class OverviewFragment extends Fragment implements OverAdapter.Over_oncli
         });
 //        getHttp();
         getArray(ary,0);
+        if (list_overBean != null && list_overBean.size() > 0){
+            text_over_title.setText(list_overBean.get(0).getName());
+        }
         return view;
     }
     public static void Loge(String tag, String msg) {  //信息太长,分段打印
@@ -173,7 +181,7 @@ public class OverviewFragment extends Fragment implements OverAdapter.Over_oncli
             }
         }).start();
         try {
-            list.clear();
+            list_overbean.clear();
             for (int k = 0; k < jsonArray.length(); k++) {
                 Over_Bean over_bean = new Over_Bean();
                 over_bean.setName(jsonArray.getJSONObject(k).getJSONArray("sonContentlist").getJSONObject(0).getString("title"));
@@ -189,8 +197,15 @@ public class OverviewFragment extends Fragment implements OverAdapter.Over_oncli
                     over_bean.setIsup(false);
                 }
 
-                list.add(over_bean);
+                list_overbean.add(over_bean);
+//                if (list != null && list.size() > 0){
+//                    text_over_title.setText(list.get(0).getName());
+//                }
             }
+            for (int h = 0 ; h < list_overbean.size() ; h++){
+                Log.e("----"+h,list_overbean.get(h).toString());
+            }
+            list_overBean.addAll(list_overbean);
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -208,7 +223,12 @@ public class OverviewFragment extends Fragment implements OverAdapter.Over_oncli
     }
     @Override
     public void onItemClick(int position) {
-        list.clear();
+        if (list_overbean != null && list_overbean.size() > 0){
+            text_over_title.setText(list_overbean.get(position).getName());
+        }else {
+            Log.e("list为空----","----");
+        }
+        list_overbean.clear();
         try {
             for (int k = 0; k < jsonary.length(); k++) {
                 Over_Bean over_bean = new Over_Bean();
@@ -219,7 +239,7 @@ public class OverviewFragment extends Fragment implements OverAdapter.Over_oncli
                 }
                 over_bean.setImage_o(jsonary.getJSONObject(k).getJSONArray("sonContentlist").getJSONObject(0).getString("picturePathTwo"));
                 over_bean.setImage_u(jsonary.getJSONObject(k).getJSONArray("sonContentlist").getJSONObject(0).getString("picturePathThree"));
-                list.add(over_bean);
+                list_overbean.add(over_bean);
             }
             new Thread(new Runnable() {
                 @Override

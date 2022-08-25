@@ -30,6 +30,7 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/text_over_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="前机舱"

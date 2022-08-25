@@ -6,11 +6,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:ignore="MissingDefaultResource">
-    <include layout="@layout/act_base" />
-    <ListView
-        android:id="@+id/list_dialog_shouce"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="none"
-        android:divider="@null"/>
+        android:layout_marginTop="20dp">
+        <ListView
+            android:id="@+id/list_dialog_shouce"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none"
+            android:divider="@null"/>
+        <TextView
+            android:id="@+id/text_noenInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textSize="20dp"
+            android:text="没有搜索到内容"
+            android:visibility="gone"/>
+    </RelativeLayout>
 </LinearLayout>

@@ -37,7 +37,10 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.ViewHolder>{
             JSONObject jsonObject = jsonArray.getJSONObject(i);
             viewHolder.textView.setText(Html.fromHtml(jsonObject.getString("textcontent")));//imgpath
             if (jsonObject.getString("imgpath") != null && !jsonObject.getString("imgpath").equals("")){
+                viewHolder.imageView.setVisibility(View.VISIBLE);
                 Glide.with(context).load(jsonObject.getString("imgpath")).into(viewHolder.imageView);
+            }else {
+                viewHolder.imageView.setVisibility(View.GONE);
             }
         } catch (JSONException e) {
             e.printStackTrace();

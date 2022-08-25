@@ -23,7 +23,7 @@ public class InfoActivity extends Base_Act implements InfoAdapter.Info_onclick ,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info);
-//        findViewById(R.id.rela_chooes_type).setVisibility(View.GONE);
+        findViewById(R.id.rela_chooes_type).setVisibility(View.GONE);
         findViewById(R.id.image_search).setVisibility(View.GONE);
         findViewById(R.id.image_search).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -36,7 +36,6 @@ public class InfoActivity extends Base_Act implements InfoAdapter.Info_onclick ,
         Bundle bundle = this.getIntent().getExtras();
         //通过key得到value
         String title = bundle.getString("info");
-        Log.e("info----",title);
         try {
             jsonArray = new JSONArray(title);
         } catch (JSONException e) {

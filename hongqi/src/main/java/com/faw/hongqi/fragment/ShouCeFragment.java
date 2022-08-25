@@ -2,6 +2,7 @@ package com.faw.hongqi.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,7 @@ public class ShouCeFragment extends Fragment implements View.OnClickListener {
     private SimpleAdapter adapter;
     List<Map<String,String>> lists,listn;
     List<String> list1;
-    String jsonary;
+    public static String jsonary;
     public static final ShouCeFragment newInstance_shouce(String jsonArray) {
         ShouCeFragment fragment = new ShouCeFragment();
         Bundle bundle = new Bundle();
@@ -52,10 +53,15 @@ public class ShouCeFragment extends Fragment implements View.OnClickListener {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//
                 Intent intent = new Intent();
                 intent.setClass(getActivity(), ShouCeChooseAct.class);
                 Bundle bundle = new Bundle();        //创建bundle对象
-                bundle.putString("info",jsonary); //(String型)
+                Log.e("jsonary----",jsonary);
+                Log.e("jsonary长度----",String.valueOf(jsonary.length()));
+                if (jsonary.length() < 200000){
+                    bundle.putString("info",jsonary); //(String型)
+                }
                 bundle.putInt("position",position);
                 intent.putExtras(bundle);        //通过intent绑定Bundle
                 startActivity(intent);

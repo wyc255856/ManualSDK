@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -66,44 +67,52 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-
 @RequiresApi(api = Build.VERSION_CODES.O)
-public class HomeActivity extends Base_Act implements View.OnClickListener {
+public class HomeActivity<IS_PRO> extends Base_Act implements View.OnClickListener {
+    //底部导航栏样式横线
     View view_gl, view_ld, view_rm, view_sc;
+    //底部导航栏文字
     TextView text_gl, text_ld, text_rm, text_sc;
+    //4个fragment
     OverviewFragment overviewFragment;
     BrightFragment brightFragment;
     BeginnersFragment beginnersFragment;
     ShouCeFragment shouCeFragment;
+    // Fragment管理类
     FragmentManager fm;
     FragmentTransaction ft;
+    RelativeLayout rela_choose;
+    //车型选择列表弹窗
     Dialog dialog_choose;
+    //车型列表
     ListView listView;
-    List<Map<String, String>> list;
-    SimpleAdapter simpleAdapter;
+    SimpleAdapter simpleAdapter,adapter;
     List<Choose_Bean> list_choose;
-    List<String> list_str;
-    List<Map<String, String>> lists;
-    List<String> list_s;
-    private SimpleAdapter adapter;
+    List<Map<String, String>> list_cars;
+    List<String> list_carTypes;
     JSONArray jsonArray;
     String productId;
-
-    String str_url1 = "https://fawivi-gw-public-uat.faw.cn:63443/car/column/listAllPhone";
+    TextView text_chooseType;
+    // pro环境
+    String url_pro = "https://fawivi-gw-public.faw.cn:63443/car";
+    //uat环境
+    String url_uat = "https://fawivi-gw-public-uat.faw.cn:63443/car";
+    //获取内容地址
+    String str_url_info = Constant.IS_PRO?url_pro+"/column/listAllPhone":url_uat+"/column/listAllPhone";
 //    String str_url1 = "http://10.10.0.132:10088/car/column/listAllPhone";
-    ///car/model/listModelByPhone
 //    String str_url = "http://10.10.0.132:10088/car/model/listModelByPhone";
-    String str_url = "https://fawivi-gw-public-uat.faw.cn:63443/car/model/listModelByPhone";
+    //获取车型地址
+    String str_url_phone = Constant.IS_PRO?url_pro+"/model/listModelByPhone":url_uat+"/model/listModelByPhone";
 //    String str_url = "http://www.e-guides.faw.cn/c229plus_admin/index.php?m=home&c=index&a=get_car_info&car_name=C229";
-
-
 //    String url = "http://115.28.72.235:10088/car/column/listAllPhone";
     String clientId = Constant.IS_PRO?Constant.CLIENT_ID_PRO:Constant.CLIENT_ID_UAT;
     String timeStamp = String.valueOf(System.currentTimeMillis());
-    String quretStr = "productId=87fd7829-e449-48f1-93f7-63a92b76bc84";
-    String str = clientId + quretStr + timeStamp;
+    String quretStrc100 = "productId=87fd7829-e449-48f1-93f7-63a92b76bc84";
+    String quretStrc095 = "productId=309b716a-704d-42cc-8566-f77f0de9ca8c";
+    String str_sign = "";
+
     String key = Constant.IS_PRO?Constant.KEY_PRO:Constant.KEY_UAT;
-    String base64str = Base64.getEncoder().encodeToString(str.getBytes(StandardCharsets.UTF_8));
+    String base64str = "";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -111,25 +120,33 @@ public class HomeActivity extends Base_Act implements View.OnClickListener {
         setContentView(R.layout.activity_home);
         init();
     }
+    //Base64.getEncoder().encodeToString(str.getBytes(StandardCharsets.UTF_8))
+    //初始设置
     public void init() {
-
+//        textView = findViewById(R.id.text_c);
+        //根据判断更换信息
         if (Constant.CAR_TYPE.equals("C095")){
             productId = productIdc095;
+//            textView.setText("C095");
+            str_sign = clientId + quretStrc095 + timeStamp;
         }else {
+            str_sign = clientId + quretStrc100 + timeStamp;
             productId = productIdc100;
+//            textView.setText("C100");
         }
-
+        rela_choose = (RelativeLayout)findViewById(R.id.rela_chooes_type);
+        text_chooseType = (TextView)findViewById(R.id.text_choosecartype);
+        base64str = Base64.getEncoder().encodeToString(str_sign.getBytes(StandardCharsets.UTF_8));
         list_choose = new ArrayList<>();
-        list = new ArrayList<>();
-        list_str = new ArrayList<>();
-        list_s = new ArrayList<>();
-        lists = new ArrayList<>();
+        list_carTypes = new ArrayList<>();
+        list_cars = new ArrayList<>();
         findViewById(R.id.rela_gl).setOnClickListener(this);
         findViewById(R.id.rela_ld).setOnClickListener(this);
         findViewById(R.id.rela_rm).setOnClickListener(this);
         findViewById(R.id.rela_sc).setOnClickListener(this);
         findViewById(R.id.image_search).setOnClickListener(this);
         findViewById(R.id.rela_chooes_type).setOnClickListener(this);
+
         view_gl = findViewById(R.id.view_gl);
         view_ld = findViewById(R.id.view_ld);
         view_rm = findViewById(R.id.view_rm);
@@ -140,11 +157,8 @@ public class HomeActivity extends Base_Act implements View.OnClickListener {
         text_sc = findViewById(R.id.text_sc);
         text_gl.setTextColor(getResources().getColor(R.color.light_blue));
         listView = findViewById(R.id.list_choose);
-        getAllNetWorkString();
-//        setww();
+        getByPhoneHttp();
     }
-
-
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.rela_gl) {
@@ -153,13 +167,19 @@ public class HomeActivity extends Base_Act implements View.OnClickListener {
             ft = fm.beginTransaction();
             ft.replace(R.id.fragment_main, overviewFragment);
             ft.commit();
+            rela_choose.setVisibility(View.VISIBLE);
         }
         if (v.getId() == R.id.rela_ld) {
+            if (brightFragment == null){
+                Toast.makeText(HomeActivity.this,"暂无此项",Toast.LENGTH_SHORT).show();
+                return;
+            }
             setGone(view_ld, text_ld);
             fm = getSupportFragmentManager();
             ft = fm.beginTransaction();
             ft.replace(R.id.fragment_main, brightFragment);
             ft.commit();
+//            rela_choose.setVisibility(View.GONE);
         }
         if (v.getId() == R.id.rela_rm) {
             setGone(view_rm, text_rm);
@@ -167,6 +187,7 @@ public class HomeActivity extends Base_Act implements View.OnClickListener {
             ft = fm.beginTransaction();
             ft.replace(R.id.fragment_main, beginnersFragment);
             ft.commit();
+//            rela_choose.setVisibility(View.GONE);
         }
         if (v.getId() == R.id.rela_sc) {
             setGone(view_sc, text_sc);
@@ -174,6 +195,7 @@ public class HomeActivity extends Base_Act implements View.OnClickListener {
             ft = fm.beginTransaction();
             ft.replace(R.id.fragment_main, shouCeFragment);
             ft.commit();
+//            rela_choose.setVisibility(View.GONE);
         }
         if (v.getId() == R.id.image_search) {
             Intent intent = new Intent();
@@ -183,6 +205,7 @@ public class HomeActivity extends Base_Act implements View.OnClickListener {
         if (v.getId() == R.id.rela_chooes_type) {
 //            chooseType.choose(this,this,list_str);
             if (jsonArray != null && jsonArray.length() != 0) {
+                //选择车型现实列表
                 getchooselist(jsonArray);
             }
 //            if (windowManager != null && view != null){
@@ -195,37 +218,7 @@ public class HomeActivity extends Base_Act implements View.OnClickListener {
             }
         }
     }
-
-
-    public void setSpinner(){
-        for (int k = 0; k < jsonArray.length(); k++) {
-            try {
-                list_s.add(jsonArray.getJSONObject(k).getString("modelName"));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        for (int k = 0; k < list_s.size(); k++) {
-            Map<String, String> map = new HashMap<>();
-            map.put("text", list_s.get(k));
-            lists.add(map);
-        }
-        adapter = new SimpleAdapter(this, lists, R.layout.window_over
-                , new String[]{"text"}
-                , new int[]{R.id.text_choosecartype});
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-//                        spinner.setAdapter(adapter);
-                    }
-                });
-            }
-        }).start();
-    }
-
+    //底部导航栏点击效果
     public void setGone(View view, TextView text) {
         view_gl.setVisibility(View.GONE);
         view_ld.setVisibility(View.GONE);
@@ -238,7 +231,7 @@ public class HomeActivity extends Base_Act implements View.OnClickListener {
         text_sc.setTextColor(getResources().getColor(R.color.text_d));
         text.setTextColor(getResources().getColor(R.color.light_blue));
     }
-
+    //车型选择列表填充
     public void setList(final List<Map<String, String>> list) {
         simpleAdapter = new SimpleAdapter(this, list, R.layout.item_choose_list, new String[]{"choose"}, new int[]{R.id.text_item_choose});
         if (listView != null) {
@@ -254,35 +247,34 @@ public class HomeActivity extends Base_Act implements View.OnClickListener {
             });
         }
     }
-
-    private List<Map<String, String>> getData() {
-        list.clear();
-        for (int i = 0; i < list_choose.size(); i++) {
-            Map<String, String> map = new HashMap<>();
-            map.put("choose", list_choose.get(i).getModelName());                  //显示的文字信息
-            list.add(map);
-        }
-        return list;
-    }
 //115.28.72.235
     String productIdc095 = "309b716a-704d-42cc-8566-f77f0de9ca8c";
     String productIdc100 = "87fd7829-e449-48f1-93f7-63a92b76bc84";
 
+    public void getInfoHttp(String modelId) {
+                    /*.url(HTTP_Adss.HUIXINGURL + "/api/Account/Login?userName="+edit_name.getText().toString()+"&password="+edit_password.getText().toString())
 
-    public void getHttp(String modelId) {
-//        Log.e("modelID----",modelId);
-//    //                .url(HTTP_Adss.HUIXINGURL + "/api/Account/Login?userName="+edit_name.getText().toString()+"&password="+edit_password.getText().toString())
-//    //                .url("http://115.28.72.235:10088/car/column/listAllPhone?productId=87fd7829-e449-48f1-93f7-63a92b76bc84&modelId=" + modelId)// C100
-//                    .url("http://115.28.72.235:10088/car/column/listAllPhone?productId="+productId+"&modelId=" + modelId)// C095
-////                    .url("http://fawivi-gw-public-uat.faw.cn:63443/car/column/listAllPhone?productId=87fd7829-e449-48f1-93f7-63a92b76bc84&modelId="+modelId)
-//    //                .url("https://fawivi-gw-public-uat.faw.cn:63443/car/model/listModelByPhone?productId=87fd7829-e449-48f1-93f7-63a92b76bc84")
+                    .url("http://115.28.72.235:10088/car/column/listAllPhone?productId=87fd7829-e449-48f1-93f7-63a92b76bc84&modelId=" + modelId)  // 本地测试 C100 获取全部内容
 
-        String url_info = str_url1+"?productId=87fd7829-e449-48f1-93f7-63a92b76bc84&modelId="+modelId;
-        String quretStr_info = "modelId="+modelId+"&productId=87fd7829-e449-48f1-93f7-63a92b76bc84";
+                    .url("http://115.28.72.235:10088/car/column/listAllPhone?productId="+productId+"&modelId=" + modelId)   // 本地测试 C095 获取全部内容
+
+                    .url("http://fawivi-gw-public-uat.faw.cn:63443/car/column/listAllPhone?productId=87fd7829-e449-48f1-93f7-63a92b76bc84&modelId="+modelId)  //UAT 环境获取内容
+
+                    .url("https://fawivi-gw-public-uat.faw.cn:63443/car/model/listModelByPhone?productId=87fd7829-e449-48f1-93f7-63a92b76bc84")     //UAT环境获取车型 */
+
+        String url_info = "";
+        String quretStr_info = "";
+//        String url_info = str_url1+"?productId=87fd7829-e449-48f1-93f7-63a92b76bc84&modelId="+modelId;
+//        String quretStr_info = "modelId="+modelId+"&productId=87fd7829-e449-48f1-93f7-63a92b76bc84";
+        if (Constant.CAR_TYPE.equals("C095")){
+            url_info = str_url_info+"?productId=309b716a-704d-42cc-8566-f77f0de9ca8c&modelId="+modelId;
+            quretStr_info = "modelId="+modelId+"&productId=309b716a-704d-42cc-8566-f77f0de9ca8c";
+        }else {
+            url_info = str_url_info+"?productId=87fd7829-e449-48f1-93f7-63a92b76bc84&modelId="+modelId;
+            quretStr_info = "modelId="+modelId+"&productId=87fd7829-e449-48f1-93f7-63a92b76bc84";
+        }
         String str_info = clientId + quretStr_info + timeStamp;
         String base64str_info = Base64.getEncoder().encodeToString(str_info.getBytes(StandardCharsets.UTF_8));
-
-//        Log.e("str_info----",str_info);
         OkHttpClient build = new OkHttpClient.Builder()
                 .sslSocketFactory(createSSLSocketFactory())
                 .hostnameVerifier(new TrustAllHostnameVerifier())
@@ -301,14 +293,12 @@ public class HomeActivity extends Base_Act implements View.OnClickListener {
             call.enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
-//                    Log.e("报错----",e.toString());
                 }
 
                 @Override
                 public void onResponse(Call call, Response response)
                         throws IOException {
                     String res = response.body().string();
-//                    Log.e("info----",res + "success");
                     JSONObject json;
                     JSONArray jsonArra;
                     try {
@@ -324,10 +314,7 @@ public class HomeActivity extends Base_Act implements View.OnClickListener {
             });
         } catch (Exception e) {
             e.printStackTrace();
-//            Log.e("Exception----",e.toString());
         }
-
-
     }
 
     // C095   309b716a-704d-42cc-8566-f77f0de9ca8c;
@@ -337,18 +324,17 @@ public class HomeActivity extends Base_Act implements View.OnClickListener {
     public void getchooselist(final JSONArray jsonArray) {
         for (int k = 0; k < jsonArray.length(); k++) {
             try {
-                list_s.add(jsonArray.getJSONObject(k).getString("modelName"));
+                list_carTypes.add(jsonArray.getJSONObject(k).getString("modelName"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
-
-        for (int k = 0; k < list_s.size(); k++) {
+        for (int k = 0; k < list_carTypes.size(); k++) {
             Map<String, String> map = new HashMap<>();
-            map.put("text", list_s.get(k));
-            lists.add(map);
+            map.put("text", list_carTypes.get(k));
+            list_cars.add(map);
         }
-        adapter = new SimpleAdapter(this, lists, R.layout.window_over
+        adapter = new SimpleAdapter(this, list_cars, R.layout.window_over
                 , new String[]{"text"}
                 , new int[]{R.id.text_choosecartype});
         listView.setAdapter(adapter);
@@ -356,40 +342,17 @@ public class HomeActivity extends Base_Act implements View.OnClickListener {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 try {
-                    getHttp(jsonArray.getJSONObject(position).getString("modelId"));
+                    getInfoHttp(jsonArray.getJSONObject(position).getString("modelId"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 listView.setVisibility(View.GONE);
+                rela_choose.setVisibility(View.VISIBLE);
+                setGone(view_gl, text_gl);
             }
         });
     }
-
-    public void setww() {
-        String jsonstr = null;
-        try {
-            InputStream inputStream = getAssets().open("hqjson.json");
-            int size = inputStream.available();
-            byte[] buffer = new byte[size];
-            inputStream.read(buffer);
-            inputStream.close();
-            jsonstr = new String(buffer, "UTF-8");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        JSONObject json;
-        JSONArray jsonArray;
-        try {
-            json = new JSONObject(jsonstr);
-            jsonArray = json.getJSONArray("rows");
-            if (jsonArray != null && jsonArray.length() != 0) {
-                getArray(jsonArray);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
+    //log内容过多可使用此方法打印
     public static void Log(String tag, String msg) {  //信息太长,分段打印
         //因为String的length是字符数量不是字节数量所以为了防止中文字符过多，
         //  把4*1024的MAX字节打印长度改为2001字符数
@@ -402,7 +365,7 @@ public class HomeActivity extends Base_Act implements View.OnClickListener {
         //剩余部分
         Log.e(tag, msg);
     }
-
+    //获取内容json解析处理
     public void getArray(JSONArray jsonArray) {
         if (jsonArray != null && jsonArray.length() != 0) {
             try {
@@ -411,7 +374,6 @@ public class HomeActivity extends Base_Act implements View.OnClickListener {
                 String s;
                 for (int k = 0; k < jsonArray.length(); k++) {
                     js = jsonArray.getJSONObject(k);
-
 //                    Loge("jsonarray----"+k+"----",js.toString());
                     s = js.getString("columnName");
                     jsonArray1 = js.getJSONArray("sonList");
@@ -431,7 +393,7 @@ public class HomeActivity extends Base_Act implements View.OnClickListener {
                     if (s != null && s.equals("快速入门")) {
                         beginnersFragment = newInstance_geginners(jsonArray1.toString());
                     }
-                    if (s != null && s.equals("全量手册")) {
+                    if (s != null && (s.equals("全量手册") || s.equals("手册"))) {
                         shouCeFragment = ShouCeFragment.newInstance_shouce(jsonArray1.toString());
                     }
                 }
@@ -440,12 +402,17 @@ public class HomeActivity extends Base_Act implements View.OnClickListener {
             }
         }
     }
-
 //    String base64str = Base64.getEncoder().encodeToString(str.getBytes(Charset.forName("UTF-8")));
-    String url1 = str_url+"?productId=87fd7829-e449-48f1-93f7-63a92b76bc84";
-
-    public void getAllNetWorkString() {
-        Loge("选择车型拼接str----",str);
+    String url1 = "";
+    /*str_url+"?productId=87fd7829-e449-48f1-93f7-63a92b76bc84";*/
+    //获取车型接口方法
+    public void getByPhoneHttp() {
+        if (Constant.CAR_TYPE.equals("C095")){
+            url1 = str_url_phone+"?productId=309b716a-704d-42cc-8566-f77f0de9ca8c";
+        }else {
+            url1 = str_url_phone+"?productId=87fd7829-e449-48f1-93f7-63a92b76bc84";
+        }
+        Loge("选择车型拼接str----",str_sign);
         OkHttpClient build = new OkHttpClient.Builder()
                 .sslSocketFactory(createSSLSocketFactory())
                 .hostnameVerifier(new TrustAllHostnameVerifier())
@@ -460,37 +427,31 @@ public class HomeActivity extends Base_Act implements View.OnClickListener {
                     .addHeader("content-Type", "application/json;charset=UTF-8")
                     .addHeader("Connection", "Keep-Alive")
                     .url(url1).build();
-//            Log.e("url1----",url1);
             Call call = build.newCall(request);
             call.enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
-//                    Log.e("----",e.getMessage());
+                    Log.e("----",e.getMessage());
                 }
-
                 @Override
                 public void onResponse(Call call, Response response)
                         throws IOException {
                     String res = response.body().string();
-
+                    Log.e("获取数据----",res);
                     JSONObject json;
                     try {
                         json = new JSONObject(res);
                         jsonArray = json.getJSONArray("rows");
                         if (jsonArray != null && jsonArray.length() != 0) {
-                            getHttp(jsonArray.getJSONObject(0).getString("modelId"));
+                            getInfoHttp(jsonArray.getJSONObject(0).getString("modelId"));
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
-
-//                    Log.e("----",res + "success");
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
-//            Log.e("----",e.toString() + "Exception");
         }
     }
 
@@ -499,20 +460,14 @@ public class HomeActivity extends Base_Act implements View.OnClickListener {
         public boolean verify(String hostname, SSLSession session) {
             return true;
         }
-
     }
-
     private static class TrustAllCerts implements X509TrustManager {
-
         @Override
         public void checkServerTrusted(X509Certificate[] chain, String authType) {
         }
-
         @Override
         public void checkClientTrusted(X509Certificate[] chain, String authType) {
-
         }
-
         @Override
         public X509Certificate[] getAcceptedIssuers() {
             return new X509Certificate[0];
@@ -530,7 +485,5 @@ public class HomeActivity extends Base_Act implements View.OnClickListener {
 
         return ssfFactory;
     }
-
-
 
 }

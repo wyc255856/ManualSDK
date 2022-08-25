@@ -2,6 +2,7 @@ package com.faw.hongqi.adaptar;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +45,7 @@ public class OverAdapter extends RecyclerView.Adapter<OverAdapter.ViewHolder>{
     }
     @Override
     public int getItemCount() {
+        Log.e("list有多少----",String.valueOf(list.size()));
         return list.size();
     }
     public class ViewHolder extends RecyclerView.ViewHolder {

@@ -30,41 +30,44 @@ public class SearchActivity extends Base_Act{
     private String TAG_USER_DATA = "data";
     SharedPreferences.Editor editor;
     List<String> list_str;
+    TextView text_clear;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-//        findViewById(R.id.rela_chooes_type).setVisibility(View.GONE);
         listView = findViewById(R.id.list_search_history);
+        //搜索记录封装列表list
         lists = new ArrayList<>();
         list_str = new ArrayList<>();
+        //搜索记录暂存对象
         sp = getSharedPreferences(TAG_USER_DATA, Context.MODE_PRIVATE); //
         editor = sp.edit();
         image_back = findViewById(R.id.image_search_back);
         image_searching = findViewById(R.id.image_searching);
         edit_search = findViewById(R.id.edit_search);
-        findViewById(R.id.image_search).setVisibility(View.GONE);
         image_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-        for(int n = 0 ; n < 10 ; n++){
-            String account = sp.getString("history"+n, "");
-            if (account != null && !account.equals("")){
-                list_str.add(account);
+        text_clear = (TextView)findViewById(R.id.text_clearRecord);
+        //清空记录
+        text_clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editor.clear();
+                editor.commit();
+                lists.clear();
+                adapter.notifyDataSetChanged();
             }
-        }
-        for (int k = 0 ; k < list_str.size();k++){
-            Map<String,String> map = new HashMap<>();
-            map.put("text",list_str.get(k));
-            lists.add(map);
-        }
+        });
+        //搜索记录列表适配器
         adapter = new SimpleAdapter(this,lists,R.layout.item_search_history
                 ,new String[]{"text"}
                 ,new int[]{R.id.text_search_history});
         listView.setAdapter(adapter);
+        //搜索记录点击事件，自动输入到输入框
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -73,6 +76,7 @@ public class SearchActivity extends Base_Act{
                 }
             }
         });
+        //输入框监听事件
         edit_search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -80,7 +84,7 @@ public class SearchActivity extends Base_Act{
                     String search = edit_search.getText().toString().trim();
                     if (!TextUtils.isEmpty(search)){
                         if (edit_search.getText() != null && !edit_search.getText().toString().equals("")){
-
+                            //判断重复
                             if (!getIsHave(edit_search.getText().toString())){
                                 for (int k = 9 ; k >= 0 ; k--){
                                     String account = sp.getString("history"+k, "");
@@ -93,9 +97,6 @@ public class SearchActivity extends Base_Act{
                                 editor.putString("history"+0,edit_search.getText().toString());
                                 editor.apply(); // 提交保存,commit同步写入，有返回值，但是会造成调用它的线程阻塞，apply异步写入，无返回值！
                             }
-
-
-
                             JSONObject jsonObject = new JSONObject();
                             try {
                                 jsonObject.put("productId","87fd7829-e449-48f1-93f7-63a92b76bc84");
@@ -116,6 +117,26 @@ public class SearchActivity extends Base_Act{
             }
         });
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        list_str.clear();
+        lists.clear();
+        //导入搜索记录暂存数据
+        for(int n = 0 ; n < 10 ; n++){
+            String account = sp.getString("history"+n, "");
+            if (account != null && !account.equals("")){
+                list_str.add(account);
+            }
+        }
+        for (int k = 0 ; k < list_str.size();k++){
+            Map<String,String> map = new HashMap<>();
+            map.put("text",list_str.get(k));
+            lists.add(map);
+        }
+        adapter.notifyDataSetChanged();
+    }
+    //记录是否已经存在
     public boolean getIsHave(String s){
         boolean ishave = false;
         if (s != null){
