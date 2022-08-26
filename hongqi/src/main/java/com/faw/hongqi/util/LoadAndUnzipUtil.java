@@ -34,7 +34,7 @@ public class LoadAndUnzipUtil {
     public static int singleTaskId = 0;
     private static String saveZipFilePath = FileDownloadUtils.getDefaultSaveRootPath() + File.separator + "horizon"
             + File.separator + "MyFolder";
-    private static String TAG = LoadAndUnzipUtil.class.getSimpleName();
+    private static String TAG = "manual";
     private static String fileName;
     public static void startDownload(final Activity context,String downloadUrl) {
         singleTask = FileDownloader.getImpl().create(downloadUrl)
