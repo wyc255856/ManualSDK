@@ -18,6 +18,19 @@ public class C100NativeInterface {
             }
         });
     }
+
+
+    @JavascriptInterface
+    public void JsTest(final String id) {
+        BrightFragment.context.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Log.e("","id----"+id);
+                getId.getid(id);
+            }
+        });
+    }
+
     public interface GetId{
         void getid(String id);
     }

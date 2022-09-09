@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tour apprev="17336" start="node7" appversion="6.0.6">
+  <panorama id="node7">
+    <input levelingroll="0" levelbiashidpi="0.400" height="1500" levelingpitch="0" overlap="1" levelbias="0.400" leveltileurl="tiles/C095内360+/cf_%c/l_%l/c_%x/tile_%y.jpg" width="1500" leveltilesize="510">
+      <level height="1500" width="1500" preload="0" predecode="0"/>
+      <level height="750" width="750" preload="0" predecode="0"/>
+      <level height="375" width="375" preload="1" predecode="1"/>
+      <preview strip="1" color="0x808080"/>
+    </input>
+    <view pannorth="0" fovmode="0">
+      <start pan="7.12" fov="43.65" projection="4" tilt="8.86"/>
+      <flyin pan="0" fov="170" projection="9" tilt="-90"/>
+      <min pan="0" fovpixel="2" tilt="-90"/>
+      <max scaletofit="1" pan="360" fov="120" fovstereographic="270" tilt="90" fovfisheye="360"/>
+    </view>
+    <userdata author="" tags="Desktop" copyright="" datetime="" source="" info="" comment="" latitude="" longitude="" title="" description="" customnodeid=""/>
+    <hotspots height="20" width="180" wordwrap="1">
+      <label textalpha="1" enabled="1" background="1" backgroundalpha="1" borderalpha="1" height="20" borderradius="1" width="180" wordwrap="1" textcolor="0x000000" backgroundcolor="0xffffff" bordercolor="0x000000" border="1"/>
+      <polystyle backgroundalpha="0.25098" borderalpha="1" mode="0" handcursor="1" backgroundcolor="0x0000ff" bordercolor="0x0000ff"/>
+      <hotspot pan="-359.35" target="_blank" id="Point02" url="" skinid="Hotspot_4" title="" tilt="3.93" description=""/>
+      <hotspot pan="-338.95" target="_blank" id="Point03" url="" skinid="Hotspot_2" title="" tilt="-3.1" description=""/>
+      <hotspot pan="-327.95" target="_blank" id="Point04" url="" skinid="Hotspot_1" title="" tilt="5.97" description=""/>
+      <hotspot pan="-338.06" target="_blank" id="Point05" url="" skinid="Hotspot_3" title="" tilt="14.83" description=""/>
+    </hotspots>
+    <media/>
+    <transition zoomout="0" blendcolor="0x000000" enabled="0" type="crossdissolve" zoomin="0" zoomfov="20" zoomspeed="2" blendtime="1" softedge="0" zoomoutpause="1"/>
+    <flyintransition enabled="1" speed="3.01"/>
+    <animation syncanimationwithvideo="0" animsequence="Animation01" useinautorotation="0"/>
+    <control rubberband="0" simulatemass="1" speedwheel="1" lockedmouse="0" contextfullscreen="0" contextprojections="0" dblclickfullscreen="0" hideabout="0" invertcontrol="1" sensitivity="1" lockedkeyboardzoom="1" lockedwheel="1" lockedkeyboard="1" invertwheel="1"/>
+  </panorama>
+  <masternode>
+    <userdata author="" tags="" copyright="" datetime="" source="" info="" comment="" latitude="" longitude="" title="" description="" customnodeid=""/>
+  </masternode>
+</tour>

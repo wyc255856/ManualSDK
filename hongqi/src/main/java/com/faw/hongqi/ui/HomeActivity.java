@@ -37,6 +37,7 @@ import com.faw.hongqi.fragment.OverviewFragment;
 import com.faw.hongqi.fragment.ShouCeFragment;
 import com.faw.hongqi.util.Constant;
 import com.faw.hongqi.util.HmacSHA256Util;
+import com.faw.hongqi.util.LogUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -67,6 +68,7 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class HomeActivity<IS_PRO> extends Base_Act implements View.OnClickListener {
     //底部导航栏样式横线
@@ -82,11 +84,12 @@ public class HomeActivity<IS_PRO> extends Base_Act implements View.OnClickListen
     FragmentManager fm;
     FragmentTransaction ft;
     RelativeLayout rela_choose;
+    RelativeLayout load;
     //车型选择列表弹窗
     Dialog dialog_choose;
     //车型列表
     ListView listView;
-    SimpleAdapter simpleAdapter,adapter;
+    SimpleAdapter simpleAdapter, adapter;
     List<Choose_Bean> list_choose;
     List<Map<String, String>> list_cars;
     List<String> list_carTypes;
@@ -95,23 +98,24 @@ public class HomeActivity<IS_PRO> extends Base_Act implements View.OnClickListen
     TextView text_chooseType;
     // pro环境
     String url_pro = "https://fawivi-gw-public.faw.cn:63443/car";
+    //    String url_pro = "https://fawivi-static-public.faw.cn:63443/car";
     //uat环境
     String url_uat = "https://fawivi-gw-public-uat.faw.cn:63443/car";
     //获取内容地址
-    String str_url_info = Constant.IS_PRO?url_pro+"/column/listAllPhone":url_uat+"/column/listAllPhone";
-//    String str_url1 = "http://10.10.0.132:10088/car/column/listAllPhone";
+    String str_url_info = Constant.IS_PRO ? url_pro + "/column/listAllPhone" : url_uat + "/column/listAllPhone";
+    //    String str_url1 = "http://10.10.0.132:10088/car/column/listAllPhone";
 //    String str_url = "http://10.10.0.132:10088/car/model/listModelByPhone";
     //获取车型地址
-    String str_url_phone = Constant.IS_PRO?url_pro+"/model/listModelByPhone":url_uat+"/model/listModelByPhone";
-//    String str_url = "http://www.e-guides.faw.cn/c229plus_admin/index.php?m=home&c=index&a=get_car_info&car_name=C229";
+    String str_url_phone = Constant.IS_PRO ? url_pro + "/model/listModelByPhone" : url_uat + "/model/listModelByPhone";
+    //    String str_url = "http://www.e-guides.faw.cn/c229plus_admin/index.php?m=home&c=index&a=get_car_info&car_name=C229";
 //    String url = "http://115.28.72.235:10088/car/column/listAllPhone";
-    String clientId = Constant.IS_PRO?Constant.CLIENT_ID_PRO:Constant.CLIENT_ID_UAT;
+    String clientId = Constant.IS_PRO ? Constant.CLIENT_ID_PRO : Constant.CLIENT_ID_UAT;
     String timeStamp = String.valueOf(System.currentTimeMillis());
     String quretStrc100 = "productId=87fd7829-e449-48f1-93f7-63a92b76bc84";
     String quretStrc095 = "productId=309b716a-704d-42cc-8566-f77f0de9ca8c";
     String str_sign = "";
 
-    String key = Constant.IS_PRO?Constant.KEY_PRO:Constant.KEY_UAT;
+    String key = Constant.IS_PRO ? Constant.KEY_PRO : Constant.KEY_UAT;
     String base64str = "";
 
     @Override
@@ -120,22 +124,24 @@ public class HomeActivity<IS_PRO> extends Base_Act implements View.OnClickListen
         setContentView(R.layout.activity_home);
         init();
     }
+
     //Base64.getEncoder().encodeToString(str.getBytes(StandardCharsets.UTF_8))
     //初始设置
     public void init() {
 //        textView = findViewById(R.id.text_c);
         //根据判断更换信息
-        if (Constant.CAR_TYPE.equals("C095")){
+        if (Constant.CAR_TYPE.equals("C095")) {
             productId = productIdc095;
 //            textView.setText("C095");
             str_sign = clientId + quretStrc095 + timeStamp;
-        }else {
+        } else {
             str_sign = clientId + quretStrc100 + timeStamp;
             productId = productIdc100;
 //            textView.setText("C100");
         }
-        rela_choose = (RelativeLayout)findViewById(R.id.rela_chooes_type);
-        text_chooseType = (TextView)findViewById(R.id.text_choosecartype);
+        rela_choose = (RelativeLayout) findViewById(R.id.rela_chooes_type);
+        load = (RelativeLayout) findViewById(R.id.load);
+        text_chooseType = (TextView) findViewById(R.id.text_choosecartype);
         base64str = Base64.getEncoder().encodeToString(str_sign.getBytes(StandardCharsets.UTF_8));
         list_choose = new ArrayList<>();
         list_carTypes = new ArrayList<>();
@@ -159,9 +165,15 @@ public class HomeActivity<IS_PRO> extends Base_Act implements View.OnClickListen
         listView = findViewById(R.id.list_choose);
         getByPhoneHttp();
     }
+
+    private boolean btn_load = true;
+
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.rela_gl) {
+            if (btn_load) {
+                return;
+            }
             setGone(view_gl, text_gl);
             fm = getSupportFragmentManager();
             ft = fm.beginTransaction();
@@ -170,8 +182,8 @@ public class HomeActivity<IS_PRO> extends Base_Act implements View.OnClickListen
             rela_choose.setVisibility(View.VISIBLE);
         }
         if (v.getId() == R.id.rela_ld) {
-            if (brightFragment == null){
-                Toast.makeText(HomeActivity.this,"暂无此项",Toast.LENGTH_SHORT).show();
+
+            if (btn_load) {
                 return;
             }
             setGone(view_ld, text_ld);
@@ -182,6 +194,9 @@ public class HomeActivity<IS_PRO> extends Base_Act implements View.OnClickListen
 //            rela_choose.setVisibility(View.GONE);
         }
         if (v.getId() == R.id.rela_rm) {
+            if (btn_load) {
+                return;
+            }
             setGone(view_rm, text_rm);
             fm = getSupportFragmentManager();
             ft = fm.beginTransaction();
@@ -190,6 +205,9 @@ public class HomeActivity<IS_PRO> extends Base_Act implements View.OnClickListen
 //            rela_choose.setVisibility(View.GONE);
         }
         if (v.getId() == R.id.rela_sc) {
+            if (btn_load) {
+                return;
+            }
             setGone(view_sc, text_sc);
             fm = getSupportFragmentManager();
             ft = fm.beginTransaction();
@@ -198,11 +216,17 @@ public class HomeActivity<IS_PRO> extends Base_Act implements View.OnClickListen
 //            rela_choose.setVisibility(View.GONE);
         }
         if (v.getId() == R.id.image_search) {
+            if (btn_load) {
+                return;
+            }
             Intent intent = new Intent();
             intent.setClass(HomeActivity.this, SearchActivity.class);
             startActivity(intent);
         }
         if (v.getId() == R.id.rela_chooes_type) {
+            if (btn_load) {
+                return;
+            }
 //            chooseType.choose(this,this,list_str);
             if (jsonArray != null && jsonArray.length() != 0) {
                 //选择车型现实列表
@@ -211,13 +235,14 @@ public class HomeActivity<IS_PRO> extends Base_Act implements View.OnClickListen
 //            if (windowManager != null && view != null){
 //                windowManager.removeView(view);
 //            }
-            if (listView.getVisibility() == View.VISIBLE){
+            if (listView.getVisibility() == View.VISIBLE) {
                 listView.setVisibility(View.GONE);
-            }else {
+            } else {
                 listView.setVisibility(View.VISIBLE);
             }
         }
     }
+
     //底部导航栏点击效果
     public void setGone(View view, TextView text) {
         view_gl.setVisibility(View.GONE);
@@ -231,6 +256,7 @@ public class HomeActivity<IS_PRO> extends Base_Act implements View.OnClickListen
         text_sc.setTextColor(getResources().getColor(R.color.text_d));
         text.setTextColor(getResources().getColor(R.color.light_blue));
     }
+
     //车型选择列表填充
     public void setList(final List<Map<String, String>> list) {
         simpleAdapter = new SimpleAdapter(this, list, R.layout.item_choose_list, new String[]{"choose"}, new int[]{R.id.text_item_choose});
@@ -247,11 +273,13 @@ public class HomeActivity<IS_PRO> extends Base_Act implements View.OnClickListen
             });
         }
     }
-//115.28.72.235
+
+    //115.28.72.235
     String productIdc095 = "309b716a-704d-42cc-8566-f77f0de9ca8c";
     String productIdc100 = "87fd7829-e449-48f1-93f7-63a92b76bc84";
 
     public void getInfoHttp(String modelId) {
+
                     /*.url(HTTP_Adss.HUIXINGURL + "/api/Account/Login?userName="+edit_name.getText().toString()+"&password="+edit_password.getText().toString())
 
                     .url("http://115.28.72.235:10088/car/column/listAllPhone?productId=87fd7829-e449-48f1-93f7-63a92b76bc84&modelId=" + modelId)  // 本地测试 C100 获取全部内容
@@ -266,12 +294,12 @@ public class HomeActivity<IS_PRO> extends Base_Act implements View.OnClickListen
         String quretStr_info = "";
 //        String url_info = str_url1+"?productId=87fd7829-e449-48f1-93f7-63a92b76bc84&modelId="+modelId;
 //        String quretStr_info = "modelId="+modelId+"&productId=87fd7829-e449-48f1-93f7-63a92b76bc84";
-        if (Constant.CAR_TYPE.equals("C095")){
-            url_info = str_url_info+"?productId=309b716a-704d-42cc-8566-f77f0de9ca8c&modelId="+modelId;
-            quretStr_info = "modelId="+modelId+"&productId=309b716a-704d-42cc-8566-f77f0de9ca8c";
-        }else {
-            url_info = str_url_info+"?productId=87fd7829-e449-48f1-93f7-63a92b76bc84&modelId="+modelId;
-            quretStr_info = "modelId="+modelId+"&productId=87fd7829-e449-48f1-93f7-63a92b76bc84";
+        if (Constant.CAR_TYPE.equals("C095")) {
+            url_info = str_url_info + "?productId=309b716a-704d-42cc-8566-f77f0de9ca8c&modelId=" + modelId;
+            quretStr_info = "modelId=" + modelId + "&productId=309b716a-704d-42cc-8566-f77f0de9ca8c";
+        } else {
+            url_info = str_url_info + "?productId=87fd7829-e449-48f1-93f7-63a92b76bc84&modelId=" + modelId;
+            quretStr_info = "modelId=" + modelId + "&productId=87fd7829-e449-48f1-93f7-63a92b76bc84";
         }
         String str_info = clientId + quretStr_info + timeStamp;
         String base64str_info = Base64.getEncoder().encodeToString(str_info.getBytes(StandardCharsets.UTF_8));
@@ -307,6 +335,14 @@ public class HomeActivity<IS_PRO> extends Base_Act implements View.OnClickListen
                         if (jsonArra != null && jsonArra.length() != 0) {
                             getArray(jsonArra);
                         }
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                load.setVisibility(View.GONE);
+                            }
+
+                        });
+                        btn_load = false;
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -352,6 +388,7 @@ public class HomeActivity<IS_PRO> extends Base_Act implements View.OnClickListen
             }
         });
     }
+
     //log内容过多可使用此方法打印
     public static void Log(String tag, String msg) {  //信息太长,分段打印
         //因为String的length是字符数量不是字节数量所以为了防止中文字符过多，
@@ -365,6 +402,7 @@ public class HomeActivity<IS_PRO> extends Base_Act implements View.OnClickListen
         //剩余部分
         Log.e(tag, msg);
     }
+
     //获取内容json解析处理
     public void getArray(JSONArray jsonArray) {
         if (jsonArray != null && jsonArray.length() != 0) {
@@ -384,12 +422,12 @@ public class HomeActivity<IS_PRO> extends Base_Act implements View.OnClickListen
                         ft.replace(R.id.fragment_main, overviewFragment);
                         try {
                             ft.commit();
-                        }catch (IllegalStateException e){
+                        } catch (IllegalStateException e) {
                         }
                     }
-                    if (s != null && s.equals("车型亮点")) {
-                        brightFragment = newInstance_bright(jsonArray1.toString());
-                    }
+//                    if (s != null && s.equals("车型亮点")) {//返回json没有此项
+                    brightFragment = newInstance_bright(jsonArray1.toString());
+//                    }
                     if (s != null && s.equals("快速入门")) {
                         beginnersFragment = newInstance_geginners(jsonArray1.toString());
                     }
@@ -402,17 +440,19 @@ public class HomeActivity<IS_PRO> extends Base_Act implements View.OnClickListen
             }
         }
     }
-//    String base64str = Base64.getEncoder().encodeToString(str.getBytes(Charset.forName("UTF-8")));
+
+    //    String base64str = Base64.getEncoder().encodeToString(str.getBytes(Charset.forName("UTF-8")));
     String url1 = "";
+
     /*str_url+"?productId=87fd7829-e449-48f1-93f7-63a92b76bc84";*/
     //获取车型接口方法
     public void getByPhoneHttp() {
-        if (Constant.CAR_TYPE.equals("C095")){
-            url1 = str_url_phone+"?productId=309b716a-704d-42cc-8566-f77f0de9ca8c";
-        }else {
-            url1 = str_url_phone+"?productId=87fd7829-e449-48f1-93f7-63a92b76bc84";
+        if (Constant.CAR_TYPE.equals("C095")) {
+            url1 = str_url_phone + "?productId=309b716a-704d-42cc-8566-f77f0de9ca8c";
+        } else {
+            url1 = str_url_phone + "?productId=87fd7829-e449-48f1-93f7-63a92b76bc84";
         }
-        Loge("选择车型拼接str----",str_sign);
+        Loge("选择车型拼接str----", str_sign);
         OkHttpClient build = new OkHttpClient.Builder()
                 .sslSocketFactory(createSSLSocketFactory())
                 .hostnameVerifier(new TrustAllHostnameVerifier())
@@ -431,13 +471,14 @@ public class HomeActivity<IS_PRO> extends Base_Act implements View.OnClickListen
             call.enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
-                    Log.e("----",e.getMessage());
+                    Log.e("----", e.getMessage());
                 }
+
                 @Override
                 public void onResponse(Call call, Response response)
                         throws IOException {
                     String res = response.body().string();
-                    Log.e("获取数据----",res);
+                    Log.e("获取数据----", res);
                     JSONObject json;
                     try {
                         json = new JSONObject(res);
@@ -461,13 +502,16 @@ public class HomeActivity<IS_PRO> extends Base_Act implements View.OnClickListen
             return true;
         }
     }
+
     private static class TrustAllCerts implements X509TrustManager {
         @Override
         public void checkServerTrusted(X509Certificate[] chain, String authType) {
         }
+
         @Override
         public void checkClientTrusted(X509Certificate[] chain, String authType) {
         }
+
         @Override
         public X509Certificate[] getAcceptedIssuers() {
             return new X509Certificate[0];

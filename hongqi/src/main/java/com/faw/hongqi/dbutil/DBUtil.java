@@ -186,7 +186,7 @@ public class DBUtil {
         if (Constant.CAR_NAME.equals("e115")){
             id = 1;
         }else if (Constant.CAR_NAME.equals("c229")){
-            id = 1855;
+            id = 1;
         }
         else if (Constant.CAR_NAME.equals("c235")){
             id = 1855;

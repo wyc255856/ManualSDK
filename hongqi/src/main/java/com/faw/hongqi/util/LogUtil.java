@@ -14,7 +14,7 @@ public class LogUtil {
 
     public static void logError(String error) {
         if (debug) {
-//            Log.e(TAG, error);
+            Log.e(TAG, error);
         }
     }
 
