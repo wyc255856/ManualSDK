@@ -93,8 +93,8 @@ public class BrightSpotFragment extends BaseFragment {
     }
 
     private void loadUrl() {
-//        webView.loadUrl("http://www.haoweisys.com/c229_360/");
-        webView.loadUrl(Constant.TRIM_WEB_URL);
+        webView.loadUrl("http://www.haoweisys.com/c229_360/");
+//        webView.loadUrl(Constant.TRIM_WEB_URL);
     }
 
     @Override
