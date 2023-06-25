@@ -22,6 +22,8 @@ public class Constant {
 //    public static String CAR_TYPE = "C095";//车型
 
 
+    
+
 //    public static boolean IS_PRO = false;
     public static boolean IS_PRO = true;
     public static String CLIENT_ID_PRO = "ivi-client";
