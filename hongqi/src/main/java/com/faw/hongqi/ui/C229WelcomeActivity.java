@@ -39,6 +39,7 @@ public class C229WelcomeActivity extends BaseActivity {
 //2023.05.06切换为h9地址
 //    String str_url = "http://www.e-guides.faw.cn/c229plus_admin/index.php?m=home&c=index&a=get_car_info&car_name=C229";
     String str_url = "http://www.e-guides.faw.cn/hongqih9_admin/index.php?m=home&c=index&a=get_car_info&car_name=C229";
+//    String str_url = "http://123.173.79.145/hongqih9_admin/index.php?m=home&c=index&a=get_car_info&car_name=C229";
     private RelativeLayout rl_load_faile;
     private RelativeLayout rl_re;
     private RelativeLayout rl_can;

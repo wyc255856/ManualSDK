@@ -184,9 +184,9 @@ public class ManualFragment extends BaseFragment implements CheckListener {
                 list.addAll(DBUtil.getlist());
             }
 
-            list = list.subList(0, 12);
+            list = list.subList(0, list.size());
         } else if (Constant.CAR_NAME.equals("e115")) {
-            list = list.subList(0, 13);
+            list = list.subList(0, list.size());
 
         }
 //        secondaryListView.setDataList(list, SecondaryOnclickEvent.MANUAL);

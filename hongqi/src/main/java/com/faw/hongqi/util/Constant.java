@@ -16,13 +16,13 @@ import java.util.Map;
 public class Constant {
 //        public final static String BASE_URL = "http://www.haoweisys.com/";
     public final static String BASE_URL = "http://www.e-guides.faw.cn/";
-        public static String CAR_TYPE = "C229";//车型
-//    public static String CAR_TYPE = "E115";//车型
+//        public static String CAR_TYPE = "C229";//车型
+    public static String CAR_TYPE = "E115";//车型
 //    public static String CAR_TYPE = "C235";//车型
 //    public static String CAR_TYPE = "C095";//车型
 
 
-    
+
 
 //    public static boolean IS_PRO = false;
     public static boolean IS_PRO = true;

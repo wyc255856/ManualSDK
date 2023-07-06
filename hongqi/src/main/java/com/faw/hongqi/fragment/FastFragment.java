@@ -122,7 +122,7 @@ public class FastFragment extends BaseFragment implements CheckListener {
         if (Constant.CAR_NAME.equals("e115")) {
             id = 17;
         } else if (Constant.CAR_NAME.equals("c229")) {
-            id = 17;
+            id = 1869;
         } else if (Constant.CAR_NAME.equals("c235")) {
             id = 1869;
         }
