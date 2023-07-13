@@ -143,7 +143,9 @@ public class C229PlayVideoActivity extends BaseActivity implements SurfaceHolder
         initInteractive();
         newsModel = (NewsModel) getIntent().getSerializableExtra("data");
 //        path = (FileUtil.getResPath() + newsModel.getVideo1()).replace("/HONGQIH9/standard", "");
+
         path = (Constant.BASE_URL + newsModel.getVideo1());
+//        path = "http://www.e-guides.faw.cn/HONGQIH9/standard/images/2020-06-17/5ee9efa60c41a.mp4";
         Log.i("playPath", path);
         setContentView(R.layout.activity_c229_play_video);
         initViews();
@@ -193,7 +195,7 @@ public class C229PlayVideoActivity extends BaseActivity implements SurfaceHolder
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         mPlayer.setDisplay(holder);
-//        mPlayer.prepareAsync();
+        mPlayer.prepareAsync();
     }
 
     @Override
